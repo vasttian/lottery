@@ -12,7 +12,7 @@
 		var x = ((r0 << 16) + (r1 & 0xFFFF)) | 0;
 		// Division by 0x100000000 through multiplication by reciprocal.
 		return (x < 0 ? (x + 0x100000000) : x) * 2.3283064365386962890625e-10;
-	} 
+	}
 */
 
 export function generateArray(start, end) {
@@ -33,7 +33,7 @@ export function randomNum(minNum = 1, maxNum) {
  * @param {array} won 已中奖
  * @param {number} num 本次抽取人数
  */
-export function luckydrawHandler(total, won = [], num) {
+export function lotteryHandler(total, won = [], num) {
   const peolist = generateArray(1, Number(total));
   const wons = won;
   const res = [];

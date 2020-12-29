@@ -1,4 +1,4 @@
-const DB_STORE_NAME = 'luckydraw.GuaranteeTransaction';
+const DB_STORE_NAME = 'lottery.GuaranteeTransaction';
 let objectStore;
 const createObjectStore = db => {
   objectStore = db.createObjectStore(DB_STORE_NAME, {
@@ -21,7 +21,7 @@ const createObjectStoreOrder = db => {
 };
 
 const DBVERSION = 1;
-const DBNAME = 'luckydraw';
+const DBNAME = 'lottery';
 // 数据库：IDBDatabase 对象
 // 对象仓库：IDBObjectStore 对象
 // 索引： IDBIndex 对象
@@ -30,7 +30,7 @@ const DBNAME = 'luckydraw';
 // 指针： IDBCursor 对象
 // 主键集合：IDBKeyRange 对象
 let db;
-class LuckydrawIndecDB {
+class LotteryIndexDB {
   constructor() {
     this.InitIndexedDB();
   }
@@ -187,6 +187,6 @@ class LuckydrawIndecDB {
   };
 }
 
-const database = new LuckydrawIndecDB();
+const database = new LotteryIndexDB();
 
-export { LuckydrawIndecDB, database, DB_STORE_NAME };
+export { LotteryIndexDB, database, DB_STORE_NAME };

@@ -106,7 +106,7 @@
       @pause="pauseHandler"
     >
       <source :src="audioSrc" />
-      你的浏览器不支持audio标签
+      你的浏览器不支持 audio 标签
     </audio>
   </div>
 </template>
@@ -124,7 +124,7 @@ import {
   conversionCategoryName,
   listField
 } from '@/helper/index';
-import { luckydrawHandler } from '@/helper/algorithm';
+import { lotteryHandler } from '@/helper/algorithm';
 import Result from '@/components/Result';
 import { database, DB_STORE_NAME } from '@/helper/db';
 export default {
@@ -175,7 +175,7 @@ export default {
       const { number } = this.config;
       const nums = number >= 1500 ? 500 : this.config.number;
       const configNum = number > 1500 ? Math.floor(number / 3) : number;
-      const randomShowNums = luckydrawHandler(configNum, [], nums);
+      const randomShowNums = lotteryHandler(configNum, [], nums);
       const randomShowDatas = randomShowNums.map(item => {
         const listData = this.list.find(d => d.key === item);
         const photo = this.photos.find(d => d.id === item);
@@ -347,7 +347,7 @@ export default {
         } else if (mode === 99) {
           num = qty;
         }
-        const resArr = luckydrawHandler(
+        const resArr = lotteryHandler(
           number,
           allin ? [] : this.allresult,
           num
