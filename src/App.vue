@@ -1,7 +1,7 @@
 <template>
   <div id="root">
     <header>
-      <Publicity v-show="!running" />
+      <!-- <Publicity v-show="!running" /> -->
       <el-button class="res" type="text" @click="showResult = true">
         抽奖结果
       </el-button>
@@ -27,7 +27,7 @@
     </div>
     <transition name="bounce">
       <div id="resbox" v-show="showRes">
-        <p @click="showRes = false">{{ categoryName }}抽奖结果：</p>
+        <p @click="showRes = false">{{ categoryName }}</p>
         <div class="container">
           <span
             v-for="item in resArr"
@@ -91,11 +91,6 @@
       :closeRes="closeRes"
     />
     <Result :visible.sync="showResult"></Result>
-
-    <span class="copy-right">
-      Copyright©zhangyongfeng5350@gmail.com
-    </span>
-
     <audio
       id="audiobg"
       preload="auto"
@@ -112,7 +107,7 @@
 </template>
 <script>
 import LotteryConfig from '@/components/LotteryConfig';
-import Publicity from '@/components/Publicity';
+// import Publicity from '@/components/Publicity';
 import Tool from '@/components/Tool';
 import bgaudio from '@/assets/bg.mp3';
 import beginaudio from '@/assets/begin.mp3';
@@ -129,9 +124,29 @@ import Result from '@/components/Result';
 import { database, DB_STORE_NAME } from '@/helper/db';
 export default {
   name: 'App',
-
-  components: { LotteryConfig, Publicity, Tool, Result },
-
+  components: { LotteryConfig, Tool, Result },
+  data() {
+    return {
+      running: false,
+      showRes: false,
+      showConfig: false,
+      showResult: false,
+      resArr: [],
+      category: '',
+      audioPlaying: false,
+      audioSrc: bgaudio
+    };
+  },
+  watch: {
+    photos: {
+      deep: true,
+      handler() {
+        this.$nextTick(() => {
+          this.reloadTagCanvas();
+        });
+      }
+    }
+  },
   computed: {
     resCardStyle() {
       const style = { fontSize: '30px' };
@@ -143,6 +158,8 @@ export default {
       } else if (number < 10000) {
         style.fontSize = '60px';
       }
+
+      style.marginRight = this.resArr.length > 1 ? '20px' : 0;
       return style;
     },
     config: {
@@ -219,29 +236,6 @@ export default {
     const list = getData(listField);
     if (list) {
       this.$store.commit('setList', list);
-    }
-  },
-
-  data() {
-    return {
-      running: false,
-      showRes: false,
-      showConfig: false,
-      showResult: false,
-      resArr: [],
-      category: '',
-      audioPlaying: false,
-      audioSrc: bgaudio
-    };
-  },
-  watch: {
-    photos: {
-      deep: true,
-      handler() {
-        this.$nextTick(() => {
-          this.reloadTagCanvas();
-        });
-      }
     }
   },
   mounted() {
@@ -349,6 +343,7 @@ export default {
         }
         const resArr = lotteryHandler(
           number,
+          // eslint-disable-next-line
           allin ? [] : this.allresult,
           num
         );
@@ -374,7 +369,7 @@ export default {
 #root {
   height: 100%;
   position: relative;
-  background-image: url('./assets/bg1.jpg');
+  background-image: url('./assets/primary-vision.jpg');
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
@@ -442,9 +437,10 @@ export default {
   transform: translateX(-50%) translateY(-50%);
   text-align: center;
   p {
-    color: red;
+    color: white;
     font-size: 50px;
     line-height: 120px;
+    font-weight: 500;
   }
   .container {
     display: flex;
@@ -459,7 +455,7 @@ export default {
     border: 1px solid #ccc;
     line-height: 160px;
     font-weight: bold;
-    margin-right: 20px;
+    // margin-right: 20px;
     margin-bottom: 20px;
     cursor: pointer;
     display: flex;

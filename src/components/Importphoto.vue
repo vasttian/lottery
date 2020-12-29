@@ -35,15 +35,15 @@
       <span v-else>暂未选择</span>
     </el-row>
     <el-row>
-      支持jpg和png，照片大小不能超过150kb,建议20-50kb，建议尺寸为160*160px
+      支持 jpg 和 png，大小不能超过150kb，建议 20-50kb，建议尺寸 160*160px
     </el-row>
     <el-row class="center">
-      <el-button size="mini" type="primary" @click="saveHandler"
-        >保存</el-button
-      >
-      <el-button size="mini" @click="$emit('update:visible', false)"
-        >取消</el-button
-      >
+      <el-button size="mini" type="primary" @click="saveHandler">
+        保存
+      </el-button>
+      <el-button size="mini" @click="$emit('update:visible', false)">
+        取消
+      </el-button>
     </el-row>
   </el-dialog>
 </template>
@@ -85,7 +85,7 @@ export default {
             AllowImgFileSize != 0 &&
             AllowImgFileSize < reader.result.length
           ) {
-            return this.$message.error('不允许上传大于150KB的图片');
+            return this.$message.error('不允许上传大于 150KB 的图片');
           } else {
             this.value = reader.result;
           }
@@ -96,7 +96,7 @@ export default {
       const { id, value } = this;
       const ID = Number(id);
       if (!ID || ID <= 0) {
-        return this.$message.error('号码必须大于0的整数');
+        return this.$message.error('号码必须大于 0 的整数');
       }
       if (!value) {
         return this.$message.error('请选择照片');
