@@ -27,7 +27,7 @@
       :append-to-body="true"
       :visible.sync="showSetwat"
       class="setwat-dialog"
-      width="400px"
+      width="460px"
     >
       <el-form ref="form" :model="form" label-width="80px" size="mini">
         <el-form-item label="抽取奖项">
@@ -53,7 +53,14 @@
             &nbsp;名
           </span>
         </el-form-item>
-
+        <el-form-item>
+          <el-image
+            style="width: 300px; height: 200px;"
+            v-if="currentPrize"
+            :src="currentPrize"
+            :preview-src-list="[currentPrize]"
+          />
+        </el-form-item>
         <el-form-item label="抽取方式">
           <el-select v-model="form.mode" placeholder="请选取本次抽取方式">
             <el-option label="抽 1 人" :value="1"></el-option>
@@ -81,9 +88,11 @@
           </span>
         </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即抽奖</el-button>
+        <el-form-item
+          style="margin-top: 10px; display: flex; justify-content: flex-end;"
+        >
           <el-button @click="showSetwat = false">取消</el-button>
+          <el-button type="primary" @click="onSubmit">立即抽奖</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -186,6 +195,17 @@ export default {
       get() {
         return this.$store.state.config;
       }
+    },
+    photos() {
+      return this.$store.state.photos;
+    },
+    currentPrize() {
+      if (!this.form.category) {
+        return '';
+      }
+
+      const item = this.photos.find(i => i.id === this.form.category);
+      return item ? item.value : '';
     },
     remain() {
       if (!this.config[this.form.category]) {

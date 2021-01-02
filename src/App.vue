@@ -525,8 +525,8 @@ export default {
   position: absolute !important;
   bottom: 0;
   right: 0;
-  width: 300px;
-  height: 200px;
+  width: 200px;
+  height: 160px;
 }
 
 .el-image-viewer__btn.el-image-viewer__close {
