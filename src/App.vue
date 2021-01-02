@@ -10,6 +10,8 @@
       </el-button>
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
+
+    <!-- 抽奖的 tag -->
     <div id="tags">
       <ul v-for="item in datas" :key="item.key">
         <li>
@@ -25,6 +27,8 @@
         </li>
       </ul>
     </div>
+
+    <!-- 结果 -->
     <transition name="bounce">
       <div id="resbox" v-show="showRes">
         <p @click="showRes = false">{{ categoryName }}</p>
@@ -67,6 +71,7 @@
       </div>
     </transition>
 
+    <!-- 播放背景音 -->
     <el-button
       class="audio"
       type="text"
