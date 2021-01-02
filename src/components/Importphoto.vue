@@ -38,11 +38,11 @@
       支持 jpg 和 png，大小不能超过150kb，建议 20-50kb，建议尺寸 160 * 160px
     </el-row>
     <el-row class="center">
-      <el-button size="mini" type="primary" @click="saveHandler">
-        保存
-      </el-button>
       <el-button size="mini" @click="$emit('update:visible', false)">
         取消
+      </el-button>
+      <el-button size="mini" type="primary" @click="saveHandler">
+        保存
       </el-button>
     </el-row>
   </el-dialog>

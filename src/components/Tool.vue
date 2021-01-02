@@ -77,7 +77,7 @@
         <el-form-item label="全员参与">
           <el-switch v-model="form.allin"></el-switch>
           <span :style="{ fontSize: '12px' }">
-            (开启后将在全体成员[无论有无中奖]中抽奖)
+            (开启后将在全体成员[无论之前有无中奖]中抽奖)
           </span>
         </el-form-item>
 
@@ -105,10 +105,10 @@
 				"
       ></el-input>
       <div class="footer">
+        <el-button size="mini" @click="showImport = false">取消</el-button>
         <el-button size="mini" type="primary" @click="transformList"
           >确定</el-button
         >
-        <el-button size="mini" @click="showImport = false">取消</el-button>
       </div>
     </el-dialog>
     <Importphoto
@@ -137,8 +137,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="resetConfig">确定重置</el-button>
           <el-button @click="showRemoveoptions = false">取消</el-button>
+          <el-button type="primary" @click="resetConfig">确定重置</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -164,6 +164,23 @@ export default {
     running: Boolean,
     closeRes: Function
   },
+  data() {
+    return {
+      showSetwat: false,
+      showImport: false,
+      showImportphoto: false,
+      showBulkImportphoto: false,
+      showRemoveoptions: false,
+      removeInfo: { type: 0 },
+      form: {
+        category: '',
+        mode: 1,
+        qty: 1,
+        allin: false
+      },
+      listStr: ''
+    };
+  },
   computed: {
     config: {
       get() {
@@ -171,6 +188,10 @@ export default {
       }
     },
     remain() {
+      if (!this.config[this.form.category]) {
+        return 0;
+      }
+
       return (
         this.config[this.form.category] -
         (this.result[this.form.category]
@@ -198,23 +219,6 @@ export default {
       }
       return options;
     }
-  },
-  data() {
-    return {
-      showSetwat: false,
-      showImport: false,
-      showImportphoto: false,
-      showBulkImportphoto: false,
-      showRemoveoptions: false,
-      removeInfo: { type: 0 },
-      form: {
-        category: '',
-        mode: 1,
-        qty: 1,
-        allin: false
-      },
-      listStr: ''
-    };
   },
   watch: {
     showRemoveoptions(v) {
@@ -259,7 +263,7 @@ export default {
           }
 
           this.closeRes && this.closeRes();
-
+          this.form.category = '';
           this.showRemoveoptions = false;
           this.$message({
             type: 'success',
@@ -316,7 +320,7 @@ export default {
       }
       const list = [];
       const rows = listStr.split('\n');
-      if (rows && rows.length > 0) {
+      if (rows && rows.length) {
         rows.forEach(item => {
           const rowList = item.split(/\t|\s/);
           if (rowList.length >= 2) {
@@ -331,7 +335,6 @@ export default {
         });
       }
       this.$store.commit('setList', list);
-
       this.$message({
         message: '保存成功',
         type: 'success'

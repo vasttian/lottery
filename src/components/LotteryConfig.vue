@@ -10,13 +10,6 @@
       <span :style="{ fontSize: '16px', marginRight: '20px' }">
         抽奖配置
       </span>
-      <el-button size="mini" @click="addLottery">增加奖项</el-button>
-      <el-button size="mini" type="primary" @click="onSubmit"
-        >保存配置</el-button
-      >
-      <el-button size="mini" @click="$emit('update:visible', false)"
-        >取消</el-button
-      >
     </div>
     <div class="container">
       <el-form ref="form" :model="form" size="mini">
@@ -57,6 +50,15 @@
           ></el-input>
         </el-form-item>
       </el-form>
+      <div style="margin-top: 50px; display: flex; justify-content: flex-end;">
+        <el-button size="mini" @click="$emit('update:visible', false)"
+          >取消</el-button
+        >
+        <el-button size="mini" @click="addLottery">增加奖项</el-button>
+        <el-button size="mini" type="primary" @click="onSubmit"
+          >保存配置</el-button
+        >
+      </div>
     </div>
 
     <el-dialog
@@ -74,8 +76,8 @@
           <el-input v-model="newLottery.name"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="addHandler">增加奖项</el-button>
           <el-button @click="showAddLottery = false">取消</el-button>
+          <el-button type="primary" @click="addHandler">增加奖项</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
