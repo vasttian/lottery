@@ -97,7 +97,11 @@
       ></i>
     </el-button>
 
-    <LotteryConfig :visible.sync="showConfig" @resetconfig="reloadTagCanvas" />
+    <LotteryConfig
+      @getPhoto="getPhoto"
+      @resetconfig="reloadTagCanvas"
+      :visible.sync="showConfig"
+    />
     <Tool
       @toggle="toggle"
       @resetConfig="reloadTagCanvas"

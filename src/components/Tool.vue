@@ -33,10 +33,10 @@
         <el-form-item label="抽取奖项">
           <el-select v-model="form.category" placeholder="请选取本次抽取的奖项">
             <el-option
-              :label="item.label"
-              :value="item.value"
               v-for="(item, index) in categorys"
               :key="index"
+              :label="item.label"
+              :value="item.value"
             ></el-option>
           </el-select>
         </el-form-item>
