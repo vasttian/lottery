@@ -45,8 +45,8 @@
 
         <el-form-item label="抽取方式">
           <el-select v-model="form.mode" placeholder="请选取本次抽取方式">
-            <el-option label="抽1人" :value="1"></el-option>
-            <el-option label="抽5人" :value="5"></el-option>
+            <el-option label="抽 1 人" :value="1"></el-option>
+            <el-option label="抽 5 人" :value="5"></el-option>
             <el-option label="一次抽取完" :value="0"></el-option>
             <el-option label="自定义" :value="99"></el-option>
           </el-select>
@@ -85,13 +85,13 @@
     >
       <el-input
         type="textarea"
+        v-model="listStr"
         :rows="10"
-        placeholder="请输入对应的号码和名单(可直接从excel复制)，格式(号码 名字)，导入的名单将代替号码显示在抽奖中。如：
+        placeholder="请输入对应的号码和名单(可直接从 excel 复制)，格式(号码 名字)，导入的名单将代替号码显示在抽奖中。如：
 1 张三
 2 李四
 3 王五
 				"
-        v-model="listStr"
       ></el-input>
       <div class="footer">
         <el-button size="mini" type="primary" @click="transformList"

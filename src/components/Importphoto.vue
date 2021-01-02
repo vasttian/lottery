@@ -35,7 +35,7 @@
       <span v-else>暂未选择</span>
     </el-row>
     <el-row>
-      支持 jpg 和 png，大小不能超过150kb，建议 20-50kb，建议尺寸 160*160px
+      支持 jpg 和 png，大小不能超过150kb，建议 20-50kb，建议尺寸 160 * 160px
     </el-row>
     <el-row class="center">
       <el-button size="mini" type="primary" @click="saveHandler">

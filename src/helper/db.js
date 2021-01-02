@@ -188,5 +188,5 @@ class LotteryIndexDB {
 }
 
 const database = new LotteryIndexDB();
-
+console.log('>>>>database<<<<<<<', database);
 export { LotteryIndexDB, database, DB_STORE_NAME };

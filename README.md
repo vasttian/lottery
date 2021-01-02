@@ -46,15 +46,10 @@
 - 建议使用最新的 Chrome 浏览器打开体验最佳。
 - 由于背景音乐加载较慢，可以在抽奖前提前打开缓存好。或者安装 windows 版本软件到本地，无需联网即可使用。
 
-## windows 软件版本
+## Code
 
-- 本抽奖程序的 windows 软件版本下载[安装包](https://github.com/vitozyf/lucky-draw/releases)
-
-## Donation
-
-如果这个开源项目对您有帮助，请作者喝杯咖啡吧。
-
-![payimg](./public/pay.png)
+- 导入的名单数据存放于 localStorage.list
+- 导入的图片存放于 window.indexedDB 'lottery.GuaranteeTransaction'
 
 ## License
 
