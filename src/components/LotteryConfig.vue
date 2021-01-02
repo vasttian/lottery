@@ -77,8 +77,6 @@
             action="#"
             list-type="picture-card"
             :auto-upload="false"
-            :on-remove="onRemove"
-            :on-change="onChange"
             :limit="1"
           >
             <i class="el-icon-plus avatar-uploader-icon"></i>
@@ -144,14 +142,6 @@ export default {
         this.$emit('resetconfig');
       });
     },
-    onRemove(file, fileList) {
-      console.log('>>on-remove>>file', file);
-      console.log('>>on-remove>>fileList', fileList);
-    },
-    onChange(file, fileList) {
-      console.log('>>>>file', file);
-      console.log('>>>>fileList', fileList);
-    },
     addLottery() {
       this.showAddLottery = true;
     },
@@ -169,13 +159,11 @@ export default {
       }
 
       const field = this.randomField();
-      const id = `${this.newLottery.name}__prize`;
       const data = {
-        id,
         key: field,
         name: this.newLottery.name
       };
-      this.uploadImages(id);
+      this.uploadImages(field);
       this.$store.commit('setNewLottery', data);
       this.showAddLottery = false;
     },
@@ -185,7 +173,6 @@ export default {
       this.showAddLottery = false;
     },
     uploadImages(id) {
-      console.log('this.$refs>>>>>>', this.$refs);
       const files = this.$refs.uploadNewLotteryRef.uploadFiles;
       if (files[0]) {
         this.handleUnitImage(id, files[0]);

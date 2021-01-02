@@ -122,6 +122,12 @@
       <source :src="audioSrc" />
       你的浏览器不支持 audio 标签
     </audio>
+    <el-image
+      v-if="currentPrize"
+      class="prize-preview"
+      :src="currentPrize"
+      :preview-src-list="[currentPrize]"
+    />
   </div>
 </template>
 <script>
@@ -228,6 +234,15 @@ export default {
     },
     photos() {
       return this.$store.state.photos;
+    },
+    currentPrize() {
+      if (!this.category) {
+        return '';
+      }
+
+      // const key = `${this.category}__prize`;
+      const item = this.photos.find(i => i.id === this.category);
+      return item ? item.value : '';
     }
   },
   created() {
@@ -504,5 +519,17 @@ export default {
       z-index: 1;
     }
   }
+}
+
+.prize-preview {
+  position: absolute !important;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 200px;
+}
+
+.el-image-viewer__btn.el-image-viewer__close {
+  color: white;
 }
 </style>
