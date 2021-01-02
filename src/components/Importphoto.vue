@@ -96,7 +96,7 @@ export default {
       const { id, value } = this;
       const ID = Number(id);
       if (!ID || ID <= 0) {
-        return this.$message.error('号码必须大于 0 的整数');
+        return this.$message.error('号码须为大于 0 的整数');
       }
       if (!value) {
         return this.$message.error('请选择照片');

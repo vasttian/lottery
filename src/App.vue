@@ -277,7 +277,7 @@ export default {
     },
     getPhoto() {
       database.getAll(DB_STORE_NAME).then(res => {
-        if (res && res.length > 0) {
+        if (res && res.length) {
           this.$store.commit('setPhotos', res);
         }
       });

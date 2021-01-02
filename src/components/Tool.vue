@@ -12,6 +12,9 @@
     <el-button size="mini" @click="showImportphoto = true">
       导入照片
     </el-button>
+    <el-button size="mini" @click="showBulkImportphoto = true">
+      批量导入
+    </el-button>
     <el-dialog
       :append-to-body="true"
       :visible.sync="showSetwat"
@@ -104,6 +107,10 @@
       :visible.sync="showImportphoto"
       @getPhoto="$emit('getPhoto')"
     ></Importphoto>
+    <BulkImportphoto
+      :visible.sync="showBulkImportphoto"
+      @getPhoto="$emit('getPhoto')"
+    ></BulkImportphoto>
 
     <el-dialog
       :visible.sync="showRemoveoptions"
@@ -140,9 +147,11 @@ import {
   conversionCategoryName
 } from '@/helper/index';
 import Importphoto from './Importphoto';
+import BulkImportphoto from './BulkImportphoto';
 import { database, DB_STORE_NAME } from '@/helper/db';
 
 export default {
+  components: { Importphoto, BulkImportphoto },
   props: {
     running: Boolean,
     closeRes: Function
@@ -182,12 +191,12 @@ export default {
       return options;
     }
   },
-  components: { Importphoto },
   data() {
     return {
       showSetwat: false,
       showImport: false,
       showImportphoto: false,
+      showBulkImportphoto: false,
       showRemoveoptions: false,
       removeInfo: { type: 0 },
       form: {

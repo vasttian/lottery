@@ -12,8 +12,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     config: {
-      name: '年会抽奖',
-      number: 70,
+      name: '一面数据年会',
+      number: 50,
       firstPrize: 1
     },
     result: {
