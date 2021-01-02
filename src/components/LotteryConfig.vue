@@ -70,6 +70,9 @@
         <el-form-item label="奖项名称">
           <el-input v-model="newLottery.name"></el-input>
         </el-form-item>
+        <el-form-item label="奖品图片">
+          <el-input v-model="newLottery.name"></el-input>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="addHandler">增加奖项</el-button>
           <el-button @click="showAddLottery = false">取消</el-button>

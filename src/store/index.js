@@ -27,7 +27,7 @@ export default new Vuex.Store({
     setClearConfig(state) {
       state.config = {
         name: '年会抽奖',
-        number: 70,
+        number: 50,
         firstPrize: 1
       };
       state.newLottery = [];
@@ -46,7 +46,7 @@ export default new Vuex.Store({
     setClearStore(state) {
       state.config = {
         name: '年会抽奖',
-        number: 70,
+        number: 50,
         firstPrize: 1
       };
       state.result = {

@@ -2,10 +2,20 @@
   <div id="root">
     <header>
       <!-- <Publicity v-show="!running" /> -->
-      <el-button class="res" type="text" @click="showResult = true">
+      <el-button
+        :disabled="running"
+        class="res"
+        type="text"
+        @click="showResult = true"
+      >
         抽奖结果
       </el-button>
-      <el-button class="con" type="text" @click="showConfig = true">
+      <el-button
+        :disabled="running"
+        class="con"
+        type="text"
+        @click="showConfig = true"
+      >
         抽奖配置
       </el-button>
     </header>
@@ -221,6 +231,7 @@ export default {
     if (data) {
       this.$store.commit('setConfig', Object.assign({}, data));
     }
+
     const result = getData(resultField);
     if (result) {
       this.$store.commit('setResult', result);
@@ -259,6 +270,7 @@ export default {
       if (AppCanvas.parentElement) {
         AppCanvas.parentElement.removeChild(AppCanvas);
       }
+
       this.startTagCanvas();
     },
     playHandler() {
@@ -338,6 +350,8 @@ export default {
 
         const { number } = config;
         const { category, mode, qty, remain, allin } = form;
+
+        // 本次抽取人数
         let num = 1;
         if (mode === 1 || mode === 5) {
           num = mode;

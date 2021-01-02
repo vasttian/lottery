@@ -3,16 +3,24 @@
     <el-button @click="startHandler" type="primary" size="mini">{{
       running ? '停止' : '开始'
     }}</el-button>
-    <el-button size="mini" @click="showRemoveoptions = true">
+    <el-button
+      :disabled="running"
+      size="mini"
+      @click="showRemoveoptions = true"
+    >
       重置
     </el-button>
-    <el-button size="mini" @click="showImport = true">
-      导入名单
+    <el-button :disabled="running" size="mini" @click="showImport = true"
+      >导入名单
     </el-button>
-    <el-button size="mini" @click="showImportphoto = true">
-      导入照片
+    <el-button :disabled="running" size="mini" @click="showImportphoto = true"
+      >导入照片
     </el-button>
-    <el-button size="mini" @click="showBulkImportphoto = true">
+    <el-button
+      :disabled="running"
+      size="mini"
+      @click="showBulkImportphoto = true"
+    >
       批量导入
     </el-button>
     <el-dialog
