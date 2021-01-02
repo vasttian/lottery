@@ -31,7 +31,7 @@
             :step="1"
           ></el-input>
         </el-form-item>
-        <el-form-item label="一等奖">
+        <el-form-item label="一等奖（人数）">
           <el-input
             type="number"
             v-model="form.firstPrize"
@@ -40,9 +40,9 @@
           ></el-input>
         </el-form-item>
         <el-form-item
-          :label="newitem.name"
           v-for="newitem in storeNewLottery"
           :key="newitem.key"
+          :label="`${newitem.name}（人数）`"
         >
           <el-input
             type="number"
