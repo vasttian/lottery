@@ -15,18 +15,22 @@
 	}
 */
 
+// 生成数组
+// [1, 2, 3, 4, ..., end]
 export function generateArray(start, end) {
   return Array.from(new Array(end + 1).keys()).slice(start);
 }
 
 /**
  * 取范围内随机整数
+ * Math.random [0, 1)
  * @param {number} minNum
  * @param {number} maxNum
  */
 export function randomNum(minNum = 1, maxNum) {
   return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
 }
+
 /**
  * 单次抽奖
  * @param {number} total 总人数

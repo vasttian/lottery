@@ -37,11 +37,11 @@
       这些图片的文件名存在错误：{{ errorImages }}
     </el-row>
     <el-row class="center">
-      <el-button size="mini" type="primary" @click="uploadImages">
-        上传
-      </el-button>
       <el-button size="mini" @click="closeDialog">
         取消
+      </el-button>
+      <el-button size="mini" type="primary" @click="uploadImages">
+        上传
       </el-button>
     </el-row>
   </el-dialog>

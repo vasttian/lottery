@@ -2,14 +2,55 @@
   <div id="root">
     <header>
       <!-- <Publicity v-show="!running" /> -->
-      <el-button class="res" type="text" @click="showResult = true">
-        抽奖结果
-      </el-button>
-      <el-button class="con" type="text" @click="showConfig = true">
-        抽奖配置
-      </el-button>
+      <div style="width: 200px;">
+        <el-button
+          :disabled="running"
+          class="res"
+          type="text"
+          @click="showResult = true"
+        >
+          抽奖结果
+        </el-button>
+        <Tool
+          ref="toolRef"
+          class="con"
+          :running="running"
+          :closeRes="closeRes"
+          @toggle="toggle"
+          @resetConfig="reloadTagCanvas"
+          @getPhoto="getPhoto"
+          @show-config="showConfig = true"
+        />
+      </div>
+      <div style="width: 150px;">
+        <!-- 播放背景音 -->
+        <el-button
+          class="audio"
+          type="text"
+          @click="
+            () => {
+              playAudio(!audioPlaying);
+            }
+          "
+        >
+          <i
+            class="iconfont"
+            :class="[audioPlaying ? 'iconstop' : 'iconplay1']"
+          ></i>
+        </el-button>
+        <el-button
+          class="start"
+          @click="startHandler"
+          type="primary"
+          size="mini"
+        >
+          {{ running ? '停止' : '开始' }}
+        </el-button>
+      </div>
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
+
+    <!-- 抽奖的 tag -->
     <div id="tags">
       <ul v-for="item in datas" :key="item.key">
         <li>
@@ -25,6 +66,8 @@
         </li>
       </ul>
     </div>
+
+    <!-- 结果 -->
     <transition name="bounce">
       <div id="resbox" v-show="showRes">
         <p @click="showRes = false">{{ categoryName }}</p>
@@ -67,29 +110,18 @@
       </div>
     </transition>
 
-    <el-button
-      class="audio"
-      type="text"
-      @click="
-        () => {
-          playAudio(!audioPlaying);
-        }
-      "
-    >
-      <i
-        class="iconfont"
-        :class="[audioPlaying ? 'iconstop' : 'iconplay1']"
-      ></i>
-    </el-button>
-
-    <LotteryConfig :visible.sync="showConfig" @resetconfig="reloadTagCanvas" />
-    <Tool
+    <LotteryConfig
+      @getPhoto="getPhoto"
+      @resetconfig="reloadTagCanvas"
+      :visible.sync="showConfig"
+    />
+    <!-- <Tool
       @toggle="toggle"
       @resetConfig="reloadTagCanvas"
       @getPhoto="getPhoto"
       :running="running"
       :closeRes="closeRes"
-    />
+    /> -->
     <Result :visible.sync="showResult"></Result>
     <audio
       id="audiobg"
@@ -103,6 +135,12 @@
       <source :src="audioSrc" />
       你的浏览器不支持 audio 标签
     </audio>
+    <el-image
+      v-if="currentPrize"
+      class="prize-preview"
+      :src="currentPrize"
+      :preview-src-list="[currentPrize]"
+    />
   </div>
 </template>
 <script>
@@ -209,6 +247,15 @@ export default {
     },
     photos() {
       return this.$store.state.photos;
+    },
+    currentPrize() {
+      if (!this.category) {
+        return '';
+      }
+
+      // const key = `${this.category}__prize`;
+      const item = this.photos.find(i => i.id === this.category);
+      return item ? item.value : '';
     }
   },
   created() {
@@ -216,6 +263,7 @@ export default {
     if (data) {
       this.$store.commit('setConfig', Object.assign({}, data));
     }
+
     const result = getData(resultField);
     if (result) {
       this.$store.commit('setResult', result);
@@ -249,11 +297,16 @@ export default {
     window.removeEventListener('resize', this.reportWindowSize);
   },
   methods: {
+    startHandler() {
+      this.toggle();
+      this.$refs.toolRef.startHandler();
+    },
     reportWindowSize() {
       const AppCanvas = this.$el.querySelector('#rootcanvas');
       if (AppCanvas.parentElement) {
         AppCanvas.parentElement.removeChild(AppCanvas);
       }
+
       this.startTagCanvas();
     },
     playHandler() {
@@ -333,6 +386,8 @@ export default {
 
         const { number } = config;
         const { category, mode, qty, remain, allin } = form;
+
+        // 本次抽取人数
         let num = 1;
         if (mode === 1 || mode === 5) {
           num = mode;
@@ -369,7 +424,7 @@ export default {
 #root {
   height: 100%;
   position: relative;
-  background-image: url('./assets/primary-vision.jpg');
+  background-image: url('./assets/primary-vision-2.jpg');
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
@@ -379,44 +434,45 @@ export default {
     filter: blur(5px);
   }
   header {
+    justify-content: space-between;
+    display: flex;
+    position: absolute;
+    width: 100%;
     height: 50px;
+    bottom: 0;
     line-height: 50px;
-    position: relative;
+    .con {
+      bottom: 30px;
+    }
     .el-button {
       position: absolute;
-      top: 17px;
-      padding: 0;
       z-index: 9999;
-      &.con {
-        right: 20px;
-      }
       &.res {
-        right: 100px;
+        left: 90px;
       }
     }
-  }
-  .audio {
-    position: absolute;
-    top: 100px;
-    right: 30px;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    padding: 0;
-    text-align: center;
-    .iconfont {
-      position: relative;
-      left: 1px;
+    .start {
+      margin-top: 2px;
+      right: 20px;
+      background-color: #1b36ab;
+      border-color: #2f5378;
     }
-  }
-  .copy-right {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    color: #ccc;
-    font-size: 12px;
+
+    .audio {
+      position: absolute;
+      right: 90px;
+      width: 34px;
+      height: 34px;
+      line-height: 34px;
+      border: 1px solid #fff;
+      border-radius: 50%;
+      padding: 0;
+      text-align: center;
+      .iconfont {
+        position: relative;
+        left: 1px;
+      }
+    }
   }
   .bounce-enter-active {
     animation: bounce-in 1.5s;
@@ -481,5 +537,17 @@ export default {
       z-index: 1;
     }
   }
+}
+
+.prize-preview {
+  position: absolute !important;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: 160px;
+}
+
+.el-image-viewer__btn.el-image-viewer__close {
+  color: white;
 }
 </style>

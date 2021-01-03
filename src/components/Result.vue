@@ -27,19 +27,52 @@
       <span class="name">
         {{ item.name }}
       </span>
-      <span class="value">
-        <span v-if="item.value && item.value.length === 0">
+      <div class="value">
+        <span v-if="item.value && !item.value.length">
           暂未抽奖
         </span>
-        <span
+        <!-- <span
           class="card"
           v-for="(data, j) in item.value"
           :key="j"
           :data-res="data"
         >
           {{ data }}
+        </span> -->
+        <span
+          v-for="(item, idx) in item.value"
+          :key="`sub-${idx}`"
+          class="itemres card"
+          :style="resCardStyle"
+          :data-res="item"
+          :class="{
+            numberOver:
+              !!photos.find(d => d.id === item) ||
+              !!list.find(d => d.key === item)
+          }"
+        >
+          <img
+            v-if="photos.find(d => d.id === item)"
+            :src="photos.find(d => d.id === item).value"
+            alt="photo"
+            :width="120"
+            :height="120"
+          />
+          <span v-else class="cont">
+            <span
+              v-if="!!list.find(d => d.key === item)"
+              :style="{
+                fontSize: '40px'
+              }"
+            >
+              {{ list.find(d => d.key === item).name }}
+            </span>
+            <span v-else>
+              {{ item }}
+            </span>
+          </span>
         </span>
-      </span>
+      </div>
     </div>
   </el-dialog>
 </template>
@@ -73,6 +106,17 @@ export default {
         }
       }
       return list;
+    },
+    list() {
+      return this.$store.state.list;
+    },
+    photos() {
+      return this.$store.state.photos;
+    },
+    resCardStyle() {
+      const style = { fontSize: '20px' };
+      style.marginRight = '10px';
+      return style;
     }
   },
   methods: {
@@ -124,11 +168,12 @@ export default {
     }
     .value {
       flex: 1;
+      display: flex;
+      flex-wrap: wrap;
     }
     .card {
       display: inline-block;
       // width: 40px;
-      padding: 0 5px;
       line-height: 30px;
       text-align: center;
       font-size: 18px;
@@ -141,7 +186,7 @@ export default {
       position: relative;
       cursor: pointer;
       &:hover {
-        &::before {
+        &::after {
           content: '删除';
           width: 100%;
           height: 100%;
@@ -151,6 +196,41 @@ export default {
           top: 0;
           color: red;
         }
+      }
+    }
+
+    .itemres {
+      background: #fff;
+      width: 120px;
+      height: 120px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      line-height: 120px;
+      font-weight: bold;
+      // margin-right: 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      .cont {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      &.numberOver::before {
+        content: attr(data-res);
+        width: 30px;
+        height: 22px;
+        line-height: 22px;
+        background-color: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 14px;
+        // border-radius: 50%;
+        z-index: 1;
       }
     }
   }

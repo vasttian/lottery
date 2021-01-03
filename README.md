@@ -50,6 +50,7 @@
 
 - 导入的名单数据存放于 localStorage.list
 - 导入的图片存放于 window.indexedDB 'lottery.GuaranteeTransaction'
+- 取随机数：parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
 
 ## License
 

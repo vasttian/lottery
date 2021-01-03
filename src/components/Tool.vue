@@ -1,34 +1,39 @@
 <template>
-  <div id="tool">
-    <el-button @click="startHandler" type="primary" size="mini">{{
+  <div>
+    <el-dropdown class="con" :disabled="running" @command="handleCommand">
+      <el-button :disabled="running" type="text">
+        抽奖配置<i class="el-icon-arrow-down el-icon--right"></i>
+      </el-button>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="config">
+          抽奖配置
+        </el-dropdown-item>
+        <el-dropdown-item command="reset">
+          重置配置
+        </el-dropdown-item>
+        <el-dropdown-item command="import">导入名单</el-dropdown-item>
+        <el-dropdown-item command="importPhoto">导入照片</el-dropdown-item>
+        <el-dropdown-item command="bulkImportPhoto">批量导入</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+    <!-- <el-button @click="startHandler" type="primary" size="mini">{{
       running ? '停止' : '开始'
-    }}</el-button>
-    <el-button size="mini" @click="showRemoveoptions = true">
-      重置
-    </el-button>
-    <el-button size="mini" @click="showImport = true">
-      导入名单
-    </el-button>
-    <el-button size="mini" @click="showImportphoto = true">
-      导入照片
-    </el-button>
-    <el-button size="mini" @click="showBulkImportphoto = true">
-      批量导入
-    </el-button>
+    }}</el-button> -->
+
     <el-dialog
       :append-to-body="true"
       :visible.sync="showSetwat"
       class="setwat-dialog"
-      width="400px"
+      width="460px"
     >
       <el-form ref="form" :model="form" label-width="80px" size="mini">
         <el-form-item label="抽取奖项">
           <el-select v-model="form.category" placeholder="请选取本次抽取的奖项">
             <el-option
-              :label="item.label"
-              :value="item.value"
               v-for="(item, index) in categorys"
               :key="index"
+              :label="item.label"
+              :value="item.value"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -45,7 +50,14 @@
             &nbsp;名
           </span>
         </el-form-item>
-
+        <el-form-item>
+          <el-image
+            style="width: 300px; height: 200px;"
+            v-if="currentPrize"
+            :src="currentPrize"
+            :preview-src-list="[currentPrize]"
+          />
+        </el-form-item>
         <el-form-item label="抽取方式">
           <el-select v-model="form.mode" placeholder="请选取本次抽取方式">
             <el-option label="抽 1 人" :value="1"></el-option>
@@ -69,13 +81,15 @@
         <el-form-item label="全员参与">
           <el-switch v-model="form.allin"></el-switch>
           <span :style="{ fontSize: '12px' }">
-            (开启后将在全体成员[无论有无中奖]中抽奖)
+            (开启后将在全体成员[无论之前有无中奖]中抽奖)
           </span>
         </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即抽奖</el-button>
+        <el-form-item
+          style="margin-top: 10px; display: flex; justify-content: flex-end;"
+        >
           <el-button @click="showSetwat = false">取消</el-button>
+          <el-button type="primary" @click="onSubmit">立即抽奖</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -97,10 +111,10 @@
 				"
       ></el-input>
       <div class="footer">
+        <el-button size="mini" @click="showImport = false">取消</el-button>
         <el-button size="mini" type="primary" @click="transformList"
           >确定</el-button
         >
-        <el-button size="mini" @click="showImport = false">取消</el-button>
       </div>
     </el-dialog>
     <Importphoto
@@ -129,8 +143,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="resetConfig">确定重置</el-button>
           <el-button @click="showRemoveoptions = false">取消</el-button>
+          <el-button type="primary" @click="resetConfig">确定重置</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -156,13 +170,45 @@ export default {
     running: Boolean,
     closeRes: Function
   },
+  data() {
+    return {
+      showSetwat: false,
+      showImport: false,
+      showImportphoto: false,
+      showBulkImportphoto: false,
+      showRemoveoptions: false,
+      removeInfo: { type: 0 },
+      form: {
+        category: '',
+        mode: 1,
+        qty: 1,
+        allin: false
+      },
+      listStr: ''
+    };
+  },
   computed: {
     config: {
       get() {
         return this.$store.state.config;
       }
     },
+    photos() {
+      return this.$store.state.photos;
+    },
+    currentPrize() {
+      if (!this.form.category) {
+        return '';
+      }
+
+      const item = this.photos.find(i => i.id === this.form.category);
+      return item ? item.value : '';
+    },
     remain() {
+      if (!this.config[this.form.category]) {
+        return 0;
+      }
+
       return (
         this.config[this.form.category] -
         (this.result[this.form.category]
@@ -191,23 +237,6 @@ export default {
       return options;
     }
   },
-  data() {
-    return {
-      showSetwat: false,
-      showImport: false,
-      showImportphoto: false,
-      showBulkImportphoto: false,
-      showRemoveoptions: false,
-      removeInfo: { type: 0 },
-      form: {
-        category: '',
-        mode: 1,
-        qty: 1,
-        allin: false
-      },
-      listStr: ''
-    };
-  },
   watch: {
     showRemoveoptions(v) {
       if (!v) {
@@ -216,6 +245,19 @@ export default {
     }
   },
   methods: {
+    handleCommand(command) {
+      if (command === 'config') {
+        this.$emit('show-config');
+      } else if (command === 'reset') {
+        this.showRemoveoptions = true;
+      } else if (command === 'import') {
+        this.showImport = true;
+      } else if (command === 'importPhoto') {
+        this.showImportphoto = true;
+      } else if (command === 'bulkImportPhoto') {
+        this.showBulkImportphoto = true;
+      }
+    },
     resetConfig() {
       const type = this.removeInfo.type;
       this.$confirm('此操作将重置所选数据，是否继续?', '提示', {
@@ -251,7 +293,7 @@ export default {
           }
 
           this.closeRes && this.closeRes();
-
+          this.form.category = '';
           this.showRemoveoptions = false;
           this.$message({
             type: 'success',
@@ -296,7 +338,7 @@ export default {
       );
     },
     startHandler() {
-      this.$emit('toggle');
+      // this.$emit('toggle');
       if (!this.running) {
         this.showSetwat = true;
       }
@@ -308,7 +350,7 @@ export default {
       }
       const list = [];
       const rows = listStr.split('\n');
-      if (rows && rows.length > 0) {
+      if (rows && rows.length) {
         rows.forEach(item => {
           const rowList = item.split(/\t|\s/);
           if (rowList.length >= 2) {
@@ -323,7 +365,6 @@ export default {
         });
       }
       this.$store.commit('setList', list);
-
       this.$message({
         message: '保存成功',
         type: 'success'
