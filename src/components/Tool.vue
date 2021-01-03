@@ -1,28 +1,25 @@
 <template>
-  <div id="tool">
-    <el-button @click="startHandler" type="primary" size="mini">{{
+  <div>
+    <el-dropdown class="con" :disabled="running" @command="handleCommand">
+      <el-button :disabled="running" type="text">
+        抽奖配置<i class="el-icon-arrow-down el-icon--right"></i>
+      </el-button>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="config">
+          抽奖配置
+        </el-dropdown-item>
+        <el-dropdown-item command="reset">
+          重置配置
+        </el-dropdown-item>
+        <el-dropdown-item command="import">导入名单</el-dropdown-item>
+        <el-dropdown-item command="importPhoto">导入照片</el-dropdown-item>
+        <el-dropdown-item command="bulkImportPhoto">批量导入</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+    <!-- <el-button @click="startHandler" type="primary" size="mini">{{
       running ? '停止' : '开始'
-    }}</el-button>
-    <el-button
-      :disabled="running"
-      size="mini"
-      @click="showRemoveoptions = true"
-    >
-      重置
-    </el-button>
-    <el-button :disabled="running" size="mini" @click="showImport = true"
-      >导入名单
-    </el-button>
-    <el-button :disabled="running" size="mini" @click="showImportphoto = true"
-      >导入照片
-    </el-button>
-    <el-button
-      :disabled="running"
-      size="mini"
-      @click="showBulkImportphoto = true"
-    >
-      批量导入
-    </el-button>
+    }}</el-button> -->
+
     <el-dialog
       :append-to-body="true"
       :visible.sync="showSetwat"
@@ -248,6 +245,19 @@ export default {
     }
   },
   methods: {
+    handleCommand(command) {
+      if (command === 'config') {
+        this.$emit('show-config');
+      } else if (command === 'reset') {
+        this.showRemoveoptions = true;
+      } else if (command === 'import') {
+        this.showImport = true;
+      } else if (command === 'importPhoto') {
+        this.showImportphoto = true;
+      } else if (command === 'bulkImportPhoto') {
+        this.showBulkImportphoto = true;
+      }
+    },
     resetConfig() {
       const type = this.removeInfo.type;
       this.$confirm('此操作将重置所选数据，是否继续?', '提示', {
@@ -328,7 +338,7 @@ export default {
       );
     },
     startHandler() {
-      this.$emit('toggle');
+      // this.$emit('toggle');
       if (!this.running) {
         this.showSetwat = true;
       }
