@@ -49,7 +49,7 @@
       </div>
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
-
+    <v-prize :category="category" :category-name="categoryName" />
     <!-- 抽奖的 tag -->
     <div id="tags">
       <ul v-for="item in datas" :key="item.key">
@@ -135,18 +135,13 @@
       <source :src="audioSrc" />
       你的浏览器不支持 audio 标签
     </audio>
-    <el-image
-      v-if="currentPrize"
-      class="prize-preview"
-      :src="currentPrize"
-      :preview-src-list="[currentPrize]"
-    />
   </div>
 </template>
 <script>
 import LotteryConfig from '@/components/LotteryConfig';
 // import Publicity from '@/components/Publicity';
 import Tool from '@/components/Tool';
+import VPrize from '@/components/VPrize';
 import bgaudio from '@/assets/bg.mp3';
 import beginaudio from '@/assets/begin.mp3';
 import {
@@ -162,7 +157,12 @@ import Result from '@/components/Result';
 import { database, DB_STORE_NAME } from '@/helper/db';
 export default {
   name: 'App',
-  components: { LotteryConfig, Tool, Result },
+  components: {
+    LotteryConfig,
+    Tool,
+    Result,
+    VPrize
+  },
   data() {
     return {
       running: false,
@@ -452,12 +452,11 @@ export default {
       }
     }
     .start {
-      margin-top: 2px;
       right: 20px;
-      background-color: #1b36ab;
-      border-color: #2f5378;
+      margin-top: 2px;
+      background-color: #2941c0;
+      border-color: #2941c0;
     }
-
     .audio {
       position: absolute;
       right: 90px;
@@ -539,15 +538,11 @@ export default {
   }
 }
 
-.prize-preview {
-  position: absolute !important;
-  bottom: 0;
-  right: 0;
-  width: 200px;
-  height: 160px;
-}
-
-.el-image-viewer__btn.el-image-viewer__close {
-  color: white;
-}
+// .prize-preview {
+//   position: absolute !important;
+//   bottom: 0;
+//   right: 0;
+//   width: 200px;
+//   height: 160px;
+// }
 </style>
