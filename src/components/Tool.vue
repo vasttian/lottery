@@ -6,7 +6,7 @@
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="config">
-          抽奖配置
+          奖项配置
         </el-dropdown-item>
         <el-dropdown-item command="reset">
           重置配置
@@ -55,7 +55,6 @@
             style="width: 300px; height: 200px;"
             v-if="currentPrize"
             :src="currentPrize"
-            :preview-src-list="[currentPrize]"
           />
         </el-form-item>
         <el-form-item label="抽取方式">
@@ -188,10 +187,8 @@ export default {
     };
   },
   computed: {
-    config: {
-      get() {
-        return this.$store.state.config;
-      }
+    config() {
+      return this.$store.state.config;
     },
     photos() {
       return this.$store.state.photos;
@@ -220,20 +217,20 @@ export default {
       return this.$store.state.result;
     },
     categorys() {
+      console.log('>>>>categorys>');
       const options = [];
-      for (const key in this.config) {
-        if (this.config.hasOwnProperty(key)) {
-          const item = this.config[key];
-          if (item > 0) {
-            let name = conversionCategoryName(key);
-            name &&
-              options.push({
-                label: name,
-                value: key
-              });
+      Object.keys(this.config).forEach(key => {
+        const item = this.config[key];
+        if (Number(item) > 0) {
+          let name = conversionCategoryName(key);
+          if (name) {
+            options.push({
+              label: name,
+              value: key
+            });
           }
         }
-      }
+      });
       return options;
     }
   },

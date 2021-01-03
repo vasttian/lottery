@@ -3,7 +3,7 @@
     <el-card
       v-if="category"
       shadow="hover"
-      :style="{ height: currentPrize ? '354px' : '100px' }"
+      :style="{ height: cardHeight }"
       :body-style="{ padding: 0, 'background-color': '#0c0c4c' }"
     >
       <div class="card-label">
@@ -11,7 +11,7 @@
         <span class="count">{{ remain }}/{{ config[category] }}</span>
       </div>
       <div class="title">
-        大疆
+        {{ desc }}
       </div>
       <el-image
         v-if="currentPrize"
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { getLottery } from '@/helper/index';
 export default {
   name: 'VPrize',
   props: {
@@ -41,6 +42,14 @@ export default {
     return {};
   },
   computed: {
+    cardHeight() {
+      let height = this.currentPrize ? 354 : 100;
+      if (!this.desc) {
+        height -= 38;
+      }
+
+      return `${height}px`;
+    },
     config() {
       return this.$store.state.config || {};
     },
@@ -68,6 +77,10 @@ export default {
       // const key = `${this.category}__prize`;
       const item = this.photos.find(i => i.id === this.category);
       return item ? item.value : '';
+    },
+    desc() {
+      const lottery = getLottery(this.category);
+      return lottery.desc || '';
     }
   }
 };

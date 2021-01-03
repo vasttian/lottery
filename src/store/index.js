@@ -71,6 +71,14 @@ export default new Vuex.Store({
       state.newLottery.push(newLottery);
       setData(newLotteryField, state.newLottery);
     },
+    deleteLottery(state, key) {
+      const index = state.newLottery.findIndex(i => i.key === key);
+      state.newLottery.splice(index, 1);
+      setData(newLotteryField, state.newLottery);
+      delete state.config[key];
+      delete state.result[key];
+      setData(resultField, state.result);
+    },
     setList(state, list) {
       const arr = state.list;
       list.forEach(item => {
