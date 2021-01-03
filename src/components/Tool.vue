@@ -217,7 +217,6 @@ export default {
       return this.$store.state.result;
     },
     categorys() {
-      console.log('>>>>categorys>');
       const options = [];
       Object.keys(this.config).forEach(key => {
         const item = this.config[key];
