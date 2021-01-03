@@ -267,11 +267,15 @@ export default {
             case 0:
               clearData();
               this.$store.commit('setClearStore');
+              this.form.category = '';
+              this.$emit('reset-category');
               database.clear(DB_STORE_NAME);
               break;
             case 1:
               removeData(configField);
               this.$store.commit('setClearConfig');
+              this.form.category = '';
+              this.$emit('reset-category');
               break;
             case 2:
               removeData(listField);

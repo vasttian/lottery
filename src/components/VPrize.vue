@@ -1,7 +1,7 @@
 <template>
   <div class="v-prize">
     <el-card
-      v-if="category"
+      v-if="category && config[category]"
       shadow="hover"
       :style="{ height: cardHeight }"
       :body-style="{ padding: 0, 'background-color': '#0c0c4c' }"

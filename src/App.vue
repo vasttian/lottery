@@ -20,6 +20,7 @@
           @resetConfig="reloadTagCanvas"
           @getPhoto="getPhoto"
           @show-config="showConfig = true"
+          @reset-category="resetCategory"
         />
       </div>
       <div style="width: 150px;">
@@ -297,6 +298,9 @@ export default {
     window.removeEventListener('resize', this.reportWindowSize);
   },
   methods: {
+    resetCategory() {
+      this.category = '';
+    },
     startHandler() {
       this.toggle();
       this.$refs.toolRef.startHandler();
