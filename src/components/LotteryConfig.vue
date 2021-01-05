@@ -60,6 +60,9 @@
           <el-button type="text" @click="deleteLottery(newitem.key)">
             删除
           </el-button>
+          <small v-if="!form[newitem.key] || form[newitem.key] <= 0">
+            &nbsp;未设置或抽奖人数为 0 的奖项将不会在抽奖页显示
+          </small>
         </el-form-item>
       </el-form>
     </div>
