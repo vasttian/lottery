@@ -53,8 +53,8 @@
         >
           <img
             v-if="photos.find(d => d.id === item)"
-            :src="photos.find(d => d.id === item).value"
             alt="photo"
+            :src="photos.find(d => d.id === item).value"
             :width="120"
             :height="120"
           />
@@ -94,17 +94,17 @@ export default {
     },
     resultList() {
       const list = [];
-      for (const key in this.result) {
-        if (this.result.hasOwnProperty(key)) {
-          const element = this.result[key];
-          let name = conversionCategoryName(key);
+      Object.keys(this.result).forEach(key => {
+        const element = this.result[key];
+        let name = conversionCategoryName(key);
+        if (key) {
           list.push({
             label: key,
             name,
             value: element
           });
         }
-      }
+      });
       return list;
     },
     list() {

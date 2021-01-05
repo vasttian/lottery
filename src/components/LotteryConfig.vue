@@ -8,7 +8,7 @@
   >
     <div class="c-LotteryConfigtitle" slot="title">
       <span :style="{ fontSize: '16px', marginRight: '20px' }">
-        抽奖配置
+        奖项配置
       </span>
       <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
         <el-button size="mini" @click="addLottery">增加奖项</el-button>
@@ -57,6 +57,12 @@
               }
             "
           ></el-input>
+          <el-button type="text" @click="deleteLottery(newitem.key)">
+            删除
+          </el-button>
+          <small v-if="!form[newitem.key] || form[newitem.key] <= 0">
+            &nbsp;未设置或抽奖人数为 0 的奖项将不会在抽奖页显示
+          </small>
         </el-form-item>
       </el-form>
     </div>
@@ -70,6 +76,9 @@
       <el-form ref="newLottery" :model="newLottery" size="mini">
         <el-form-item label="奖项名称">
           <el-input v-model="newLottery.name"></el-input>
+        </el-form-item>
+        <el-form-item label="奖品描述">
+          <el-input v-model="newLottery.desc"></el-input>
         </el-form-item>
         <el-form-item label="奖品图片" style="margin-top: 15px">
           <el-upload
@@ -123,7 +132,8 @@ export default {
     return {
       showAddLottery: false,
       newLottery: {
-        name: ''
+        name: '',
+        desc: ''
       }
     };
   },
@@ -145,6 +155,19 @@ export default {
     addLottery() {
       this.showAddLottery = true;
     },
+    deleteLottery(key) {
+      this.$confirm('确认删除此奖项吗？删除后不可恢复', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.$store.commit('deleteLottery', key);
+        })
+        .catch(res => {
+          console.log('deleteLottery>>>res>>>>>', res);
+        });
+    },
     randomField() {
       const str = 'abcdefghijklmnopqrstuvwxyz';
       let fieldStr = '';
@@ -161,13 +184,15 @@ export default {
       const field = this.randomField();
       const data = {
         key: field,
-        name: this.newLottery.name
+        name: this.newLottery.name,
+        desc: this.newLottery.desc
       };
       this.uploadImages(field);
       this.$store.commit('setNewLottery', data);
-      this.showAddLottery = false;
+      this.closeNewLotteryDialog();
     },
     closeNewLotteryDialog() {
+      this.newLottery.desc = '';
       this.newLottery.name = '';
       this.$refs.uploadNewLotteryRef.clearFiles();
       this.showAddLottery = false;

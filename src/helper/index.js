@@ -53,3 +53,12 @@ export function conversionCategoryName(key) {
   }
   return name;
 }
+export function getFieldValue(key) {
+  return getData(key) || [];
+}
+
+export function getLottery(key) {
+  const newLottery = getData('newLottery') || [];
+  const lottery = newLottery.find(item => item.key === key);
+  return lottery || {};
+}
