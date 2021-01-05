@@ -490,6 +490,9 @@ export default {
 
 #resbox {
   position: absolute;
+  // height: 100%;
+  max-height: 100%;
+  overflow: auto;
   top: 50%;
   left: 50%;
   width: 1280px;
@@ -502,6 +505,8 @@ export default {
     font-weight: 500;
   }
   .container {
+    // height: 80%;
+    // overflow: auto;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
