@@ -77,8 +77,8 @@ export default new Vuex.Store({
       state.newLottery = state.newLottery.filter(i => i.key !== key);
       setData(newLotteryField, state.newLottery);
       state.config[key] = 0;
-      delete state.config[key];
       state.result[key] = [];
+      delete state.config[key];
       delete state.result[key];
       setData(resultField, state.result);
     },
