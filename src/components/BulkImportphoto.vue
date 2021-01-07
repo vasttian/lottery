@@ -5,6 +5,7 @@
     width="680px"
     @close="$emit('update:visible', false)"
     class="c-bulkImportphoto"
+    custom-class="c-dialog"
   >
     <el-row>
       <el-upload
@@ -14,7 +15,6 @@
         action="#"
         :auto-upload="false"
         :on-preview="handlePictureCardPreview"
-        :on-remove="handleRemove"
         :file-list="fileList"
       >
         <i class="el-icon-plus"></i>
@@ -73,9 +73,6 @@ export default {
     };
   },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
@@ -89,7 +86,7 @@ export default {
     },
     uploadImages() {
       this.errorImages = [];
-      console.log('>>>>>>>>this.$refs.upload', this.$refs.upload.uploadFiles);
+      // console.log('>>>>>>>>this.$refs.upload', this.$refs.upload.uploadFiles);
       const files = this.$refs.upload.uploadFiles;
       this.filesLen = files.length;
       for (let i = 0, len = this.filesLen; i < len; i += 1) {
@@ -171,6 +168,10 @@ export default {
 </script>
 <style lang="scss">
 .c-bulkImportphoto {
+  .c-dialog {
+    max-height: 100%;
+    overflow: auto;
+  }
   label {
     margin-right: 20px;
     vertical-align: top;
