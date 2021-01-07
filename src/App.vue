@@ -23,8 +23,9 @@
           @reset-category="resetCategory"
         />
       </div>
+
+      <!-- 播放背景音 -->
       <div style="width: 150px;">
-        <!-- 播放背景音 -->
         <el-button
           class="audio"
           type="text"
@@ -50,7 +51,10 @@
       </div>
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
+
+    <!-- 当前抽奖的奖品信息 -->
     <v-prize :category="category" :category-name="categoryName" />
+
     <!-- 抽奖的 tag -->
     <div id="tags">
       <ul v-for="item in datas" :key="item.key">
@@ -68,7 +72,7 @@
       </ul>
     </div>
 
-    <!-- 结果 -->
+    <!-- 当前抽奖的结果 -->
     <transition name="bounce">
       <div id="resbox" v-show="showRes">
         <p @click="showRes = false">{{ categoryName }}</p>
@@ -123,6 +127,8 @@
       :running="running"
       :closeRes="closeRes"
     /> -->
+
+    <!-- 抽奖接口汇总 -->
     <Result :visible.sync="showResult"></Result>
     <audio
       id="audiobg"

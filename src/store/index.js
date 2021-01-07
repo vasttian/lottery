@@ -61,13 +61,13 @@ export default new Vuex.Store({
     },
     setResult(state, result = {}) {
       state.result = result;
-
       setData(resultField, state.result);
     },
     setNewLottery(state, newLottery) {
       if (state.newLottery.find(item => item.name === newLottery.name)) {
         return;
       }
+
       state.newLottery.push(newLottery);
       setData(newLotteryField, state.newLottery);
     },
@@ -93,7 +93,6 @@ export default new Vuex.Store({
         }
       });
       state.list = arr;
-
       setData(listField, arr);
     },
     setPhotos(state, photos) {

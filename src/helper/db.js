@@ -22,6 +22,7 @@ const createObjectStoreOrder = db => {
 
 const DBVERSION = 1;
 const DBNAME = 'lottery';
+
 // 数据库：IDBDatabase 对象
 // 对象仓库：IDBObjectStore 对象
 // 索引： IDBIndex 对象
@@ -188,5 +189,5 @@ class LotteryIndexDB {
 }
 
 const database = new LotteryIndexDB();
-console.log('>>>>database<<<<<<<', database);
+console.log('>>>>>>database<<<<<<<', database);
 export { LotteryIndexDB, database, DB_STORE_NAME };
