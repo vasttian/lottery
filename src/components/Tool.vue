@@ -206,12 +206,12 @@ export default {
         return 0;
       }
 
-      return (
+      const count =
         this.config[this.form.category] -
         (this.result[this.form.category]
           ? this.result[this.form.category].length
-          : 0)
-      );
+          : 0);
+      return count < 0 ? 0 : count;
     },
     result() {
       return this.$store.state.result;
