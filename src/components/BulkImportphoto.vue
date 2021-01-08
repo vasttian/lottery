@@ -96,7 +96,7 @@ export default {
         if (items.length < 2) {
           this.errorImages.push(file.name);
         } else {
-          this.handleUnitImage(items[0], file);
+          this.handleUnitImage(items, file);
         }
       }
 
@@ -109,7 +109,7 @@ export default {
         this.closeDialog();
       }
     },
-    handleUnitImage(id, file) {
+    handleUnitImage(items, file) {
       const formData = new FormData();
       formData.append('uploadImg', file);
       const reader = new FileReader();
@@ -125,24 +125,29 @@ export default {
             return this.$message.error('不允许上传大于 150KB 的图片');
           } else {
             const value = reader.result;
-            this.saveHandler(id, value);
+            this.saveHandler(items, value);
           }
         };
       }
     },
-    async saveHandler(id, value) {
-      const ID = Number(id);
+    async saveHandler(items, value) {
+      const ID = Number(items[0]);
+
       if (!ID || ID <= 0) {
         return this.$message.error('ID 须为大于 0 的整数');
       }
+
       if (!value) {
         return this.$message.error('请选择照片');
       }
+
       const Data = await database.get(DB_STORE_NAME, ID);
       const param = {
         id: ID,
+        name: items[1],
         value
       };
+
       database[Data ? 'edit' : 'add'](
         DB_STORE_NAME,
         Data ? ID : param,

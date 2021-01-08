@@ -18,6 +18,15 @@
       ></el-input>
     </el-row>
     <el-row>
+      <label for="idinput">名字</label>
+      <el-input
+        id="nameinput"
+        v-model="name"
+        size="mini"
+        type="number"
+      ></el-input>
+    </el-row>
+    <el-row>
       <label for="idinput">照片选择</label>
       <span class="selectbg" :data-tip="filename">
         <input
@@ -65,6 +74,7 @@ export default {
   data() {
     return {
       id: 0,
+      name: '',
       value: '',
       filename: '点击选择照片'
     };
