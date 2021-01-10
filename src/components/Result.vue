@@ -51,13 +51,17 @@
               !!list.find(d => d.key === item)
           }"
         >
-          <img
-            v-if="photos.find(d => d.id === item)"
-            alt="photo"
-            :src="photos.find(d => d.id === item).value"
-            :width="120"
-            :height="120"
-          />
+          <template v-if="photos.find(d => d.id === item)">
+            <img
+              alt="photo"
+              :src="photos.find(d => d.id === item).value"
+              :width="120"
+              :height="120"
+            />
+            <span class="re-image-label">
+              {{ photos.find(d => d.id === item).name }}
+            </span>
+          </template>
           <span v-else class="cont">
             <span
               v-if="!!list.find(d => d.key === item)"
@@ -208,7 +212,7 @@ export default {
       line-height: 120px;
       font-weight: bold;
       // margin-right: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -231,6 +235,13 @@ export default {
         font-size: 14px;
         // border-radius: 50%;
         z-index: 1;
+      }
+      .re-image-label {
+        font-size: 18px;
+        line-height: 18px;
+        color: #606367;
+        position: absolute;
+        bottom: -22px;
       }
     }
   }

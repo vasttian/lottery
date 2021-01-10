@@ -19,6 +19,7 @@
           >保存配置</el-button
         >
       </div>
+      <!-- <small>目前这里的改动会立即生效</small> -->
     </div>
     <div class="container">
       <el-form ref="form" :model="form" size="mini">
@@ -142,7 +143,6 @@ export default {
       setData(configField, this.form);
       this.$store.commit('setConfig', this.form);
       this.$emit('update:visible', false);
-
       this.$message({
         message: '保存成功',
         type: 'success'

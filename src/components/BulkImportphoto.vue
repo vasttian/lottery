@@ -5,6 +5,7 @@
     width="680px"
     @close="$emit('update:visible', false)"
     class="c-bulkImportphoto"
+    custom-class="c-dialog"
   >
     <el-row>
       <el-upload
@@ -14,7 +15,6 @@
         action="#"
         :auto-upload="false"
         :on-preview="handlePictureCardPreview"
-        :on-remove="handleRemove"
         :file-list="fileList"
       >
         <i class="el-icon-plus"></i>
@@ -73,9 +73,6 @@ export default {
     };
   },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
@@ -89,7 +86,7 @@ export default {
     },
     uploadImages() {
       this.errorImages = [];
-      console.log('>>>>>>>>this.$refs.upload', this.$refs.upload.uploadFiles);
+      // console.log('>>>>>>>>this.$refs.upload', this.$refs.upload.uploadFiles);
       const files = this.$refs.upload.uploadFiles;
       this.filesLen = files.length;
       for (let i = 0, len = this.filesLen; i < len; i += 1) {
@@ -99,7 +96,7 @@ export default {
         if (items.length < 2) {
           this.errorImages.push(file.name);
         } else {
-          this.handleUnitImage(items[0], file);
+          this.handleUnitImage(items, file);
         }
       }
 
@@ -112,7 +109,7 @@ export default {
         this.closeDialog();
       }
     },
-    handleUnitImage(id, file) {
+    handleUnitImage(items, file) {
       const formData = new FormData();
       formData.append('uploadImg', file);
       const reader = new FileReader();
@@ -128,24 +125,29 @@ export default {
             return this.$message.error('不允许上传大于 150KB 的图片');
           } else {
             const value = reader.result;
-            this.saveHandler(id, value);
+            this.saveHandler(items, value);
           }
         };
       }
     },
-    async saveHandler(id, value) {
-      const ID = Number(id);
+    async saveHandler(items, value) {
+      const ID = Number(items[0]);
+
       if (!ID || ID <= 0) {
         return this.$message.error('ID 须为大于 0 的整数');
       }
+
       if (!value) {
         return this.$message.error('请选择照片');
       }
+
       const Data = await database.get(DB_STORE_NAME, ID);
       const param = {
         id: ID,
+        name: items[1],
         value
       };
+
       database[Data ? 'edit' : 'add'](
         DB_STORE_NAME,
         Data ? ID : param,
@@ -171,6 +173,10 @@ export default {
 </script>
 <style lang="scss">
 .c-bulkImportphoto {
+  .c-dialog {
+    max-height: 100%;
+    overflow: auto;
+  }
   label {
     margin-right: 20px;
     vertical-align: top;

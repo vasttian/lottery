@@ -58,10 +58,10 @@ export default {
         return 0;
       }
 
-      return (
+      const count =
         this.config[this.category] -
-        (this.result[this.category] ? this.result[this.category].length : 0)
-      );
+        (this.result[this.category] ? this.result[this.category].length : 0);
+      return count < 0 ? 0 : count;
     },
     result() {
       return this.$store.state.result;

@@ -2,7 +2,7 @@
   <el-dialog
     :visible="visible"
     :append-to-body="true"
-    width="300px"
+    width="320px"
     @close="$emit('update:visible', false)"
     class="c-Importphoto"
   >
@@ -16,6 +16,10 @@
         :min="0"
         :max="config.number"
       ></el-input>
+    </el-row>
+    <el-row>
+      <label for="nameinput">人员姓名</label>
+      <el-input id="nameinput" v-model="name" size="mini"></el-input>
     </el-row>
     <el-row>
       <label for="idinput">照片选择</label>
@@ -65,6 +69,7 @@ export default {
   data() {
     return {
       id: 0,
+      name: '',
       value: '',
       filename: '点击选择照片'
     };
@@ -93,7 +98,7 @@ export default {
       }
     },
     async saveHandler() {
-      const { id, value } = this;
+      const { id, name, value } = this;
       const ID = Number(id);
       if (!ID || ID <= 0) {
         return this.$message.error('号码须为大于 0 的整数');
@@ -104,6 +109,7 @@ export default {
       const Data = await database.get(DB_STORE_NAME, ID);
       const param = {
         id: ID,
+        name,
         value
       };
       database[Data ? 'edit' : 'add'](
@@ -136,7 +142,7 @@ export default {
 <style lang="scss">
 .c-Importphoto {
   .el-dialog {
-    height: 380px;
+    height: 420px;
   }
   label {
     margin-right: 20px;

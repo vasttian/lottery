@@ -23,8 +23,9 @@
           @reset-category="resetCategory"
         />
       </div>
+
+      <!-- 播放背景音 -->
       <div style="width: 150px;">
-        <!-- 播放背景音 -->
         <el-button
           class="audio"
           type="text"
@@ -50,7 +51,10 @@
       </div>
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
+
+    <!-- 当前抽奖的奖品信息 -->
     <v-prize :category="category" :category-name="categoryName" />
+
     <!-- 抽奖的 tag -->
     <div id="tags">
       <ul v-for="item in datas" :key="item.key">
@@ -68,7 +72,7 @@
       </ul>
     </div>
 
-    <!-- 结果 -->
+    <!-- 当前抽奖的结果 -->
     <transition name="bounce">
       <div id="resbox" v-show="showRes">
         <p @click="showRes = false">{{ categoryName }}</p>
@@ -86,7 +90,18 @@
                 !!list.find(d => d.key === item)
             }"
           >
-            <span class="cont" v-if="!photos.find(d => d.id === item)">
+            <template v-if="photos.find(d => d.id === item)">
+              <img
+                :src="photos.find(d => d.id === item).value"
+                :width="160"
+                :height="160"
+                alt="photo"
+              />
+              <span class="re-image-label">
+                {{ photos.find(d => d.id === item).name }}
+              </span>
+            </template>
+            <span v-else class="cont">
               <span
                 v-if="!!list.find(d => d.key === item)"
                 :style="{
@@ -99,13 +114,6 @@
                 {{ item }}
               </span>
             </span>
-            <img
-              v-if="photos.find(d => d.id === item)"
-              :src="photos.find(d => d.id === item).value"
-              alt="photo"
-              :width="160"
-              :height="160"
-            />
           </span>
         </div>
       </div>
@@ -123,6 +131,8 @@
       :running="running"
       :closeRes="closeRes"
     /> -->
+
+    <!-- 抽奖接口汇总 -->
     <Result :visible.sync="showResult"></Result>
     <audio
       id="audiobg"
@@ -521,7 +531,7 @@ export default {
     line-height: 160px;
     font-weight: bold;
     // margin-right: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -544,6 +554,13 @@ export default {
       font-size: 14px;
       // border-radius: 50%;
       z-index: 1;
+    }
+    .re-image-label {
+      font-size: 24px;
+      line-height: 24px;
+      color: #f5f7fa;
+      position: absolute;
+      bottom: -28px;
     }
   }
 }
