@@ -134,11 +134,11 @@
       <el-form ref="form" :model="removeInfo" label-width="80px" size="mini">
         <el-form-item label="重置选项">
           <el-radio-group v-model="removeInfo.type">
-            <el-radio border :label="0">重置全部数据</el-radio>
-            <el-radio border :label="1">重置抽奖配置</el-radio>
             <el-radio border :label="2">重置名单</el-radio>
             <el-radio border :label="3">重置照片</el-radio>
             <el-radio border :label="4">重置抽奖结果</el-radio>
+            <el-radio border :label="1">重置抽奖配置</el-radio>
+            <el-radio border :label="0">重置全部数据</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item>
