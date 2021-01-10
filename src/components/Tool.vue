@@ -52,7 +52,7 @@
         </el-form-item>
         <el-form-item>
           <el-image
-            style="width: 300px; height: 200px;"
+            style="width: 200px; height: 200px;"
             v-if="currentPrize"
             :src="currentPrize"
           />
@@ -176,7 +176,7 @@ export default {
       showImportphoto: false,
       showBulkImportphoto: false,
       showRemoveoptions: false,
-      removeInfo: { type: 0 },
+      removeInfo: { type: 2 },
       form: {
         category: '',
         mode: 1,
