@@ -48,6 +48,7 @@
 </template>
 <script>
 import { database, DB_STORE_NAME } from '@/helper/db';
+import { splitFileName } from '@/helper/index';
 
 export default {
   name: 'BulkImportphoto',
@@ -91,7 +92,7 @@ export default {
       this.filesLen = files.length;
       for (let i = 0, len = this.filesLen; i < len; i += 1) {
         const file = files[i];
-        const items = file.name.split('-');
+        const items = splitFileName(file.name).split('-');
         this.filename = '';
         if (items.length < 2) {
           this.errorImages.push(file.name);

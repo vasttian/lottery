@@ -74,3 +74,12 @@ export function getLottery(key) {
   const lottery = newLottery.find(item => item.key === key);
   return lottery || {};
 }
+
+export function splitFileName(text) {
+  var pattern = /\.{1}[a-z]{1,}$/;
+  if (pattern.exec(text) !== null) {
+    return text.slice(0, pattern.exec(text).index);
+  }
+
+  return text;
+}
