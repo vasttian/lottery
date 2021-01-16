@@ -155,7 +155,7 @@ import Tool from '@/components/Tool';
 import VPrize from '@/components/VPrize';
 import bgaudio from '@/assets/bg.mp3';
 // import beginaudio from '@/assets/begin.mp3';
-import beginaudio from '@/assets/On A Hill - L3V3LS.mp3';
+import beginaudio from '@/assets/百石元 - 猪突猛進.mp3';
 import {
   getData,
   configField,
