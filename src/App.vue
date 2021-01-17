@@ -84,12 +84,12 @@
             :style="resCardStyle"
             :data-id="item"
             @click="showRes = false"
-            :class="{
+          >
+            <!-- :class="{
               numberOver:
                 !!photos.find(d => d.id === item) ||
                 !!list.find(d => d.key === item)
-            }"
-          >
+            }" -->
             <template v-if="photos.find(d => d.id === item)">
               <img
                 :src="photos.find(d => d.id === item).value"
