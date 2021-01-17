@@ -45,12 +45,13 @@
           class="itemres card"
           :style="resCardStyle"
           :data-res="item"
-          :class="{
+        >
+          <!-- 图片不展示编号，可以把这个 class 整个删除 -->
+          <!-- :class="{
             numberOver:
               !!photos.find(d => d.id === item) ||
               !!list.find(d => d.key === item)
-          }"
-        >
+          }" -->
           <template v-if="photos.find(d => d.id === item)">
             <img
               alt="photo"
