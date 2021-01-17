@@ -84,12 +84,12 @@
             :style="resCardStyle"
             :data-id="item"
             @click="showRes = false"
-            :class="{
+          >
+            <!-- :class="{
               numberOver:
                 !!photos.find(d => d.id === item) ||
                 !!list.find(d => d.key === item)
-            }"
-          >
+            }" -->
             <template v-if="photos.find(d => d.id === item)">
               <img
                 :src="photos.find(d => d.id === item).value"
@@ -155,7 +155,7 @@ import Tool from '@/components/Tool';
 import VPrize from '@/components/VPrize';
 import bgaudio from '@/assets/bg.mp3';
 // import beginaudio from '@/assets/begin.mp3';
-import beginaudio from '@/assets/On A Hill - L3V3LS.mp3';
+import beginaudio from '@/assets/百石元 - 猪突猛進.mp3';
 import {
   getData,
   configField,

@@ -45,12 +45,13 @@
           class="itemres card"
           :style="resCardStyle"
           :data-res="item"
-          :class="{
+        >
+          <!-- 图片不展示编号，可以把这个 class 整个删除 -->
+          <!-- :class="{
             numberOver:
               !!photos.find(d => d.id === item) ||
               !!list.find(d => d.key === item)
-          }"
-        >
+          }" -->
           <template v-if="photos.find(d => d.id === item)">
             <img
               alt="photo"
@@ -127,6 +128,16 @@ export default {
     deleteRes(event, row) {
       const Index = getDomData(event.target, 'res');
       if (!Index) {
+        const result = this.result;
+        const labels = this.result[row.label];
+        if (labels) {
+          const idx = labels.findIndex(i => i === null);
+          if (idx > -1) {
+            result[row.label].splice(idx, 1);
+            this.result = result;
+          }
+        }
+
         return;
       }
       this.$confirm('此操作将移除该中奖号码，确认删除?', '警告', {
