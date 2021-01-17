@@ -128,6 +128,16 @@ export default {
     deleteRes(event, row) {
       const Index = getDomData(event.target, 'res');
       if (!Index) {
+        const result = this.result;
+        const labels = this.result[row.label];
+        if (labels) {
+          const idx = labels.findIndex(i => i === null);
+          if (idx > -1) {
+            result[row.label].splice(idx, 1);
+            this.result = result;
+          }
+        }
+
         return;
       }
       this.$confirm('此操作将移除该中奖号码，确认删除?', '警告', {
