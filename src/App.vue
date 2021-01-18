@@ -35,6 +35,28 @@
           "
         />
         <el-button
+          style="left: 140px;"
+          @click="adding = true"
+          type="primary"
+          icon="el-icon-plus"
+          circle
+        />
+        <template v-if="adding">
+          <el-input-number
+            style="left: 200px;"
+            size="mini"
+            v-model="inputNum"
+          />
+          <el-button
+            style="left: 330px;"
+            type="primary"
+            size="mini"
+            @click="addLotteryHandler"
+          >
+            确定
+          </el-button>
+        </template>
+        <el-button
           v-show="false"
           class="start"
           @click="startHandler"
@@ -114,13 +136,14 @@ import bgaudio from '@/assets/bg.mp3';
 // import beginaudio from '@/assets/begin.mp3';
 import beginaudio from '@/assets/百石元 - 猪突猛進.mp3';
 import {
+  setData,
   getData,
   configField,
   resultField,
   newLotteryField,
   listField
 } from '@/helper/index';
-import { lotteryHandler } from '@/helper/algorithm';
+import { lotteryHandler, randomNum } from '@/helper/algorithm';
 import Result from '@/components/Result';
 import { database, DB_STORE_NAME } from '@/helper/db';
 export default {
@@ -142,6 +165,8 @@ export default {
       category: '',
       audioPlaying: false,
       audioSrc: bgaudio,
+      adding: false,
+      num: 0,
       inputNum: 1
     };
   },
@@ -209,6 +234,15 @@ export default {
       // const key = `${this.category}__prize`;
       const item = this.photos.find(i => i.id === this.category);
       return item ? item.value : '';
+    },
+    form: {
+      get() {
+        return this.$store.state.config;
+      },
+      set(val) {
+        // this.$store.commit('setConfig', val);
+        return val;
+      }
     }
   },
   created() {
@@ -373,6 +407,35 @@ export default {
         window.TagCanvas.SetSpeed('rootcanvas', [5, 1]);
         this.running = !this.running;
       }
+    },
+    randomField() {
+      const str = 'abcdefghijklmnopqrstuvwxyz';
+      let fieldStr = '';
+      for (let index = 0; index < 10; index++) {
+        fieldStr += str.split('')[randomNum(1, 26) - 1];
+      }
+      return `${fieldStr}${Date.now()}`;
+    },
+    addLotteryHandler() {
+      this.adding = false;
+      const field = this.randomField();
+      const data = {
+        key: field,
+        name: '赞助奖',
+        desc: ''
+      };
+      if (this.num > 0) {
+        data.name = `赞助奖-${this.num}`;
+      }
+      this.num += 1;
+      this.$store.commit('setNewLottery', data);
+      this.form[field] = this.inputNum;
+      this.inputNum = 1;
+      setData(configField, this.form);
+      this.$store.commit('setConfig', this.form);
+      // this.$nextTick(() => {
+      //   this.reloadTagCanvas();
+      // });
     }
   }
 };

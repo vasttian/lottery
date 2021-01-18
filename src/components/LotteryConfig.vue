@@ -172,7 +172,7 @@ export default {
       const str = 'abcdefghijklmnopqrstuvwxyz';
       let fieldStr = '';
       for (let index = 0; index < 10; index++) {
-        fieldStr += str.split('')[randomNum(1, 27) - 1];
+        fieldStr += str.split('')[randomNum(1, 26) - 1];
       }
       return `${fieldStr}${Date.now()}`;
     },

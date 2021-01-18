@@ -73,6 +73,9 @@ export default {
         'ctrl+enter': this.onSubmit
       };
     },
+    storeNewLottery() {
+      return this.$store.state.newLottery;
+    },
     categorys() {
       const options = [];
       Object.keys(this.config).forEach(key => {
@@ -90,7 +93,7 @@ export default {
       return options;
     },
     currentItem() {
-      return this.categorys[this.currentIndex];
+      return this.categorys[this.currentIndex] || {};
     },
     config() {
       return this.$store.state.config || {};
@@ -125,6 +128,19 @@ export default {
       return count < 0 ? 0 : count;
     }
   },
+  watch: {
+    'storeNewLottery.length'() {
+      const newItem = this.storeNewLottery[0];
+      console.log('>>>>>newItem>>', newItem);
+      if (newItem && newItem.key) {
+        const index = this.categorys.findIndex(c => c.value === newItem.key);
+        console.log('>>>>>>>>index', index);
+        if (index > -1) {
+          this.currentIndex = index;
+        }
+      }
+    }
+  },
   methods: {
     toPrev() {
       this.currentIndex -= 1;
@@ -140,8 +156,12 @@ export default {
     },
     onSubmit() {
       this.form.category = this.currentItem.value;
-      if (!this.form.category) {
+      if (!this.running && !this.form.category) {
         return this.$message.error('请选择本次抽取的奖项');
+      }
+
+      if (!this.running && this.remain <= 0) {
+        return this.$message.error('该奖项剩余人数不足');
       }
 
       console.log('>>>>>>this.form', this.form);
