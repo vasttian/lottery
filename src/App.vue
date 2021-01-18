@@ -52,8 +52,18 @@
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
 
-    <!-- 当前抽奖的奖品信息 -->
-    <v-prize :category="category" :category-name="categoryName" />
+    <!-- 当前抽奖的奖项 -->
+    <the-prize
+      :category="category"
+      @toggle="toggle"
+    />
+
+    <!-- 当前的抽奖结果 -->
+    <v-bounce
+      :show-res="showRes"
+      :res-arr="resArr"
+      :category="category"
+    />
 
     <!-- 抽奖的 tag -->
     <div id="tags">
@@ -72,65 +82,11 @@
       </ul>
     </div>
 
-    <!-- 当前抽奖的结果 -->
-    <transition name="bounce">
-      <div id="resbox" v-show="showRes">
-        <p @click="showRes = false">{{ categoryName }}</p>
-        <div class="container">
-          <span
-            v-for="item in resArr"
-            :key="item"
-            class="itemres"
-            :style="resCardStyle"
-            :data-id="item"
-            @click="showRes = false"
-          >
-            <!-- :class="{
-              numberOver:
-                !!photos.find(d => d.id === item) ||
-                !!list.find(d => d.key === item)
-            }" -->
-            <template v-if="photos.find(d => d.id === item)">
-              <img
-                :src="photos.find(d => d.id === item).value"
-                :width="160"
-                :height="160"
-                alt="photo"
-              />
-              <span class="re-image-label">
-                {{ photos.find(d => d.id === item).name }}
-              </span>
-            </template>
-            <span v-else class="cont">
-              <span
-                v-if="!!list.find(d => d.key === item)"
-                :style="{
-                  fontSize: '40px'
-                }"
-              >
-                {{ list.find(d => d.key === item).name }}
-              </span>
-              <span v-else>
-                {{ item }}
-              </span>
-            </span>
-          </span>
-        </div>
-      </div>
-    </transition>
-
     <LotteryConfig
       @getPhoto="getPhoto"
       @resetconfig="reloadTagCanvas"
       :visible.sync="showConfig"
     />
-    <!-- <Tool
-      @toggle="toggle"
-      @resetConfig="reloadTagCanvas"
-      @getPhoto="getPhoto"
-      :running="running"
-      :closeRes="closeRes"
-    /> -->
 
     <!-- 抽奖接口汇总 -->
     <Result :visible.sync="showResult"></Result>
@@ -148,11 +104,13 @@
     </audio>
   </div>
 </template>
+
 <script>
 import LotteryConfig from '@/components/LotteryConfig';
 // import Publicity from '@/components/Publicity';
 import Tool from '@/components/Tool';
-import VPrize from '@/components/VPrize';
+import VBounce from '@/components/VBounce';
+import ThePrize from '@/components/ThePrize';
 import bgaudio from '@/assets/bg.mp3';
 // import beginaudio from '@/assets/begin.mp3';
 import beginaudio from '@/assets/百石元 - 猪突猛進.mp3';
@@ -161,7 +119,6 @@ import {
   configField,
   resultField,
   newLotteryField,
-  conversionCategoryName,
   listField
 } from '@/helper/index';
 import { lotteryHandler } from '@/helper/algorithm';
@@ -172,8 +129,9 @@ export default {
   components: {
     LotteryConfig,
     Tool,
+    VBounce,
     Result,
-    VPrize
+    ThePrize
   },
   data() {
     return {
@@ -198,20 +156,6 @@ export default {
     }
   },
   computed: {
-    resCardStyle() {
-      const style = { fontSize: '30px' };
-      const { number } = this.config;
-      if (number < 100) {
-        style.fontSize = '100px';
-      } else if (number < 1000) {
-        style.fontSize = '80px';
-      } else if (number < 10000) {
-        style.fontSize = '60px';
-      }
-
-      style.marginRight = this.resArr.length > 1 ? '20px' : 0;
-      return style;
-    },
     config: {
       get() {
         return this.$store.state.config;
@@ -253,9 +197,6 @@ export default {
         };
       });
       return randomShowDatas;
-    },
-    categoryName() {
-      return conversionCategoryName(this.category);
     },
     photos() {
       return this.$store.state.photos;
@@ -411,6 +352,7 @@ export default {
         } else if (mode === 99) {
           num = qty;
         }
+
         const resArr = lotteryHandler(
           number,
           // eslint-disable-next-line
@@ -497,72 +439,6 @@ export default {
 }
 #main {
   height: 100%;
-}
-
-#resbox {
-  position: absolute;
-  // height: 100%;
-  max-height: 100%;
-  overflow: auto;
-  top: 50%;
-  left: 50%;
-  width: 1280px;
-  transform: translateX(-50%) translateY(-50%);
-  text-align: center;
-  p {
-    color: white;
-    font-size: 50px;
-    line-height: 120px;
-    font-weight: 500;
-  }
-  .container {
-    // height: 80%;
-    // overflow: auto;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .itemres {
-    background: #fff;
-    width: 160px;
-    height: 160px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    line-height: 160px;
-    font-weight: bold;
-    // margin-right: 20px;
-    margin-bottom: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    .cont {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    &.numberOver::before {
-      content: attr(data-id);
-      width: 30px;
-      height: 22px;
-      line-height: 22px;
-      background-color: #fff;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      font-size: 14px;
-      // border-radius: 50%;
-      z-index: 1;
-    }
-    .re-image-label {
-      font-size: 24px;
-      line-height: 24px;
-      color: #f5f7fa;
-      position: absolute;
-      bottom: -28px;
-    }
-  }
 }
 
 // .prize-preview {
