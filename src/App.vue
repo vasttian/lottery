@@ -6,10 +6,31 @@
         <el-button
           :disabled="running"
           class="res"
-          type="text"
           @click="showResult = true"
+          type="primary"
+          icon="el-icon-finished"
+          circle
+        ></el-button>
+        <!-- 播放背景音 -->
+        <el-button
+          class="audio"
+          type="primary"
+          circle
+          :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
+          @click="
+            () => {
+              playAudio(!audioPlaying);
+            }
+          "
+        ></el-button>
+        <el-button
+          v-show="false"
+          class="start"
+          @click="startHandler"
+          type="primary"
+          size="mini"
         >
-          抽奖结果
+          {{ running ? '停止' : '开始' }}
         </el-button>
         <Tool
           ref="toolRef"
@@ -22,32 +43,6 @@
           @show-config="showConfig = true"
           @reset-category="resetCategory"
         />
-      </div>
-
-      <!-- 播放背景音 -->
-      <div style="width: 150px;">
-        <el-button
-          class="audio"
-          type="text"
-          @click="
-            () => {
-              playAudio(!audioPlaying);
-            }
-          "
-        >
-          <i
-            class="iconfont"
-            :class="[audioPlaying ? 'iconstop' : 'iconplay1']"
-          ></i>
-        </el-button>
-        <el-button
-          class="start"
-          @click="startHandler"
-          type="primary"
-          size="mini"
-        >
-          {{ running ? '停止' : '开始' }}
-        </el-button>
       </div>
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
@@ -409,7 +404,7 @@ export default {
       position: absolute;
       z-index: 9999;
       &.res {
-        left: 90px;
+        left: 50px;
       }
     }
     .start {
@@ -420,18 +415,7 @@ export default {
     }
     .audio {
       position: absolute;
-      right: 90px;
-      width: 34px;
-      height: 34px;
-      line-height: 34px;
-      border: 1px solid #fff;
-      border-radius: 50%;
-      padding: 0;
-      text-align: center;
-      .iconfont {
-        position: relative;
-        left: 1px;
-      }
+      left: 90px;
     }
   }
   .bounce-enter-active {

@@ -1,9 +1,12 @@
 <template>
   <div>
     <el-dropdown class="con" :disabled="running" @command="handleCommand">
-      <el-button :disabled="running" type="text">
-        抽奖配置<i class="el-icon-arrow-down el-icon--right"></i>
-      </el-button>
+      <el-button
+        :disabled="running"
+        type="primary"
+        icon="el-icon-s-tools"
+        circle
+      ></el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="config">
           奖项配置
