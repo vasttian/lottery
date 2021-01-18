@@ -1,7 +1,7 @@
 <template>
   <transition name="bounce">
-    <div id="resbox" v-show="showRes">
-      <p @click="showRes = false">{{ categoryName }}</p>
+    <div id="resbox" v-show="showRes" v-hotkey="keyBounce">
+      <p @click="close">{{ categoryName }}</p>
       <div class="container">
         <span
           v-for="item in resArr"
@@ -9,7 +9,7 @@
           class="itemres"
           :style="resCardStyle"
           :data-id="item"
-          @click="showRes = false"
+          @click="close"
         >
           <template v-if="photos.find(d => d.id === item)">
             <img
@@ -42,13 +42,15 @@
 </template>
 
 <script>
-import {
-  conversionCategoryName,
-} from '@/helper/index';
+import { conversionCategoryName } from '@/helper/index';
 
 export default {
   name: 'VBounce',
   props: {
+    showRes: {
+      type: Boolean,
+      default: false
+    },
     resArr: {
       type: Array,
       default: () => []
@@ -56,17 +58,15 @@ export default {
     category: {
       type: String,
       default: ''
-    },
-    showRes: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
+    keyBounce() {
+      return { 'ctrl+z': this.close };
+    },
     config: {
       get() {
         return this.$store.state.config;
@@ -94,8 +94,13 @@ export default {
 
       style.marginRight = this.resArr.length > 1 ? '20px' : 0;
       return style;
-    },
+    }
   },
+  methods: {
+    close() {
+      this.$emit('close');
+    }
+  }
 };
 </script>
 

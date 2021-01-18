@@ -55,6 +55,9 @@
     <!-- 当前抽奖的奖项 -->
     <the-prize
       :category="category"
+      :running="running"
+      :show-res="showRes"
+      :res-arr="resArr"
       @toggle="toggle"
     />
 
@@ -63,6 +66,7 @@
       :show-res="showRes"
       :res-arr="resArr"
       :category="category"
+      @close="showRes = false"
     />
 
     <!-- 抽奖的 tag -->

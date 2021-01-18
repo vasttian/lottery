@@ -1,5 +1,9 @@
 <template>
-  <div class="v-prize">
+  <div
+    class="v-prize"
+    :class="`prize-x-${running || showRes ? 'left' : 'center'}`"
+    v-hotkey="keymap"
+  >
     <el-card
       shadow="hover"
       :body-style="{ padding: 0, 'background-color': '#0c0c4c' }"
@@ -12,22 +16,12 @@
           :src="currentPrize"
           :preview-src-list="[currentPrize]"
         />
-        <img
-          v-else
-          class="prize-preview"
-          src="@/assets/yimian.png"
-        />
+        <img v-else class="prize-preview" src="@/assets/yimian.png" />
         <span class="title">{{ desc }}</span>
         <div class="prize">
-          <i
-            class="el-icon-caret-left"
-            @click="toPrev"
-          />
+          <i class="el-icon-caret-left" @click="toPrev" />
           {{ currentItem.label }}
-          <i
-            class="el-icon-caret-right"
-            @click="toNext"
-          />
+          <i class="el-icon-caret-right" @click="toNext" />
         </div>
         <div>
           <!-- <span class="count">{{ remain }}/{{ config[category] }}</span> -->
@@ -35,20 +29,29 @@
         <el-button
           style="width: 200px; background-color: pink;"
           @click="onSubmit"
-        >立即抽奖</el-button>
+        >
+          {{ running ? '停止' : '立即抽奖' }}
+        </el-button>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
-import {
-  getLottery,
-  conversionCategoryName,
-} from '@/helper/index';
+import { getLottery, conversionCategoryName } from '@/helper/index';
 
 export default {
   name: 'ThePrize',
+  props: {
+    showRes: {
+      type: Boolean,
+      default: false
+    },
+    running: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       currentIndex: 1,
@@ -57,10 +60,19 @@ export default {
         mode: 0,
         qty: 1,
         allin: false
-      },
+      }
     };
   },
   computed: {
+    keymap() {
+      return {
+        'ctrl+up': this.toPrev,
+        'ctrl+left': this.toPrev,
+        'ctrl+right': this.toNext,
+        'ctrl+down': this.toNext,
+        'ctrl+enter': this.onSubmit
+      };
+    },
     categorys() {
       const options = [];
       Object.keys(this.config).forEach(key => {
@@ -109,11 +121,9 @@ export default {
 
       const count =
         this.config[category] -
-        (this.result[category]
-          ? this.result[category].length
-          : 0);
+        (this.result[category] ? this.result[category].length : 0);
       return count < 0 ? 0 : count;
-    },
+    }
   },
   methods: {
     toPrev() {
@@ -145,11 +155,16 @@ export default {
 </script>
 
 <style lang="scss">
+.prize-x-center {
+  left: 0;
+  right: 0;
+}
+.prize-x-left {
+  left: 20px;
+}
 .v-prize {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
   margin: auto;
   width: 400px;
