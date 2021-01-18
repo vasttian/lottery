@@ -2,36 +2,7 @@
   <div id="root">
     <header>
       <!-- <Publicity v-show="!running" /> -->
-      <div style="width: 200px;">
-        <el-button
-          :disabled="running"
-          class="res"
-          @click="showResult = true"
-          type="primary"
-          icon="el-icon-finished"
-          circle
-        ></el-button>
-        <!-- 播放背景音 -->
-        <el-button
-          class="audio"
-          type="primary"
-          circle
-          :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
-          @click="
-            () => {
-              playAudio(!audioPlaying);
-            }
-          "
-        ></el-button>
-        <el-button
-          v-show="false"
-          class="start"
-          @click="startHandler"
-          type="primary"
-          size="mini"
-        >
-          {{ running ? '停止' : '开始' }}
-        </el-button>
+      <div style="display:flex; align-items:center">
         <Tool
           ref="toolRef"
           class="con"
@@ -43,6 +14,35 @@
           @show-config="showConfig = true"
           @reset-category="resetCategory"
         />
+        <el-button
+          :disabled="running"
+          class="res"
+          @click="showResult = true"
+          type="primary"
+          icon="el-icon-finished"
+          circle
+        />
+        <!-- 播放背景音 -->
+        <el-button
+          class="audio"
+          type="primary"
+          circle
+          :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
+          @click="
+            () => {
+              playAudio(!audioPlaying);
+            }
+          "
+        />
+        <el-button
+          v-show="false"
+          class="start"
+          @click="startHandler"
+          type="primary"
+          size="mini"
+        >
+          {{ running ? '停止' : '开始' }}
+        </el-button>
       </div>
     </header>
     <div id="main" :class="{ mask: showRes }"></div>
@@ -141,7 +141,8 @@ export default {
       resArr: [],
       category: '',
       audioPlaying: false,
-      audioSrc: bgaudio
+      audioSrc: bgaudio,
+      inputNum: 1
     };
   },
   watch: {
@@ -397,9 +398,6 @@ export default {
     height: 50px;
     bottom: 0;
     line-height: 50px;
-    .con {
-      bottom: 30px;
-    }
     .el-button {
       position: absolute;
       z-index: 9999;

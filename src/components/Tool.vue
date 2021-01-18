@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-dropdown class="con" :disabled="running" @command="handleCommand">
+  <div style="position: absolute;bottom: 25px;">
+    <el-dropdown :disabled="running" @command="handleCommand">
       <el-button
         :disabled="running"
         type="primary"
