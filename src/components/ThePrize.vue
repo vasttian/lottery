@@ -66,11 +66,11 @@ export default {
   computed: {
     keymap() {
       return {
-        'ctrl+up': this.toPrev,
-        'ctrl+left': this.toPrev,
-        'ctrl+right': this.toNext,
-        'ctrl+down': this.toNext,
-        'ctrl+enter': this.onSubmit
+        'z+up': this.toPrev,
+        'z+left': this.toPrev,
+        'z+right': this.toNext,
+        'z+down': this.toNext,
+        'z+enter': this.onSubmit
       };
     },
     storeNewLottery() {

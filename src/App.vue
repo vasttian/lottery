@@ -1,11 +1,23 @@
 <template>
-  <div id="root">
+  <div id="root" class="content">
     <header>
+      <div class="flex justify-between">
+        <span class="logo">
+          
+        </span>
+        <span class="slogan">
+
+        </span>
+      </div>
+    </header>
+    <div id="main" :class="{ mask: showRes }"></div>
+
+    <div class="footer">
       <!-- <Publicity v-show="!running" /> -->
-      <div style="display:flex; align-items:center">
+      <div class="flex items-center gap-2 p-6">
         <Tool
           ref="toolRef"
-          class="con"
+          class="flex-item"
           :running="running"
           :closeRes="closeRes"
           @toggle="toggle"
@@ -18,14 +30,14 @@
           :disabled="running"
           class="res"
           @click="showResult = true"
-          type="primary"
+          type="text"
           icon="el-icon-finished"
           circle
         />
         <!-- 播放背景音 -->
         <el-button
           class="audio"
-          type="primary"
+          type="text"
           circle
           :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
           @click="
@@ -37,7 +49,7 @@
         <el-button
           style="left: 140px;"
           @click="adding = true"
-          type="primary"
+          type="text"
           icon="el-icon-plus"
           circle
         />
@@ -66,9 +78,7 @@
           {{ running ? '停止' : '开始' }}
         </el-button>
       </div>
-    </header>
-    <div id="main" :class="{ mask: showRes }"></div>
-
+    </div>
     <!-- 当前抽奖的奖项 -->
     <the-prize
       :category="category"
@@ -441,51 +451,6 @@ export default {
 };
 </script>
 <style lang="scss">
-#root {
-  height: 100%;
-  position: relative;
-  background-image: url('./assets/primary-vision-2.jpg');
-  background-size: 100% 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-color: #121936;
-  .mask {
-    -webkit-filter: blur(5px);
-    filter: blur(5px);
-  }
-  header {
-    justify-content: space-between;
-    display: flex;
-    position: absolute;
-    width: 100%;
-    height: 50px;
-    bottom: 0;
-    line-height: 50px;
-    .el-button {
-      position: absolute;
-      z-index: 9999;
-      &.res {
-        left: 50px;
-      }
-    }
-    .start {
-      right: 20px;
-      margin-top: 2px;
-      background-color: #2941c0;
-      border-color: #2941c0;
-    }
-    .audio {
-      position: absolute;
-      left: 90px;
-    }
-  }
-  .bounce-enter-active {
-    animation: bounce-in 1.5s;
-  }
-  .bounce-leave-active {
-    animation: bounce-in 0s reverse;
-  }
-}
 #main {
   height: 100%;
 }

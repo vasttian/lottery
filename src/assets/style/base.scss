@@ -52,3 +52,85 @@ body {
   height: 5px;
   background-color: #ccc;
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+  background-image: url('../bg.png');
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #0F084F;
+
+  header {
+    .logo {
+      display: block;
+      height: 48px;
+
+      img {
+        display: inline-block;
+        height: 48px;
+      }
+    }
+  }
+
+  .mask {
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+  }
+  // header {
+  //   justify-content: space-between;
+  //   display: flex;
+  //   position: absolute;
+  //   width: 100%;
+  //   height: 50px;
+  //   bottom: 0;
+  //   line-height: 50px;
+    
+  //   .start {
+  //     right: 20px;
+  //     margin-top: 2px;
+  //     background-color: #2941c0;
+  //     border-color: #2941c0;
+  //   }
+  //   .audio {
+  //     position: absolute;
+  //     left: 90px;
+  //   }
+  // }
+  .bounce-enter-active {
+    animation: bounce-in 1.5s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in 0s reverse;
+  }
+}
+
+.flex {
+  display: flex;
+
+  &-item {
+    display: flex-item;
+  }
+}
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.el-button {
+  &--text i {
+    font-size: 24px;
+  }
+}
+
+// padding
+.p {
+  &-2 { padding: 8px; }
+  &-6 { padding: 24px; }
+}

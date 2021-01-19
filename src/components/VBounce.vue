@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     keyBounce() {
-      return { 'ctrl+z': this.close };
+      return { 'z+m': this.close };
     },
     config: {
       get() {
