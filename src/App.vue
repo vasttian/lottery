@@ -3,81 +3,75 @@
     <header>
       <div class="flex justify-between">
         <span class="logo">
-          
+          <img src="./assets/logo-white.svg" alt="" />
         </span>
         <span class="slogan">
-
+          <img src="./assets/slogan.svg" alt="" />
         </span>
       </div>
     </header>
-    <div id="main" :class="{ mask: showRes }"></div>
+    <div id="main" class="main" :class="{ mask: showRes }"></div>
 
     <div class="footer">
       <!-- <Publicity v-show="!running" /> -->
-      <div class="flex items-center gap-2 p-6">
-        <Tool
-          ref="toolRef"
-          class="flex-item"
-          :running="running"
-          :closeRes="closeRes"
-          @toggle="toggle"
-          @resetConfig="reloadTagCanvas"
-          @getPhoto="getPhoto"
-          @show-config="showConfig = true"
-          @reset-category="resetCategory"
-        />
+      <Tool
+        ref="toolRef"
+        :running="running"
+        :closeRes="closeRes"
+        @toggle="toggle"
+        @resetConfig="reloadTagCanvas"
+        @getPhoto="getPhoto"
+        @show-config="showConfig = true"
+        @reset-category="resetCategory"
+      />
+      <el-button
+        :disabled="running"
+        class="res"
+        @click="showResult = true"
+        type="text"
+        circle
+      >
+        <ym-svg svg-name="add" />
+      </el-button>
+      <!-- 播放背景音 -->
+      <el-button
+        class="audio"
+        type="text"
+        circle
+        :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
+        @click="
+          () => {
+            playAudio(!audioPlaying);
+          }
+        "
+      />
+      <el-button
+        style="left: 140px;"
+        @click="adding = true"
+        type="text"
+        icon="el-icon-plus"
+        circle
+      />
+      <template v-if="adding">
+        <el-input-number style="left:200px;" size="mini" v-model="inputNum" />
         <el-button
-          :disabled="running"
-          class="res"
-          @click="showResult = true"
-          type="text"
-          icon="el-icon-finished"
-          circle
-        />
-        <!-- 播放背景音 -->
-        <el-button
-          class="audio"
-          type="text"
-          circle
-          :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
-          @click="
-            () => {
-              playAudio(!audioPlaying);
-            }
-          "
-        />
-        <el-button
-          style="left: 140px;"
-          @click="adding = true"
-          type="text"
-          icon="el-icon-plus"
-          circle
-        />
-        <template v-if="adding">
-          <el-input-number
-            style="left: 200px;"
-            size="mini"
-            v-model="inputNum"
-          />
-          <el-button
-            style="left: 330px;"
-            type="primary"
-            size="mini"
-            @click="addLotteryHandler"
-          >
-            确定
-          </el-button>
-        </template>
-        <el-button
-          v-show="false"
-          class="start"
-          @click="startHandler"
+          style="left: 330px;"
           type="primary"
           size="mini"
+          @click="addLotteryHandler"
         >
-          {{ running ? '停止' : '开始' }}
+          确定
         </el-button>
-      </div>
+      </template>
+      <el-button
+        v-show="false"
+        class="start"
+        @click="startHandler"
+        type="primary"
+        size="mini"
+      >
+        {{ running ? '停止' : '开始' }}
+      </el-button>
     </div>
     <!-- 当前抽奖的奖项 -->
     <the-prize
@@ -451,9 +445,9 @@ export default {
 };
 </script>
 <style lang="scss">
-#main {
-  height: 100%;
-}
+// #main {
+//   height: 100%;
+// }
 
 // .prize-preview {
 //   position: absolute !important;
