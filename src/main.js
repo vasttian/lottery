@@ -7,6 +7,13 @@ import VueHotkey from 'v-hotkey';
 import '@/assets/style/index.scss';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/lib/tagcanvas.js';
+import SvgSprite from 'ym-svg-sprite';
+
+Vue.use(SvgSprite);
+const requireAll = requireContext => requireContext.keys().map(requireContext);
+const req = require.context('./assets/sprite', false, /\.svg$/);
+requireAll(req);
+
 Vue.config.productionTip = false;
 
 Vue.use(Element);
