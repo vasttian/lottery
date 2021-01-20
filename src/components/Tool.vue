@@ -239,7 +239,7 @@ export default {
   watch: {
     showRemoveoptions(v) {
       if (!v) {
-        this.removeInfo.type = 0;
+        this.removeInfo.type = null;
       }
     }
   },
