@@ -22,6 +22,7 @@
           :show-res="showRes"
           :res-arr="resArr"
           @toggle="toggle"
+          @close-result="showRes = false"
         />
 
         <!-- 当前的抽奖结果 -->
@@ -415,10 +416,12 @@ export default {
         if (!this.result[category]) {
           this.$set(this.result, category, []);
         }
+
         const oldRes = this.result[category] || [];
         const data = Object.assign({}, this.result, {
           [category]: oldRes.concat(resArr)
         });
+
         this.result = data;
         window.TagCanvas.SetSpeed('rootcanvas', [5, 1]);
         this.running = !this.running;

@@ -17,8 +17,13 @@
           {{ currentItem.label }}
           <i class="el-icon-caret-right" @click="toNext" />
         </div>
-        <el-button @click="onSubmit" class="prize-btn">
-          {{ running ? '停止' : '立即抽奖' }}
+        <el-button
+          class="prize-btn"
+          :disabled="!remain && !running"
+          @click="onSubmit"
+        >
+          <span v-if="!remain && !running">已抽完</span>
+          <span v-else>{{ running ? '停止' : '立即抽奖' }}</span>
         </el-button>
       </div>
     </el-card>
@@ -54,11 +59,11 @@ export default {
   computed: {
     keymap() {
       return {
-        'z+up': this.toPrev,
-        'z+left': this.toPrev,
-        'z+right': this.toNext,
-        'z+down': this.toNext,
-        'z+enter': this.onSubmit
+        'ctrl+shift+up': this.toPrev,
+        'ctrl+shift+left': this.toPrev,
+        'ctrl+shift+right': this.toNext,
+        'ctrl+shift+down': this.toNext,
+        'ctrl+shift+enter': this.onSubmit
       };
     },
     storeNewLottery() {
@@ -73,7 +78,8 @@ export default {
           if (name) {
             options.push({
               label: name,
-              value: key
+              value: key,
+              index: 1
             });
           }
         }
@@ -143,6 +149,14 @@ export default {
       }
     },
     onSubmit() {
+      if (!this.running) {
+        this.$emit('close-result');
+      }
+
+      if (!this.remain && !this.running) {
+        return;
+      }
+
       this.form.category = this.currentItem.value;
       if (!this.running && !this.form.category) {
         return this.$message.error('请选择本次抽取的奖项');
@@ -153,9 +167,13 @@ export default {
       }
 
       console.log('>>>>>>this.form', this.form);
-      this.$emit(
-        'toggle',
-        Object.assign({}, this.form, { remain: this.remain })
+      setTimeout(
+        () =>
+          this.$emit(
+            'toggle',
+            Object.assign({}, this.form, { remain: this.remain })
+          ),
+        this.showRes ? 600 : 0
       );
     }
   }

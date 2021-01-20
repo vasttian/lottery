@@ -6,7 +6,7 @@
       v-show="showRes"
       v-hotkey="keyBounce"
     >
-      <h3 @click="close">{{ categoryName }}获得者，恭喜 ！</h3>
+      <h3 @click="close">{{ categoryName }} 获得者，恭喜 ！</h3>
       <div class="grid gap-16 grid-cols-4 p-6">
         <span
           v-for="item in resArr"
@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     keyBounce() {
-      return { 'z+m': this.close };
+      return { 'ctrl+shift+m': this.close };
     },
     config: {
       get() {
