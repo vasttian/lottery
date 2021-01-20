@@ -74,7 +74,7 @@ body {
     box-sizing: border-box;
     padding: 1.5rem ;
     .logo {
-      height: 2rem;
+      height: 2.5rem;
 
       img {
         display: inline-block;
@@ -132,7 +132,7 @@ body {
     height: 100%;
     display: flex;
     box-sizing: border-box;
-    padding: 8rem;
+    padding: 10rem;
 
     .el-card {
       border: 2px solid #1F1F7E;
@@ -141,15 +141,15 @@ body {
       height: 100%;
 
       &__body {
-        padding: 1.25rem 2rem;
+        padding: 1.25rem 3rem;
         height: 100%;
         overflow: auto;
       }
 
       h3 {
-        font-size: 1.5rem;
-        font-weight: 500;
-        margin: 1rem 0;
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin: 1rem 0 2rem;
         color: #338FFF;
         text-align: center;
         min-width: 20rem;

@@ -6,12 +6,11 @@
 }
 .v-prize {
   h5 {
-    height: 2rem;
+    font-size: 1.25rem;
     line-height: 2rem;
-    font-size: 1rem;
     color: #EE5BCD;
     margin: 0;
-    font-weight: 400;
+    font-weight: 500;
   }
 
   .prize-image {
@@ -34,13 +33,15 @@
     justify-content: space-between;
     margin: 1rem 0;
     min-height: 3rem;
+    font-weight: 600;
 
     i {
-      font-size: 1rem;
-      padding: 0.25rem;
+      font-size: 1.25rem;
+      padding: 0.5rem;
       display: block;
       background: #0455C6;
       border-radius: 50%;
+      cursor: pointer;
 
       &:hover {
         background: #338FFF;
@@ -49,12 +50,13 @@
   }
 
   .prize-btn {
+    margin-top: 1rem;
     width: 20rem;
-    font-size: 1rem;
+    font-size: 1.25rem;
     color: white;
     background: #AE1C8D;
     border: 0;
-    line-height: 1.25rem;
+    line-height: 1.75rem;
     margin-bottom: 2rem;
     font-weight: 600;
 
