@@ -108,15 +108,10 @@
       <template v-if="adding">
         <div class="adding">
           <el-input-number size="small" v-model="inputNum" />
-          <el-button
-            type="primary"
-            size="small"
-            @click="addLotteryHandler"
-          >
+          <el-button type="primary" size="small" @click="addLotteryHandler">
             确定
           </el-button>
         </div>
-        
       </template>
       <el-button
         v-show="false"
