@@ -22,7 +22,8 @@
           :disabled="!remain && !running"
           @click="onSubmit"
         >
-          {{ running ? '停止' : '立即抽奖' }}
+          <span v-if="!remain && !running">已抽完</span>
+          <span v-else>{{ running ? '停止' : '立即抽奖' }}</span>
         </el-button>
       </div>
     </el-card>
