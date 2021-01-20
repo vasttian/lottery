@@ -106,15 +106,17 @@
         circle
       />
       <template v-if="adding">
-        <el-input-number style="left:200px;" size="mini" v-model="inputNum" />
-        <el-button
-          style="left: 330px;"
-          type="primary"
-          size="mini"
-          @click="addLotteryHandler"
-        >
-          确定
-        </el-button>
+        <div class="adding">
+          <el-input-number size="small" v-model="inputNum" />
+          <el-button
+            type="primary"
+            size="small"
+            @click="addLotteryHandler"
+          >
+            确定
+          </el-button>
+        </div>
+        
       </template>
       <el-button
         v-show="false"

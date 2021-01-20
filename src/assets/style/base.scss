@@ -110,6 +110,20 @@ body {
     align-items: center;
     gap: 16px;
     padding: 0 24px;
+
+    .el-button {
+      &.is-disabled {
+        opacity: 0.4;
+        color: #338FFF;
+      }
+    }
+
+    .adding {
+      .el-input__inner,
+      .el-button {
+        border-radius: 0;
+      }
+    }
   }
 
   .pop-layout {
@@ -117,12 +131,18 @@ body {
     width: 100%;
     height: 100%;
     display: flex;
-    padding: 120px 80px;
     box-sizing: border-box;
+    padding: 200px 80px;
 
     .el-card {
       border: 2px solid #1F1F7E;
       background: rgba(12,12,76,0.9);
+      border-image: linear-gradient(#338FFF,#1F1F7E) 20 20;
+      height: 100%;
+
+      &__body {
+        padding: 24px 40px;
+      }
 
       h3 {
         font-size: 1.75rem;
