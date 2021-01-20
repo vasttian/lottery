@@ -142,6 +142,8 @@ body {
 
       &__body {
         padding: 1.25rem 2rem;
+        height: 100%;
+        overflow: auto;
       }
 
       h3 {
