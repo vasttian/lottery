@@ -17,7 +17,11 @@
           {{ currentItem.label }}
           <i class="el-icon-caret-right" @click="toNext" />
         </div>
-        <el-button @click="onSubmit" class="prize-btn">
+        <el-button
+          class="prize-btn"
+          :disabled="!remain && !running"
+          @click="onSubmit"
+        >
           {{ running ? '停止' : '立即抽奖' }}
         </el-button>
       </div>
@@ -73,7 +77,8 @@ export default {
           if (name) {
             options.push({
               label: name,
-              value: key
+              value: key,
+              index: 1
             });
           }
         }
@@ -143,6 +148,14 @@ export default {
       }
     },
     onSubmit() {
+      if (!this.running) {
+        this.$emit('close-result');
+      }
+
+      if (!this.remain && !this.running) {
+        return;
+      }
+
       this.form.category = this.currentItem.value;
       if (!this.running && !this.form.category) {
         return this.$message.error('请选择本次抽取的奖项');
@@ -153,9 +166,13 @@ export default {
       }
 
       console.log('>>>>>>this.form', this.form);
-      this.$emit(
-        'toggle',
-        Object.assign({}, this.form, { remain: this.remain })
+      setTimeout(
+        () =>
+          this.$emit(
+            'toggle',
+            Object.assign({}, this.form, { remain: this.remain })
+          ),
+        this.showRes ? 600 : 0
       );
     }
   }
