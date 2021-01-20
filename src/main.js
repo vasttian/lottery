@@ -11,7 +11,7 @@ import SvgSprite from 'ym-svg-sprite';
 
 Vue.use(SvgSprite);
 const requireAll = requireContext => requireContext.keys().map(requireContext);
-const req = require.context('./assets/sprite', false, /\.svg$/);
+const req = require.context('./assets/sprites', false, /\.svg$/);
 requireAll(req);
 
 Vue.config.productionTip = false;

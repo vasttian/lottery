@@ -87,43 +87,43 @@ export default {
 </script>
 
 <style lang="scss">
-.v-prize {
-  position: absolute;
-  top: 100px;
-  left: 20px;
-  .el-card {
-    width: 252px;
-    height: 342px;
-    border: 2px solid #1a9fe8;
-  }
-  .card-label {
-    padding: 10px 12px 10px 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    .prize {
-      font-size: 32px;
-      font-weight: 600;
-    }
-    .count {
-      font-size: 18px;
-    }
-  }
-  .title {
-    color: white;
-    font-size: 22px;
-    font-weight: 300;
-    padding: 0 0 8px 12px;
-  }
-  .prize-preview {
-    margin-bottom: -5px;
-    width: 252px;
-    height: 252px;
-  }
-}
+// .v-prize {
+//   position: absolute;
+//   top: 100px;
+//   left: 20px;
+//   .el-card {
+//     width: 252px;
+//     height: 342px;
+//     border: 2px solid #1a9fe8;
+//   }
+//   .card-label {
+//     padding: 10px 12px 10px 12px;
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     color: white;
+//     .prize {
+//       font-size: 32px;
+//       font-weight: 600;
+//     }
+//     .count {
+//       font-size: 18px;
+//     }
+//   }
+//   .title {
+//     color: white;
+//     font-size: 22px;
+//     font-weight: 300;
+//     padding: 0 0 8px 12px;
+//   }
+//   .prize-preview {
+//     margin-bottom: -5px;
+//     width: 252px;
+//     height: 252px;
+//   }
+// }
 
-.el-image-viewer__btn.el-image-viewer__close {
-  color: white;
-}
+// .el-image-viewer__btn.el-image-viewer__close {
+//   color: white;
+// }
 </style>

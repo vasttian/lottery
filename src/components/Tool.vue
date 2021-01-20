@@ -1,9 +1,9 @@
 <template>
-  <div style="position: absolute;bottom: 25px;">
+  <div>
     <el-dropdown :disabled="running" @command="handleCommand">
       <el-button
         :disabled="running"
-        type="primary"
+        type="text"
         icon="el-icon-s-tools"
         circle
       ></el-button>

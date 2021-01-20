@@ -1,121 +1,137 @@
 <template>
-  <div id="root">
+  <div id="root" class="content">
     <header>
-      <!-- <Publicity v-show="!running" /> -->
-      <div style="display:flex; align-items:center">
-        <Tool
-          ref="toolRef"
-          class="con"
-          :running="running"
-          :closeRes="closeRes"
-          @toggle="toggle"
-          @resetConfig="reloadTagCanvas"
-          @getPhoto="getPhoto"
-          @show-config="showConfig = true"
-          @reset-category="resetCategory"
-        />
-        <el-button
-          :disabled="running"
-          class="res"
-          @click="showResult = true"
-          type="primary"
-          icon="el-icon-finished"
-          circle
-        />
-        <!-- 播放背景音 -->
-        <el-button
-          class="audio"
-          type="primary"
-          circle
-          :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
-          @click="
-            () => {
-              playAudio(!audioPlaying);
-            }
-          "
-        />
-        <el-button
-          style="left: 140px;"
-          @click="adding = true"
-          type="primary"
-          icon="el-icon-plus"
-          circle
-        />
-        <template v-if="adding">
-          <el-input-number
-            style="left: 200px;"
-            size="mini"
-            v-model="inputNum"
-          />
-          <el-button
-            style="left: 330px;"
-            type="primary"
-            size="mini"
-            @click="addLotteryHandler"
-          >
-            确定
-          </el-button>
-        </template>
-        <el-button
-          v-show="false"
-          class="start"
-          @click="startHandler"
-          type="primary"
-          size="mini"
-        >
-          {{ running ? '停止' : '开始' }}
-        </el-button>
+      <div class="flex justify-between">
+        <span class="logo">
+          <img src="./assets/logo-white.svg" alt="" />
+        </span>
+        <span class="slogan">
+          <img src="./assets/slogan.svg" alt="" />
+        </span>
       </div>
     </header>
-    <div id="main" :class="{ mask: showRes }"></div>
+    <div id="main" class="main" :class="{ mask: showRes }">
+      <div
+        class="pop-layout"
+        :class="`prize-x-${running || showRes ? 'left' : 'center'}`"
+      >
+        <!-- 当前抽奖的奖项 -->
+        <the-prize
+          :category="category"
+          :running="running"
+          :show-res="showRes"
+          :res-arr="resArr"
+          @toggle="toggle"
+        />
 
-    <!-- 当前抽奖的奖项 -->
-    <the-prize
-      :category="category"
-      :running="running"
-      :show-res="showRes"
-      :res-arr="resArr"
-      @toggle="toggle"
-    />
+        <!-- 当前的抽奖结果 -->
+        <v-bounce
+          :show-res="showRes"
+          :res-arr="resArr"
+          :category="category"
+          @close="showRes = false"
+        />
 
-    <!-- 当前的抽奖结果 -->
-    <v-bounce
-      :show-res="showRes"
-      :res-arr="resArr"
-      :category="category"
-      @close="showRes = false"
-    />
+        <!-- 抽奖的 tag -->
+        <div id="tags">
+          <ul v-for="item in datas" :key="item.key">
+            <li>
+              <a
+                href="javascript:void(0);"
+                :style="{
+                  color: '#fff'
+                }"
+              >
+                {{ item.name ? item.name : item.key }}
+                <img
+                  v-if="item.photo"
+                  :src="item.photo"
+                  :width="50"
+                  :height="50"
+                />
+              </a>
+            </li>
+          </ul>
+        </div>
 
-    <!-- 抽奖的 tag -->
-    <div id="tags">
-      <ul v-for="item in datas" :key="item.key">
-        <li>
-          <a
-            href="javascript:void(0);"
-            :style="{
-              color: '#fff'
-            }"
-          >
-            {{ item.name ? item.name : item.key }}
-            <img v-if="item.photo" :src="item.photo" :width="50" :height="50" />
-          </a>
-        </li>
-      </ul>
+        <LotteryConfig
+          @getPhoto="getPhoto"
+          @resetconfig="reloadTagCanvas"
+          :visible.sync="showConfig"
+        />
+
+        <!-- 抽奖接口汇总 -->
+        <Result :visible.sync="showResult"></Result>
+      </div>
     </div>
 
-    <LotteryConfig
-      @getPhoto="getPhoto"
-      @resetconfig="reloadTagCanvas"
-      :visible.sync="showConfig"
-    />
+    <div class="footer">
+      <!-- <Publicity v-show="!running" /> -->
+      <Tool
+        ref="toolRef"
+        :running="running"
+        :closeRes="closeRes"
+        @toggle="toggle"
+        @resetConfig="reloadTagCanvas"
+        @getPhoto="getPhoto"
+        @show-config="showConfig = true"
+        @reset-category="resetCategory"
+      />
+      <el-button
+        :disabled="running"
+        class="res"
+        @click="showResult = true"
+        type="text"
+        icon="el-icon-finished"
+        circle
+      />
+      <!-- 播放背景音 -->
+      <el-button
+        class="audio"
+        type="text"
+        circle
+        :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
+        @click="
+          () => {
+            playAudio(!audioPlaying);
+          }
+        "
+      />
+      <el-button
+        style="left: 140px;"
+        @click="adding = true"
+        type="text"
+        icon="el-icon-plus"
+        circle
+      />
+      <template v-if="adding">
+        <el-input-number style="left:200px;" size="mini" v-model="inputNum" />
+        <el-button
+          style="left: 330px;"
+          type="primary"
+          size="mini"
+          @click="addLotteryHandler"
+        >
+          确定
+        </el-button>
+      </template>
+      <el-button
+        v-show="false"
+        class="start"
+        @click="startHandler"
+        type="primary"
+        size="mini"
+      >
+        {{ running ? '停止' : '开始' }}
+      </el-button>
+    </div>
 
-    <!-- 抽奖接口汇总 -->
-    <Result :visible.sync="showResult"></Result>
     <audio
       id="audiobg"
       preload="auto"
       controls
       autoplay
+      class="hidden"
       loop
       @play="playHandler"
       @pause="pauseHandler"
@@ -440,61 +456,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#root {
-  height: 100%;
-  position: relative;
-  background-image: url('./assets/primary-vision-2.jpg');
-  background-size: 100% 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-color: #121936;
-  .mask {
-    -webkit-filter: blur(5px);
-    filter: blur(5px);
-  }
-  header {
-    justify-content: space-between;
-    display: flex;
-    position: absolute;
-    width: 100%;
-    height: 50px;
-    bottom: 0;
-    line-height: 50px;
-    .el-button {
-      position: absolute;
-      z-index: 9999;
-      &.res {
-        left: 50px;
-      }
-    }
-    .start {
-      right: 20px;
-      margin-top: 2px;
-      background-color: #2941c0;
-      border-color: #2941c0;
-    }
-    .audio {
-      position: absolute;
-      left: 90px;
-    }
-  }
-  .bounce-enter-active {
-    animation: bounce-in 1.5s;
-  }
-  .bounce-leave-active {
-    animation: bounce-in 0s reverse;
-  }
-}
-#main {
-  height: 100%;
-}
-
-// .prize-preview {
-//   position: absolute !important;
-//   bottom: 0;
-//   right: 0;
-//   width: 200px;
-//   height: 160px;
-// }
-</style>

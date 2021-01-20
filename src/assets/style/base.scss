@@ -1,9 +1,11 @@
 body,
 html {
   height: 100%;
-  font-size: 14px;
+  font-size: 16px;
   font-family: 'PingFang SC', Microsoft YaHei, '微软雅黑', Tahoma, Arial, HeiTi,
     '黑体', sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
 }
 li {
   list-style: none;
@@ -51,4 +53,145 @@ body {
   width: 5px;
   height: 5px;
   background-color: #ccc;
+}
+
+.content {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  background-image: url('../bg.png');
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #0F084F;
+
+  header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1.5rem ;
+    .logo {
+      height: 2.75rem;
+
+      img {
+        display: inline-block;
+        height: 100%;
+      }
+    }
+
+    .slogan {
+      height: 1.5rem;
+      padding: 0.24px;
+      background: 
+
+      img {
+        display: inline-block;
+        height: 100%;
+      }
+    }
+  }
+
+  // .mask {
+  //   -webkit-filter: blur(5px);
+  //   filter: blur(5px);
+  // }
+
+  .main {
+    position: relative;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 24px;
+  }
+
+  .pop-layout {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 120px 80px;
+    box-sizing: border-box;
+
+    .el-card {
+      border: 2px solid #1F1F7E;
+      background: rgba(12,12,76,0.9);
+
+      h3 {
+        font-size: 1.75rem;
+        font-weight: 500;
+        margin: 1rem 0;
+        color: #338FFF;
+        text-align: center;
+        min-width: 20rem;
+      }
+    }
+  }
+ 
+  .bounce-enter-active {
+    animation: bounce-in 1.5s;
+  }
+  .bounce-leave-active {
+    animation: bounce-in 0s reverse;
+  }
+}
+
+.flex {
+  display: flex;
+
+  &-col {
+    flex-direction: column;
+  }
+}
+
+.gap {
+  &-4 { gap: 1rem;}
+  &-16 { gap: 4rem;}
+}
+
+//grid
+.grid { display: grid;}
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) };
+
+.items-center {
+  align-items: center;
+}
+
+.justify {
+  &-between { justify-content: space-between;}
+  &-center { justify-content: center;}
+}
+
+.el-button {
+  &--text i {
+    font-size: 24px;
+  }
+}
+
+// padding
+.p {
+  &-2 { padding: 0.5px; }
+  &-4 { padding: 1rem; }
+  &-6 { padding: 1.5rem; }
+  &x-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.ym-svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+.hidden {
+  visibility: hidden;
 }
