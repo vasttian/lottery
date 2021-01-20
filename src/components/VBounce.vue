@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     keyBounce() {
-      return { 'z+m': this.close };
+      return { 'ctrl+shift+m': this.close };
     },
     config: {
       get() {
