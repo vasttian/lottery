@@ -1,8 +1,13 @@
 <template>
   <transition name="bounce">
-    <div id="resbox" v-show="showRes" v-hotkey="keyBounce">
-      <p @click="close">{{ categoryName }}</p>
-      <div class="container">
+    <el-card
+      id="resbox"
+      class="prize-result"
+      v-show="showRes"
+      v-hotkey="keyBounce"
+    >
+      <h3 @click="close">{{ categoryName }}获得者，恭喜 ！</h3>
+      <div class="grid gap-16 grid-cols-4 p-6">
         <span
           v-for="item in resArr"
           :key="item"
@@ -18,7 +23,7 @@
               :height="160"
               alt="photo"
             />
-            <span class="re-image-label">
+            <span class="name">
               {{ photos.find(d => d.id === item).name }}
             </span>
           </template>
@@ -37,7 +42,7 @@
           </span>
         </span>
       </div>
-    </div>
+    </el-card>
   </transition>
 </template>
 
@@ -103,73 +108,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-#resbox {
-  position: absolute;
-  border: 2px solid blue;
-  background-color: #06176a7a;
-  // height: 100%;
-  max-height: 100%;
-  overflow: auto;
-  top: 50%;
-  left: 80%;
-  width: 1000px;
-  transform: translateX(-80%) translateY(-50%);
-  text-align: center;
-  p {
-    color: white;
-    font-size: 50px;
-    line-height: 120px;
-    font-weight: 500;
-  }
-  .container {
-    // height: 80%;
-    // overflow: auto;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .itemres {
-    background: #fff;
-    width: 160px;
-    height: 160px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    line-height: 160px;
-    font-weight: bold;
-    // margin-right: 20px;
-    margin-bottom: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    .cont {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    &.numberOver::before {
-      content: attr(data-id);
-      width: 30px;
-      height: 22px;
-      line-height: 22px;
-      background-color: #fff;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      font-size: 14px;
-      // border-radius: 50%;
-      z-index: 1;
-    }
-    .re-image-label {
-      font-size: 24px;
-      line-height: 24px;
-      color: #f5f7fa;
-      position: absolute;
-      bottom: -28px;
-    }
-  }
-}
-</style>

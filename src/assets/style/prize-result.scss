@@ -1,0 +1,47 @@
+.prize-result {
+  margin-left: 2rem;
+  overflow: auto;
+  text-align: center;
+  
+  .itemres {
+    
+
+    img {
+      width: 120px;
+      height: 120px;
+      overflow: hidden;
+      border-radius: 60px;
+    }
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    .cont {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &.numberOver::before {
+      content: attr(data-id);
+      width: 30px;
+      height: 22px;
+      line-height: 22px;
+      background-color: #fff;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      font-size: 14px;
+      // border-radius: 50%;
+      z-index: 1;
+    }
+    .name {
+      font-size: 1.25rem;
+      line-height: 24px;
+      color: #f5f7fa;
+      position: absolute;
+      bottom: -28px;
+      
+    }
+  }
+}

@@ -10,7 +10,60 @@
         </span>
       </div>
     </header>
-    <div id="main" class="main" :class="{ mask: showRes }"></div>
+    <div id="main" class="main" :class="{ mask: showRes }">
+      <div
+        class="pop-layout"
+        :class="`prize-x-${running || showRes ? 'left' : 'center'}`"
+      >
+        <!-- 当前抽奖的奖项 -->
+        <the-prize
+          :category="category"
+          :running="running"
+          :show-res="showRes"
+          :res-arr="resArr"
+          @toggle="toggle"
+        />
+
+        <!-- 当前的抽奖结果 -->
+        <v-bounce
+          :show-res="showRes"
+          :res-arr="resArr"
+          :category="category"
+          @close="showRes = false"
+        />
+
+        <!-- 抽奖的 tag -->
+        <div id="tags">
+          <ul v-for="item in datas" :key="item.key">
+            <li>
+              <a
+                href="javascript:void(0);"
+                :style="{
+                  color: '#fff'
+                }"
+              >
+                {{ item.name ? item.name : item.key }}
+                <img
+                  v-if="item.photo"
+                  :src="item.photo"
+                  :width="50"
+                  :height="50"
+                />
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <LotteryConfig
+          @getPhoto="getPhoto"
+          @resetconfig="reloadTagCanvas"
+          :visible.sync="showConfig"
+        />
+
+        <!-- 抽奖接口汇总 -->
+        <Result :visible.sync="showResult"></Result>
+      </div>
+    </div>
 
     <div class="footer">
       <!-- <Publicity v-show="!running" /> -->
@@ -29,10 +82,9 @@
         class="res"
         @click="showResult = true"
         type="text"
+        icon="el-icon-finished"
         circle
-      >
-        <ym-svg svg-name="add" />
-      </el-button>
+      />
       <!-- 播放背景音 -->
       <el-button
         class="audio"
@@ -73,53 +125,13 @@
         {{ running ? '停止' : '开始' }}
       </el-button>
     </div>
-    <!-- 当前抽奖的奖项 -->
-    <the-prize
-      :category="category"
-      :running="running"
-      :show-res="showRes"
-      :res-arr="resArr"
-      @toggle="toggle"
-    />
 
-    <!-- 当前的抽奖结果 -->
-    <v-bounce
-      :show-res="showRes"
-      :res-arr="resArr"
-      :category="category"
-      @close="showRes = false"
-    />
-
-    <!-- 抽奖的 tag -->
-    <div id="tags">
-      <ul v-for="item in datas" :key="item.key">
-        <li>
-          <a
-            href="javascript:void(0);"
-            :style="{
-              color: '#fff'
-            }"
-          >
-            {{ item.name ? item.name : item.key }}
-            <img v-if="item.photo" :src="item.photo" :width="50" :height="50" />
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <LotteryConfig
-      @getPhoto="getPhoto"
-      @resetconfig="reloadTagCanvas"
-      :visible.sync="showConfig"
-    />
-
-    <!-- 抽奖接口汇总 -->
-    <Result :visible.sync="showResult"></Result>
     <audio
       id="audiobg"
       preload="auto"
       controls
       autoplay
+      class="hidden"
       loop
       @play="playHandler"
       @pause="pauseHandler"
@@ -444,16 +456,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-// #main {
-//   height: 100%;
-// }
-
-// .prize-preview {
-//   position: absolute !important;
-//   bottom: 0;
-//   right: 0;
-//   width: 200px;
-//   height: 160px;
-// }
-</style>
