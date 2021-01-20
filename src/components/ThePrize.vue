@@ -137,12 +137,20 @@ export default {
   },
   methods: {
     toPrev() {
+      if (this.running) {
+        return;
+      }
+
       this.currentIndex -= 1;
       if (this.currentIndex < 0) {
         this.currentIndex = this.categorys.length - 1;
       }
     },
     toNext() {
+      if (this.running) {
+        return;
+      }
+
       this.currentIndex += 1;
       if (this.currentIndex >= this.categorys.length) {
         this.currentIndex = 0;
