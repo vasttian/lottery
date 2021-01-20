@@ -8,7 +8,7 @@
   h5 {
     height: 2rem;
     line-height: 2rem;
-    font-size: 1.15rem;
+    font-size: 1rem;
     color: #EE5BCD;
     margin: 0;
     font-weight: 400;
@@ -16,8 +16,8 @@
 
   .prize-image {
     margin-top: 1rem;
-    width: 16rem;
-    height: 16rem;
+    width: 10rem;
+    height: 10rem;
     border-radius: 12px;
     overflow: hidden;
 
@@ -28,16 +28,16 @@
   }
 
   .prize-name {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
     color: white;
     min-width: 20rem;
     justify-content: space-between;
-    margin: 1rem 0 2rem;
+    margin: 1rem 0;
     min-height: 3rem;
 
     i {
-      font-size: 1.15rem;
-      padding: 0.5rem;
+      font-size: 1rem;
+      padding: 0.25rem;
       display: block;
       background: #0455C6;
       border-radius: 50%;
@@ -50,11 +50,11 @@
 
   .prize-btn {
     width: 20rem;
-    font-size: 1.15rem;
+    font-size: 1rem;
     color: white;
     background: #AE1C8D;
     border: 0;
-    line-height: 1.75rem;
+    line-height: 1.25rem;
     margin-bottom: 2rem;
     font-weight: 600;
 

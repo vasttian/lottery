@@ -74,7 +74,7 @@ body {
     box-sizing: border-box;
     padding: 1.5rem ;
     .logo {
-      height: 2.75rem;
+      height: 2rem;
 
       img {
         display: inline-block;
@@ -83,7 +83,7 @@ body {
     }
 
     .slogan {
-      height: 1.5rem;
+      height: 1.25rem;
       padding: 0.24px;
       background: 
 
@@ -108,8 +108,8 @@ body {
     bottom: 0;
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 0 24px;
+    gap: 1rem;
+    padding: 0 1rem;
 
     .el-button {
       &.is-disabled {
@@ -132,7 +132,7 @@ body {
     height: 100%;
     display: flex;
     box-sizing: border-box;
-    padding: 200px 80px;
+    padding: 8rem;
 
     .el-card {
       border: 2px solid #1F1F7E;
@@ -141,11 +141,13 @@ body {
       height: 100%;
 
       &__body {
-        padding: 24px 40px;
+        padding: 1.25rem 2rem;
+        height: 100%;
+        overflow: auto;
       }
 
       h3 {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 500;
         margin: 1rem 0;
         color: #338FFF;
@@ -172,8 +174,9 @@ body {
 }
 
 .gap {
+  &-2 { gap: 0.5rem;}
   &-4 { gap: 1rem;}
-  &-16 { gap: 4rem;}
+  &-12 { gap: 3rem;}
 }
 
 //grid
@@ -191,7 +194,7 @@ body {
 
 .el-button {
   &--text i {
-    font-size: 24px;
+    font-size: 1.25rem;
   }
 }
 
@@ -207,11 +210,12 @@ body {
 }
 
 .ym-svg {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   color: white;
 }
 
 .hidden {
   visibility: hidden;
 }
+
