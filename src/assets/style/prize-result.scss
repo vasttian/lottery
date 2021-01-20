@@ -9,8 +9,8 @@
     align-items: center;
     
     img {
-      width: 120px;
-      height: 120px;
+      width: 6rem;
+      height: 6rem;
       overflow: hidden;
       border-radius: 60px;
     }
@@ -18,7 +18,7 @@
     .name {
       font-size: 1.25rem;
       line-height: 24px;
-      padding-top: 16px;
+      padding-top: 0.75rem;
       color: #f5f7fa;
     }
 
@@ -26,16 +26,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 120px;
-      height: 120px;
-      border-radius: 60px;
+      width: 6rem;
+      height: 6rem;
+      border-radius: 50%;
       overflow: hidden;
       color: #fff;
       background-color: #0455C6;
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 600;
     }
-    
+
     &.numberOver::before {
       content: attr(data-id);
       width: 30px;
