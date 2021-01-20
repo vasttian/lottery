@@ -1,5 +1,5 @@
 <template>
-  <transition name="bounce">
+  <transition name="el-zoom-in-bottom">
     <el-card
       id="resbox"
       class="prize-result"
@@ -12,7 +12,6 @@
           v-for="item in resArr"
           :key="item"
           class="itemres"
-          :style="resCardStyle"
           :data-id="item"
           @click="close"
         >
@@ -85,20 +84,6 @@ export default {
     },
     categoryName() {
       return conversionCategoryName(this.category);
-    },
-    resCardStyle() {
-      const style = { fontSize: '30px' };
-      const { number } = this.config;
-      if (number < 100) {
-        style.fontSize = '100px';
-      } else if (number < 1000) {
-        style.fontSize = '80px';
-      } else if (number < 10000) {
-        style.fontSize = '60px';
-      }
-
-      style.marginRight = this.resArr.length > 1 ? '20px' : 0;
-      return style;
     }
   },
   methods: {
