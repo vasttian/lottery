@@ -32,9 +32,10 @@
       overflow: hidden;
       color: #fff;
       background-color: #0455C6;
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: 600;
     }
+    
     &.numberOver::before {
       content: attr(data-id);
       width: 30px;

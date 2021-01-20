@@ -54,9 +54,9 @@
     color: white;
     background: #AE1C8D;
     border: 0;
-    line-height: 1.5rem;
+    line-height: 1.75rem;
     margin-bottom: 2rem;
-    font-weight: 400;
+    font-weight: 600;
 
     &:hover,
     &:active, 
@@ -65,6 +65,13 @@
     &.focus {
       color: #fff;
       background: #C72EA4;
+    }
+
+    &.is-disabled,
+    &.is-disabled:hover,
+    &.is-disabled:visited {
+      background: #6D1D79;
+      color: #915A9B;
     }
   }
   // .card-items {

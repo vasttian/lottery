@@ -27,12 +27,7 @@
             </span>
           </template>
           <span v-else class="cont">
-            <span
-              v-if="!!list.find(d => d.key === item)"
-              :style="{
-                fontSize: '40px'
-              }"
-            >
+            <span v-if="!!list.find(d => d.key === item)">
               {{ list.find(d => d.key === item).name }}
             </span>
             <span v-else>
