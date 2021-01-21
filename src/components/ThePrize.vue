@@ -54,14 +54,14 @@ export default {
         mode: 0,
         qty: 1,
         allin: false
-      },
+      }
     };
   },
   computed: {
     ...mapState({
       storeNewLottery: state => state.newLottery,
       result: state => state.result,
-      photos: state => state.photos,
+      photos: state => state.photos
     }),
     keymap() {
       return {
