@@ -1,9 +1,12 @@
 <template>
   <div>
-    <el-dropdown class="con" :disabled="running" @command="handleCommand">
-      <el-button :disabled="running" type="text">
-        抽奖配置<i class="el-icon-arrow-down el-icon--right"></i>
-      </el-button>
+    <el-dropdown :disabled="running" @command="handleCommand">
+      <el-button
+        :disabled="running"
+        type="text"
+        icon="el-icon-s-tools"
+        circle
+      ></el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="config">
           奖项配置
@@ -236,7 +239,7 @@ export default {
   watch: {
     showRemoveoptions(v) {
       if (!v) {
-        this.removeInfo.type = 0;
+        this.removeInfo.type = null;
       }
     }
   },
@@ -256,6 +259,10 @@ export default {
     },
     resetConfig() {
       const type = this.removeInfo.type;
+      if (type === undefined || type === null) {
+        return;
+      }
+
       this.$confirm('此操作将重置所选数据，是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -295,6 +302,10 @@ export default {
           this.closeRes && this.closeRes();
           this.form.category = '';
           this.showRemoveoptions = false;
+          if ([0, 1, 4].includes(type)) {
+            this.$store.commit('resetOldPrizeKeys');
+          }
+
           this.$message({
             type: 'success',
             message: '重置成功!'

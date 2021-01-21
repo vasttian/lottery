@@ -1,144 +1,135 @@
 <template>
-  <div id="root">
+  <div id="root" class="content">
     <header>
-      <!-- <Publicity v-show="!running" /> -->
-      <div style="width: 200px;">
-        <el-button
-          :disabled="running"
-          class="res"
-          type="text"
-          @click="showResult = true"
-        >
-          抽奖结果
-        </el-button>
-        <Tool
-          ref="toolRef"
-          class="con"
-          :running="running"
-          :closeRes="closeRes"
-          @toggle="toggle"
-          @resetConfig="reloadTagCanvas"
-          @getPhoto="getPhoto"
-          @show-config="showConfig = true"
-          @reset-category="resetCategory"
-        />
-      </div>
-
-      <!-- 播放背景音 -->
-      <div style="width: 150px;">
-        <el-button
-          class="audio"
-          type="text"
-          @click="
-            () => {
-              playAudio(!audioPlaying);
-            }
-          "
-        >
-          <i
-            class="iconfont"
-            :class="[audioPlaying ? 'iconstop' : 'iconplay1']"
-          ></i>
-        </el-button>
-        <el-button
-          class="start"
-          @click="startHandler"
-          type="primary"
-          size="mini"
-        >
-          {{ running ? '停止' : '开始' }}
-        </el-button>
+      <div class="flex justify-between">
+        <span class="logo">
+          <img src="./assets/logo-white.svg" alt="" />
+        </span>
+        <span class="slogan">
+          <img src="./assets/slogan.svg" alt="" />
+        </span>
       </div>
     </header>
-    <div id="main" :class="{ mask: showRes }"></div>
+    <div id="main" class="main" :class="{ mask: showRes }">
+      <div
+        class="pop-layout"
+        :class="`prize-x-${running || showRes ? 'left' : 'center'}`"
+      >
+        <!-- 当前抽奖的奖项 -->
+        <the-prize
+          :category="category"
+          :running="running"
+          :show-res="showRes"
+          :res-arr="resArr"
+          @toggle="toggle"
+          @close-result="showRes = false"
+        />
 
-    <!-- 当前抽奖的奖品信息 -->
-    <v-prize :category="category" :category-name="categoryName" />
+        <!-- 当前的抽奖结果 -->
+        <v-bounce
+          :show-res="showRes"
+          :res-arr="resArr"
+          :category="category"
+          @close="showRes = false"
+        />
 
-    <!-- 抽奖的 tag -->
-    <div id="tags">
-      <ul v-for="item in datas" :key="item.key">
-        <li>
-          <a
-            href="javascript:void(0);"
-            :style="{
-              color: '#fff'
-            }"
-          >
-            {{ item.name ? item.name : item.key }}
-            <img v-if="item.photo" :src="item.photo" :width="50" :height="50" />
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- 当前抽奖的结果 -->
-    <transition name="bounce">
-      <div id="resbox" v-show="showRes">
-        <p @click="showRes = false">{{ categoryName }}</p>
-        <div class="container">
-          <span
-            v-for="item in resArr"
-            :key="item"
-            class="itemres"
-            :style="resCardStyle"
-            :data-id="item"
-            @click="showRes = false"
-          >
-            <!-- :class="{
-              numberOver:
-                !!photos.find(d => d.id === item) ||
-                !!list.find(d => d.key === item)
-            }" -->
-            <template v-if="photos.find(d => d.id === item)">
-              <img
-                :src="photos.find(d => d.id === item).value"
-                :width="160"
-                :height="160"
-                alt="photo"
-              />
-              <span class="re-image-label">
-                {{ photos.find(d => d.id === item).name }}
-              </span>
-            </template>
-            <span v-else class="cont">
-              <span
-                v-if="!!list.find(d => d.key === item)"
+        <!-- 抽奖的 tag -->
+        <div id="tags">
+          <ul v-for="item in datas" :key="item.key">
+            <li>
+              <a
+                href="javascript:void(0);"
                 :style="{
-                  fontSize: '40px'
+                  color: '#fff'
                 }"
               >
-                {{ list.find(d => d.key === item).name }}
-              </span>
-              <span v-else>
-                {{ item }}
-              </span>
-            </span>
-          </span>
+                {{ item.name ? item.name : item.key }}
+                <img
+                  v-if="item.photo"
+                  :src="item.photo"
+                  :width="50"
+                  :height="50"
+                />
+              </a>
+            </li>
+          </ul>
         </div>
+
+        <LotteryConfig
+          @getPhoto="getPhoto"
+          @resetconfig="reloadTagCanvas"
+          :visible.sync="showConfig"
+        />
+
+        <!-- 抽奖接口汇总 -->
+        <Result :visible.sync="showResult"></Result>
       </div>
-    </transition>
+    </div>
 
-    <LotteryConfig
-      @getPhoto="getPhoto"
-      @resetconfig="reloadTagCanvas"
-      :visible.sync="showConfig"
-    />
-    <!-- <Tool
-      @toggle="toggle"
-      @resetConfig="reloadTagCanvas"
-      @getPhoto="getPhoto"
-      :running="running"
-      :closeRes="closeRes"
-    /> -->
+    <div class="footer">
+      <!-- <Publicity v-show="!running" /> -->
+      <Tool
+        ref="toolRef"
+        :running="running"
+        :closeRes="closeRes"
+        @toggle="toggle"
+        @resetConfig="reloadTagCanvas"
+        @getPhoto="getPhoto"
+        @show-config="showConfig = true"
+        @reset-category="resetCategory"
+      />
+      <el-button
+        :disabled="running"
+        class="res"
+        @click="showResult = true"
+        type="text"
+        icon="el-icon-finished"
+        circle
+      />
+      <!-- 播放背景音 -->
+      <el-button
+        class="audio"
+        type="text"
+        circle
+        :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
+        @click="
+          () => {
+            playAudio(!audioPlaying);
+          }
+        "
+      />
+      <el-button
+        style="left: 140px;"
+        @click="adding = true"
+        type="text"
+        icon="el-icon-plus"
+        circle
+      />
+      <template v-if="adding">
+        <div class="adding">
+          <el-input-number size="small" v-model="inputNum" />
+          <el-button type="primary" size="small" @click="addLotteryHandler">
+            确定
+          </el-button>
+        </div>
+      </template>
+      <el-button
+        v-show="false"
+        class="start"
+        @click="startHandler"
+        type="primary"
+        size="mini"
+      >
+        {{ running ? '停止' : '开始' }}
+      </el-button>
+    </div>
 
-    <!-- 抽奖接口汇总 -->
-    <Result :visible.sync="showResult"></Result>
     <audio
       id="audiobg"
       preload="auto"
       controls
       autoplay
+      class="hidden"
       loop
       @play="playHandler"
       @pause="pauseHandler"
@@ -148,32 +139,36 @@
     </audio>
   </div>
 </template>
+
 <script>
 import LotteryConfig from '@/components/LotteryConfig';
 // import Publicity from '@/components/Publicity';
 import Tool from '@/components/Tool';
-import VPrize from '@/components/VPrize';
+import VBounce from '@/components/VBounce';
+import ThePrize from '@/components/ThePrize';
 import bgaudio from '@/assets/bg.mp3';
 // import beginaudio from '@/assets/begin.mp3';
 import beginaudio from '@/assets/百石元 - 猪突猛進.mp3';
 import {
+  setData,
   getData,
   configField,
   resultField,
   newLotteryField,
-  conversionCategoryName,
   listField
 } from '@/helper/index';
-import { lotteryHandler } from '@/helper/algorithm';
+import { lotteryHandler, randomNum } from '@/helper/algorithm';
 import Result from '@/components/Result';
 import { database, DB_STORE_NAME } from '@/helper/db';
+
 export default {
   name: 'App',
   components: {
     LotteryConfig,
     Tool,
+    VBounce,
     Result,
-    VPrize
+    ThePrize
   },
   data() {
     return {
@@ -184,7 +179,10 @@ export default {
       resArr: [],
       category: '',
       audioPlaying: false,
-      audioSrc: bgaudio
+      audioSrc: bgaudio,
+      adding: false,
+      num: 0,
+      inputNum: 1
     };
   },
   watch: {
@@ -198,20 +196,6 @@ export default {
     }
   },
   computed: {
-    resCardStyle() {
-      const style = { fontSize: '30px' };
-      const { number } = this.config;
-      if (number < 100) {
-        style.fontSize = '100px';
-      } else if (number < 1000) {
-        style.fontSize = '80px';
-      } else if (number < 10000) {
-        style.fontSize = '60px';
-      }
-
-      style.marginRight = this.resArr.length > 1 ? '20px' : 0;
-      return style;
-    },
     config: {
       get() {
         return this.$store.state.config;
@@ -238,6 +222,8 @@ export default {
       }
       return allresult;
     },
+
+    // 当数量过大时，随机挑选一些名单滚动
     datas() {
       const { number } = this.config;
       const nums = number >= 1500 ? 500 : this.config.number;
@@ -254,9 +240,6 @@ export default {
       });
       return randomShowDatas;
     },
-    categoryName() {
-      return conversionCategoryName(this.category);
-    },
     photos() {
       return this.$store.state.photos;
     },
@@ -268,6 +251,15 @@ export default {
       // const key = `${this.category}__prize`;
       const item = this.photos.find(i => i.id === this.category);
       return item ? item.value : '';
+    },
+    form: {
+      get() {
+        return this.$store.state.config;
+      },
+      set(val) {
+        // this.$store.commit('setConfig', val);
+        return val;
+      }
     }
   },
   created() {
@@ -400,7 +392,7 @@ export default {
         this.loadAudio();
 
         const { number } = config;
-        const { category, mode, qty, remain, allin } = form;
+        const { category, mode, qty, remain, allin, needFilter } = form;
 
         // 本次抽取人数
         let num = 1;
@@ -411,165 +403,64 @@ export default {
         } else if (mode === 99) {
           num = qty;
         }
-        const resArr = lotteryHandler(
-          number,
-          // eslint-disable-next-line
-          allin ? [] : this.allresult,
-          num
-        );
+
+        let wins = allin ? [] : this.allresult;
+        if (needFilter) {
+          // 如果需要过滤，这里将所有 i.type !== 'Permanent' 的名单放入 wins，避免抽中
+          this.photos.forEach(i => {
+            if (i.type !== 'Permanent') {
+              wins.push(i.id);
+            }
+          });
+        }
+
+        const resArr = lotteryHandler(number, wins, num);
         this.resArr = resArr;
 
         this.category = category;
         if (!this.result[category]) {
           this.$set(this.result, category, []);
         }
+
         const oldRes = this.result[category] || [];
         const data = Object.assign({}, this.result, {
           [category]: oldRes.concat(resArr)
         });
+
         this.result = data;
         window.TagCanvas.SetSpeed('rootcanvas', [5, 1]);
         this.running = !this.running;
       }
+    },
+    randomField() {
+      const str = 'abcdefghijklmnopqrstuvwxyz';
+      let fieldStr = '';
+      for (let index = 0; index < 10; index++) {
+        fieldStr += str.split('')[randomNum(1, 26) - 1];
+      }
+      return `${fieldStr}${Date.now()}`;
+    },
+    addLotteryHandler() {
+      this.adding = false;
+      const field = this.randomField();
+      const data = {
+        key: field,
+        name: '赞助奖',
+        desc: ''
+      };
+      if (this.num > 0) {
+        data.name = `赞助奖-${this.num}`;
+      }
+      this.num += 1;
+      this.$store.commit('setNewLottery', data);
+      this.form[field] = this.inputNum;
+      this.inputNum = 1;
+      setData(configField, this.form);
+      this.$store.commit('setConfig', this.form);
+      // this.$nextTick(() => {
+      //   this.reloadTagCanvas();
+      // });
     }
   }
 };
 </script>
-<style lang="scss">
-#root {
-  height: 100%;
-  position: relative;
-  background-image: url('./assets/primary-vision-2.jpg');
-  background-size: 100% 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-color: #121936;
-  .mask {
-    -webkit-filter: blur(5px);
-    filter: blur(5px);
-  }
-  header {
-    justify-content: space-between;
-    display: flex;
-    position: absolute;
-    width: 100%;
-    height: 50px;
-    bottom: 0;
-    line-height: 50px;
-    .con {
-      bottom: 30px;
-    }
-    .el-button {
-      position: absolute;
-      z-index: 9999;
-      &.res {
-        left: 90px;
-      }
-    }
-    .start {
-      right: 20px;
-      margin-top: 2px;
-      background-color: #2941c0;
-      border-color: #2941c0;
-    }
-    .audio {
-      position: absolute;
-      right: 90px;
-      width: 34px;
-      height: 34px;
-      line-height: 34px;
-      border: 1px solid #fff;
-      border-radius: 50%;
-      padding: 0;
-      text-align: center;
-      .iconfont {
-        position: relative;
-        left: 1px;
-      }
-    }
-  }
-  .bounce-enter-active {
-    animation: bounce-in 1.5s;
-  }
-  .bounce-leave-active {
-    animation: bounce-in 0s reverse;
-  }
-}
-#main {
-  height: 100%;
-}
-
-#resbox {
-  position: absolute;
-  // height: 100%;
-  max-height: 100%;
-  overflow: auto;
-  top: 50%;
-  left: 50%;
-  width: 1280px;
-  transform: translateX(-50%) translateY(-50%);
-  text-align: center;
-  p {
-    color: white;
-    font-size: 50px;
-    line-height: 120px;
-    font-weight: 500;
-  }
-  .container {
-    // height: 80%;
-    // overflow: auto;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .itemres {
-    background: #fff;
-    width: 160px;
-    height: 160px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    line-height: 160px;
-    font-weight: bold;
-    // margin-right: 20px;
-    margin-bottom: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    .cont {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    &.numberOver::before {
-      content: attr(data-id);
-      width: 30px;
-      height: 22px;
-      line-height: 22px;
-      background-color: #fff;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      font-size: 14px;
-      // border-radius: 50%;
-      z-index: 1;
-    }
-    .re-image-label {
-      font-size: 24px;
-      line-height: 24px;
-      color: #f5f7fa;
-      position: absolute;
-      bottom: -28px;
-    }
-  }
-}
-
-// .prize-preview {
-//   position: absolute !important;
-//   bottom: 0;
-//   right: 0;
-//   width: 200px;
-//   height: 160px;
-// }
-</style>

@@ -1,0 +1,100 @@
+.prize-x-center {
+  justify-content: center;
+}
+.prize-x-left {
+  justify-content: center;
+}
+.v-prize {
+  h5 {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    color: #EE5BCD;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .prize-image {
+    margin-top: 1rem;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 12px;
+    overflow: hidden;
+
+    .el-image, img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .prize-name {
+    font-size: 2.25rem;
+    color: white;
+    min-width: 20rem;
+    justify-content: space-between;
+    margin: 1rem 0;
+    min-height: 3rem;
+    font-weight: 600;
+
+    i {
+      font-size: 1.25rem;
+      padding: 0.5rem;
+      display: block;
+      background: #0455C6;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
+        background: #338FFF;
+      }
+    }
+  }
+
+  .prize-btn {
+    margin-top: 1rem;
+    width: 20rem;
+    font-size: 1.25rem;
+    color: white;
+    background: #AE1C8D;
+    border: 0;
+    line-height: 1.75rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+
+    &:hover,
+    &:active, 
+    &:visited, 
+    &:focus, 
+    &.focus {
+      color: #fff;
+      background: #C72EA4;
+    }
+
+    &.is-disabled,
+    &.is-disabled:hover,
+    &.is-disabled:visited {
+      background: #6D1D79;
+      color: #915A9B;
+    }
+  }
+  // .card-items {
+  //   padding: 10px 12px 10px 12px;
+  //   display: flex;
+  //   justify-content: space-between;
+  //   align-items: center;
+  //   color: white;
+  //   flex-direction: column;
+  //   flex-wrap: wrap;
+  //   .prize {
+  //     font-size: 32px;
+  //     font-weight: 600;
+  //   }
+  //   .count {
+  //     font-size: 18px;
+  //   }
+  // }
+  
+}
+
+.el-image-viewer__btn.el-image-viewer__close {
+  color: white;
+}

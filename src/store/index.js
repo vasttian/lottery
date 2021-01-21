@@ -21,7 +21,8 @@ export default new Vuex.Store({
     },
     newLottery: [],
     list: [],
-    photos: []
+    photos: [],
+    resetKeys: 0
   },
   mutations: {
     setClearConfig(state) {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
     setClearList(state) {
       state.list = [];
+    },
+    resetOldPrizeKeys(state) {
+      state.resetKeys += 1;
     },
     setClearPhotos(state) {
       state.photos = [];
@@ -57,18 +61,22 @@ export default new Vuex.Store({
       state.photos = [];
     },
     setConfig(state, config) {
-      state.config = config;
+      state.config = Object.assign({}, config);
     },
     setResult(state, result = {}) {
       state.result = result;
       setData(resultField, state.result);
     },
+    setLottery(state, newLottery) {
+      setData(newLotteryField, newLottery);
+    },
     setNewLottery(state, newLottery) {
-      if (state.newLottery.find(item => item.name === newLottery.name)) {
+      if (state.newLottery.find(item => item.key === newLottery.key)) {
         return;
       }
 
-      state.newLottery.push(newLottery);
+      // 在开头添加新奖项
+      state.newLottery.unshift(newLottery);
       setData(newLotteryField, state.newLottery);
     },
     deleteLottery(state, key) {

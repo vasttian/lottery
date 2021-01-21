@@ -11,7 +11,7 @@
         抽奖结果
       </span>
       <span :style="{ fontSize: '14px', color: '#999', marginLeft: '10px' }">
-        (点击号码可以删除)
+        (点击号码或头像可以移除当前中奖人)
       </span>
     </div>
     <div
