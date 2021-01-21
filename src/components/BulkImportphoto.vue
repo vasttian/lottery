@@ -87,6 +87,7 @@ export default {
     },
     uploadImages() {
       this.errorImages = [];
+      this.count = 0;
       // console.log('>>>>>>>>this.$refs.upload', this.$refs.upload.uploadFiles);
       const files = this.$refs.upload.uploadFiles;
       this.filesLen = files.length;
@@ -103,10 +104,12 @@ export default {
 
       this.$emit('getPhoto');
       if (!this.errorImages.length) {
-        this.$message({
-          message: '图片全部上传成功',
-          type: 'success'
-        });
+        setTimeout(() => {
+          this.$message({
+            message: '图片全部上传成功',
+            type: 'success'
+          });
+        }, 1000);
         this.closeDialog();
       }
     },
@@ -143,9 +146,14 @@ export default {
       }
 
       const Data = await database.get(DB_STORE_NAME, ID);
+      const name = items[1];
       const param = {
         id: ID,
-        name: items[1],
+        name,
+        type:
+          name.includes('（实习）') || name.includes('（实习生）')
+            ? 'Intern'
+            : 'Permanent',
         value
       };
 
