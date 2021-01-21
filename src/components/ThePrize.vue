@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { getLottery, conversionCategoryName } from '@/helper/index';
 
 export default {
@@ -53,10 +54,15 @@ export default {
         mode: 0,
         qty: 1,
         allin: false
-      }
+      },
     };
   },
   computed: {
+    ...mapState({
+      storeNewLottery: state => state.newLottery,
+      result: state => state.result,
+      photos: state => state.photos,
+    }),
     keymap() {
       return {
         'ctrl+shift+up': this.toPrev,
@@ -65,9 +71,6 @@ export default {
         'ctrl+shift+down': this.toNext,
         'ctrl+shift+enter': this.onSubmit
       };
-    },
-    storeNewLottery() {
-      return this.$store.state.newLottery;
     },
     categorys() {
       const options = [];
@@ -92,12 +95,6 @@ export default {
     config() {
       return this.$store.state.config || {};
     },
-    result() {
-      return this.$store.state.result;
-    },
-    photos() {
-      return this.$store.state.photos;
-    },
     currentPrize() {
       if (!this.currentItem) {
         return '';
@@ -111,15 +108,7 @@ export default {
       return lottery.desc || '';
     },
     remain() {
-      const category = this.currentItem.value;
-      if (!this.config[category]) {
-        return 0;
-      }
-
-      const count =
-        this.config[category] -
-        (this.result[category] ? this.result[category].length : 0);
-      return count < 0 ? 0 : count;
+      return this.getRemain(this.currentItem.value);
     }
   },
   watch: {
@@ -156,6 +145,16 @@ export default {
         this.currentIndex = 0;
       }
     },
+    getRemain(category) {
+      if (!this.config[category]) {
+        return 0;
+      }
+
+      const count =
+        this.config[category] -
+        (this.result[category] ? this.result[category].length : 0);
+      return count < 0 ? 0 : count;
+    },
     onSubmit() {
       if (!this.running) {
         this.$emit('close-result');
@@ -174,7 +173,7 @@ export default {
         return this.$message.error('该奖项剩余人数不足');
       }
 
-      console.log('>>>>>>this.form', this.form);
+      // console.log('>>>>>>this.form', this.form);
       setTimeout(
         () =>
           this.$emit(

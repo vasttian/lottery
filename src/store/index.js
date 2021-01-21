@@ -21,7 +21,8 @@ export default new Vuex.Store({
     },
     newLottery: [],
     list: [],
-    photos: []
+    photos: [],
+    resetKeys: 0,
   },
   mutations: {
     setClearConfig(state) {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
     setClearList(state) {
       state.list = [];
+    },
+    resetOldPrizeKeys(state) {
+      state.resetKeys += 1;
     },
     setClearPhotos(state) {
       state.photos = [];

@@ -259,6 +259,10 @@ export default {
     },
     resetConfig() {
       const type = this.removeInfo.type;
+      if (type === undefined || type === null) {
+        return;
+      }
+
       this.$confirm('此操作将重置所选数据，是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -298,6 +302,10 @@ export default {
           this.closeRes && this.closeRes();
           this.form.category = '';
           this.showRemoveoptions = false;
+          if ([0, 1, 4].includes(type)) {
+            this.$store.commit('resetOldPrizeKeys');
+          }
+
           this.$message({
             type: 'success',
             message: '重置成功!'
