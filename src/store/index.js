@@ -67,6 +67,9 @@ export default new Vuex.Store({
       state.result = result;
       setData(resultField, state.result);
     },
+    setLottery(state, newLottery) {
+      setData(newLotteryField, newLottery);
+    },
     setNewLottery(state, newLottery) {
       if (state.newLottery.find(item => item.key === newLottery.key)) {
         return;

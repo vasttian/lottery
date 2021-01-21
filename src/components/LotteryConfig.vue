@@ -34,6 +34,7 @@
             :step="1"
           ></el-input>
         </el-form-item>
+        <el-divider></el-divider>
         <el-form-item label="一等奖（人数）">
           <el-input
             type="number"
@@ -42,6 +43,7 @@
             :step="1"
           ></el-input>
         </el-form-item>
+        <el-divider></el-divider>
         <el-form-item
           v-for="newitem in storeNewLottery"
           :key="newitem.key"
@@ -58,12 +60,21 @@
               }
             "
           ></el-input>
-          <el-button type="text" @click="deleteLottery(newitem.key)">
-            删除
-          </el-button>
-          <small v-if="!form[newitem.key] || form[newitem.key] <= 0">
-            &nbsp;未设置或抽奖人数为 0 的奖项将不会在抽奖页显示
-          </small>
+          <el-switch
+            v-model="newitem.needFilter"
+            active-text="仅全职"
+            inactive-text="全部"
+            inactive-color="#dadfe4"
+          ></el-switch>
+          <div>
+            <el-button type="text" @click="deleteLottery(newitem.key)">
+              删除
+            </el-button>
+            <small v-if="!form[newitem.key] || form[newitem.key] <= 0">
+              &nbsp;未设置或抽奖人数为 0 的奖项将不会在抽奖页显示
+            </small>
+          </div>
+          <el-divider></el-divider>
         </el-form-item>
       </el-form>
     </div>
@@ -80,6 +91,14 @@
         </el-form-item>
         <el-form-item label="奖品描述">
           <el-input v-model="newLottery.desc"></el-input>
+        </el-form-item>
+        <el-form-item label="可抽此奖项">
+          <el-switch
+            v-model="newLottery.needFilter"
+            active-text="仅全职"
+            inactive-text="全部"
+            inactive-color="#dadfe4"
+          ></el-switch>
         </el-form-item>
         <el-form-item label="奖品图片" style="margin-top: 15px">
           <el-upload
@@ -134,7 +153,8 @@ export default {
       showAddLottery: false,
       newLottery: {
         name: '',
-        desc: ''
+        desc: '',
+        needFilter: false
       }
     };
   },
@@ -142,6 +162,7 @@ export default {
     onSubmit() {
       setData(configField, this.form);
       this.$store.commit('setConfig', this.form);
+      this.$store.commit('setLottery', this.storeNewLottery);
       this.$emit('update:visible', false);
       this.$message({
         message: '保存成功',
@@ -185,7 +206,8 @@ export default {
       const data = {
         key: field,
         name: this.newLottery.name,
-        desc: this.newLottery.desc
+        desc: this.newLottery.desc,
+        needFilter: this.newLottery.needFilter
       };
       this.uploadImages(field);
       this.$store.commit('setNewLottery', data);
@@ -194,6 +216,7 @@ export default {
     closeNewLotteryDialog() {
       this.newLottery.desc = '';
       this.newLottery.name = '';
+      this.newLottery.needFilter = false;
       this.$refs.uploadNewLotteryRef.clearFiles();
       this.showAddLottery = false;
     },

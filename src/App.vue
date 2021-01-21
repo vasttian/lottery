@@ -160,6 +160,7 @@ import {
 import { lotteryHandler, randomNum } from '@/helper/algorithm';
 import Result from '@/components/Result';
 import { database, DB_STORE_NAME } from '@/helper/db';
+
 export default {
   name: 'App',
   components: {
@@ -221,6 +222,8 @@ export default {
       }
       return allresult;
     },
+
+    // 当数量过大时，随机挑选一些名单滚动
     datas() {
       const { number } = this.config;
       const nums = number >= 1500 ? 500 : this.config.number;
@@ -389,7 +392,7 @@ export default {
         this.loadAudio();
 
         const { number } = config;
-        const { category, mode, qty, remain, allin } = form;
+        const { category, mode, qty, remain, allin, needFilter } = form;
 
         // 本次抽取人数
         let num = 1;
@@ -401,12 +404,17 @@ export default {
           num = qty;
         }
 
-        const resArr = lotteryHandler(
-          number,
-          // eslint-disable-next-line
-          allin ? [] : this.allresult,
-          num
-        );
+        let wins = allin ? [] : this.allresult;
+        if (needFilter) {
+          // 如果需要过滤，这里将所有 i.type !== 'Permanent' 的名单放入 wins，避免抽中
+          this.photos.forEach(i => {
+            if (i.type !== 'Permanent') {
+              wins.push(i.id);
+            }
+          });
+        }
+
+        const resArr = lotteryHandler(number, wins, num);
         this.resArr = resArr;
 
         this.category = category;

@@ -173,7 +173,9 @@ export default {
         return this.$message.error('该奖项剩余人数不足');
       }
 
-      // console.log('>>>>>>this.form', this.form);
+      const lottery = getLottery(this.currentItem.value);
+      this.form.needFilter = lottery.needFilter || false;
+      console.log('>>>prize>>>this.form', this.form);
       setTimeout(
         () =>
           this.$emit(
