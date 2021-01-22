@@ -114,10 +114,8 @@ export default {
   watch: {
     'storeNewLottery.length'() {
       const newItem = this.storeNewLottery[0];
-      console.log('>>>>>newItem>>', newItem);
       if (newItem && newItem.key) {
         const index = this.categorys.findIndex(c => c.value === newItem.key);
-        console.log('>>>>>>>>index', index);
         if (index > -1) {
           this.currentIndex = index;
         }

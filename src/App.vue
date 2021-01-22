@@ -446,6 +446,7 @@ export default {
       const data = {
         key: field,
         name: '赞助奖',
+        needFilter: true,
         desc: ''
       };
       if (this.num > 0) {
