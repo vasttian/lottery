@@ -182,7 +182,7 @@ export default {
             'toggle',
             Object.assign({}, this.form, { remain: this.remain })
           ),
-        this.showRes ? 600 : 0
+        this.showRes ? 400 : 0
       );
     }
   }
