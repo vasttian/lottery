@@ -248,7 +248,7 @@ export default {
         z-index: 1;
       }
       .re-image-label {
-        font-size: 18px;
+        font-size: 16px;
         line-height: 18px;
         color: #606367;
         position: absolute;
