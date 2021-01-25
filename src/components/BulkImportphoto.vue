@@ -34,7 +34,7 @@
     </el-row>
     <el-row v-if="filename">正在上传：{{ filename }}</el-row>
     <el-row v-if="errorImages && errorImages.length">
-      这些图片的文件名存在错误：{{ errorImages }}
+      这些图片文件存在错误：{{ errorImages }}
     </el-row>
     <el-row class="center">
       <el-button size="mini" @click="closeDialog">
@@ -103,15 +103,15 @@ export default {
       }
 
       this.$emit('getPhoto');
-      if (!this.errorImages.length) {
-        setTimeout(() => {
+      setTimeout(() => {
+        if (!this.errorImages.length) {
           this.$message({
             message: '图片全部上传成功',
             type: 'success'
           });
-        }, 1000);
-        this.closeDialog();
-      }
+          this.closeDialog();
+        }
+      }, 1000);
     },
     handleUnitImage(items, file) {
       const formData = new FormData();
@@ -126,6 +126,7 @@ export default {
             AllowImgFileSize != 0 &&
             AllowImgFileSize < reader.result.length
           ) {
+            this.errorImages.push(this.filename);
             return this.$message.error('不允许上传大于 150KB 的图片');
           } else {
             const value = reader.result;
