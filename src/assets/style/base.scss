@@ -192,13 +192,17 @@ body {
   &-center { justify-content: center;}
 }
 
-.el-button {
-  &--text {
+.el-button.el-button--text {
+  color: #FFFFFF;
+  &:hover {
+    color: rgba(255,255,255,0.8)
+  }
+  &:active,&:focus {
     color: #FFFFFF;
-    i {
-      font-size: 1.25rem;
-    }
-  } 
+  }
+  i {
+    font-size: 1.25rem;
+  }
 }
 
 // padding
