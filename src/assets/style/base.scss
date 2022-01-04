@@ -136,9 +136,9 @@ body {
     padding: 0 4rem 2rem;
 
     .el-card {
-      border: 2px solid #1F1F7E;
-      background: rgba(12,12,76,0.9);
-      border-image: linear-gradient(#338FFF,#1F1F7E) 20 20;
+      border: 3px solid #6734F0;
+      background: rgba(93,47,217,0.85);
+      border-image: linear-gradient(#058FF9,#6734F0) 20 20;
       min-height: 550px;
 
       &__body {
@@ -150,7 +150,7 @@ body {
         font-size: 1.75rem;
         font-weight: 600;
         margin: 1rem 0 2rem;
-        color: #338FFF;
+        color: #FFFFFF;
         text-align: center;
         min-width: 20rem;
       }
@@ -193,9 +193,12 @@ body {
 }
 
 .el-button {
-  &--text i {
-    font-size: 1.25rem;
-  }
+  &--text {
+    color: #FFFFFF;
+    i {
+      font-size: 1.25rem;
+    }
+  } 
 }
 
 // padding
