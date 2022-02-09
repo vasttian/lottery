@@ -48,13 +48,14 @@ export default {
   },
   data() {
     return {
-      currentIndex: 1,
+      currentIndex: -1,
       form: {
         category: '',
         mode: 0,
         qty: 1,
         allin: false
-      }
+      },
+      category: []
     };
   },
   computed: {
@@ -75,6 +76,7 @@ export default {
     categorys() {
       const options = [];
       Object.keys(this.config).forEach(key => {
+        const index = this.storeNewLottery.findIndex(item => item.key === key);
         const item = this.config[key];
         if (Number(item) > 0) {
           let name = conversionCategoryName(key);
@@ -82,7 +84,7 @@ export default {
             options.push({
               label: name,
               value: key,
-              index: 1
+              index: index
             });
           }
         }
@@ -90,7 +92,10 @@ export default {
       return options;
     },
     currentItem() {
-      return this.categorys[this.currentIndex] || {};
+      return (
+        this.categorys.find(item => item.index === this.currentIndex) || {}
+      );
+      // return this.categorys[this.currentIndex] || {};
     },
     config() {
       return this.$store.state.config || {};
@@ -112,14 +117,17 @@ export default {
     }
   },
   watch: {
-    'storeNewLottery.length'() {
-      const newItem = this.storeNewLottery[0];
-      if (newItem && newItem.key) {
-        const index = this.categorys.findIndex(c => c.value === newItem.key);
-        if (index > -1) {
-          this.currentIndex = index;
-        }
-      }
+    // 'storeNewLottery.length'() {
+    //   const newItem = this.storeNewLottery[0];
+    //   if (newItem && newItem.key) {
+    //     const index = this.categorys.findIndex(c => c.value === newItem.key);
+    //     if (index > -1) {
+    //       this.currentIndex = index;
+    //     }
+    //   }
+    // },
+    currentIndex() {
+      this.$store.commit('setCurrentKey', this.currentItem.value);
     }
   },
   methods: {
@@ -129,18 +137,22 @@ export default {
       }
 
       this.currentIndex -= 1;
-      if (this.currentIndex < 0) {
-        this.currentIndex = this.categorys.length - 1;
+      if (this.currentIndex < -1) {
+        const indexArray = this.categorys.map(item => item.index);
+        console.log(Math.max(...indexArray));
+        Math.max(...indexArray);
+        this.currentIndex = Math.max(...indexArray);
       }
     },
     toNext() {
       if (this.running) {
         return;
       }
+      const indexArray = this.categorys.map(item => item.index);
 
       this.currentIndex += 1;
-      if (this.currentIndex >= this.categorys.length) {
-        this.currentIndex = 0;
+      if (this.currentIndex > Math.max(...indexArray)) {
+        this.currentIndex = -1;
       }
     },
     getRemain(category) {
@@ -183,6 +195,9 @@ export default {
         this.showRes ? 400 : 0
       );
     }
+  },
+  created() {
+    this.$store.commit('setCurrentKey', this.currentItem.value);
   }
 };
 </script>

@@ -22,7 +22,8 @@ export default new Vuex.Store({
     newLottery: [],
     list: [],
     photos: [],
-    resetKeys: 0
+    resetKeys: 0,
+    currentKey: 'firstPrize'
   },
   mutations: {
     setClearConfig(state) {
@@ -70,13 +71,17 @@ export default new Vuex.Store({
     setLottery(state, newLottery) {
       setData(newLotteryField, newLottery);
     },
-    setNewLottery(state, newLottery) {
+    setNewLottery(state, [newLottery, index = 0]) {
       if (state.newLottery.find(item => item.key === newLottery.key)) {
         return;
       }
-
+      console.log('>>>>>>index', index);
       // 在开头添加新奖项
-      state.newLottery.unshift(newLottery);
+      // 赞助奖添加当前页面奖项后面
+      // if (index !== 0 && index !== 0) {
+      //   index -= 1;
+      // }
+      state.newLottery.splice(Math.max(index, 0), 0, newLottery);
       setData(newLotteryField, state.newLottery);
     },
     deleteLottery(state, key) {
@@ -105,6 +110,9 @@ export default new Vuex.Store({
     },
     setPhotos(state, photos) {
       state.photos = photos;
+    },
+    setCurrentKey(state, key) {
+      state.currentKey = key;
     }
   },
   actions: {},

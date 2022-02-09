@@ -160,6 +160,7 @@ import {
 import { lotteryHandler, randomNum } from '@/helper/algorithm';
 import Result from '@/components/Result';
 import { database, DB_STORE_NAME } from '@/helper/db';
+import { mapState } from 'vuex';
 
 export default {
   name: 'App',
@@ -196,6 +197,10 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      storeNewLottery: state => state.newLottery,
+      currentKey: state => state.currentKey
+    }),
     config: {
       get() {
         return this.$store.state.config;
@@ -277,7 +282,7 @@ export default {
     if (newLottery) {
       const config = this.config;
       newLottery.forEach(item => {
-        this.$store.commit('setNewLottery', item);
+        this.$store.commit('setNewLottery', [item]);
         if (!config[item.key]) {
           this.$set(config, item.key, 0);
         }
@@ -443,17 +448,22 @@ export default {
     addLotteryHandler() {
       this.adding = false;
       const field = this.randomField();
-      const data = {
+      const newLottery = {
         key: field,
         name: '赞助奖',
         needFilter: true,
         desc: ''
       };
+      console.log(this.storeNewLottery);
+      const currentIndex = this.storeNewLottery.length
+        ? this.storeNewLottery.findIndex(item => item.key === this.currentKey)
+        : 0;
+      console.log('>>>>>>currentIndex', currentIndex);
       if (this.num > 0) {
-        data.name = `赞助奖-${this.num}`;
+        newLottery.name = `赞助奖-${this.num}`;
       }
       this.num += 1;
-      this.$store.commit('setNewLottery', data);
+      this.$store.commit('setNewLottery', [newLottery, currentIndex]);
       this.form[field] = this.inputNum;
       this.inputNum = 1;
       setData(configField, this.form);
