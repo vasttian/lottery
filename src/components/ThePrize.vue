@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      currentIndex: -1,
+      currentArrayIndex: 0,
       form: {
         category: '',
         mode: 0,
@@ -92,11 +92,16 @@ export default {
       });
       return options;
     },
+    categorysIndexArray() {
+      return this.categorys.map(item => item.index).sort();
+    },
+    currentIndex() {
+      return this.categorysIndexArray[this.currentArrayIndex];
+    },
     currentItem() {
       return (
         this.categorys.find(item => item.index === this.currentIndex) || {}
       );
-      // return this.categorys[this.currentIndex] || {};
     },
     config() {
       return this.$store.state.config || {};
@@ -119,17 +124,7 @@ export default {
   },
   watch: {
     'storeNewLottery.length'() {
-      const currentIndex = this.storeNewLottery.length
-        ? this.storeNewLottery.findIndex(item => item.key === this.currentKey)
-        : 0;
-      const newItemIndex = Math.max(currentIndex - 1, 0);
-      const newItem = this.storeNewLottery[newItemIndex];
-      if (newItem && newItem.key) {
-        const index = this.categorys.find(c => c.value === newItem.key).index;
-        if (index > -1) {
-          this.currentIndex = index;
-        }
-      }
+      this.currentArrayIndex += 1;
     },
     currentIndex() {
       this.$store.commit('setCurrentKey', this.currentItem.value);
@@ -141,21 +136,19 @@ export default {
         return;
       }
 
-      this.currentIndex -= 1;
-      if (this.currentIndex < 0) {
-        const indexArray = this.categorys.map(item => item.index);
-        this.currentIndex = Math.max(...indexArray);
+      this.currentArrayIndex -= 1;
+      if (this.currentArrayIndex < 0) {
+        this.currentArrayIndex = this.categorysIndexArray.length - 1;
       }
     },
     toNext() {
       if (this.running) {
         return;
       }
-      const indexArray = this.categorys.map(item => item.index);
 
-      this.currentIndex += 1;
-      if (this.currentIndex > Math.max(...indexArray)) {
-        this.currentIndex = 0;
+      this.currentArrayIndex += 1;
+      if (this.currentArrayIndex >= this.categorysIndexArray.length) {
+        this.currentArrayIndex = 0;
       }
     },
     getRemain(category) {
