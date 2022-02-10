@@ -75,13 +75,9 @@ export default new Vuex.Store({
       if (state.newLottery.find(item => item.key === newLottery.key)) {
         return;
       }
-      console.log('>>>>>>index', index);
       // 在开头添加新奖项
       // 赞助奖添加当前页面奖项后面
-      // if (index !== 0 && index !== 0) {
-      //   index -= 1;
-      // }
-      state.newLottery.splice(Math.max(index, 0), 0, newLottery);
+      state.newLottery.splice(Math.max(index + 1, 0), 0, newLottery);
       setData(newLotteryField, state.newLottery);
     },
     deleteLottery(state, key) {

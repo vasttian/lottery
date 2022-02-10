@@ -210,7 +210,7 @@ export default {
         needFilter: this.newLottery.needFilter
       };
       this.uploadImages(field);
-      this.$store.commit('setNewLottery', [data]);
+      this.$store.commit('setNewLottery', [data, -1]);
       this.closeNewLotteryDialog();
     },
     closeNewLotteryDialog() {

@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      currentIndex: -1,
+      currentArrayIndex: 0,
       form: {
         category: '',
         mode: 0,
@@ -61,6 +61,7 @@ export default {
   computed: {
     ...mapState({
       storeNewLottery: state => state.newLottery,
+      currentKey: state => state.currentKey,
       result: state => state.result,
       photos: state => state.photos
     }),
@@ -84,18 +85,23 @@ export default {
             options.push({
               label: name,
               value: key,
-              index: index
+              index: index + 1
             });
           }
         }
       });
       return options;
     },
+    categorysIndexArray() {
+      return this.categorys.map(item => item.index).sort();
+    },
+    currentIndex() {
+      return this.categorysIndexArray[this.currentArrayIndex];
+    },
     currentItem() {
       return (
         this.categorys.find(item => item.index === this.currentIndex) || {}
       );
-      // return this.categorys[this.currentIndex] || {};
     },
     config() {
       return this.$store.state.config || {};
@@ -117,15 +123,9 @@ export default {
     }
   },
   watch: {
-    // 'storeNewLottery.length'() {
-    //   const newItem = this.storeNewLottery[0];
-    //   if (newItem && newItem.key) {
-    //     const index = this.categorys.findIndex(c => c.value === newItem.key);
-    //     if (index > -1) {
-    //       this.currentIndex = index;
-    //     }
-    //   }
-    // },
+    'storeNewLottery.length'() {
+      this.currentArrayIndex += 1;
+    },
     currentIndex() {
       this.$store.commit('setCurrentKey', this.currentItem.value);
     }
@@ -136,23 +136,19 @@ export default {
         return;
       }
 
-      this.currentIndex -= 1;
-      if (this.currentIndex < -1) {
-        const indexArray = this.categorys.map(item => item.index);
-        console.log(Math.max(...indexArray));
-        Math.max(...indexArray);
-        this.currentIndex = Math.max(...indexArray);
+      this.currentArrayIndex -= 1;
+      if (this.currentArrayIndex < 0) {
+        this.currentArrayIndex = this.categorysIndexArray.length - 1;
       }
     },
     toNext() {
       if (this.running) {
         return;
       }
-      const indexArray = this.categorys.map(item => item.index);
 
-      this.currentIndex += 1;
-      if (this.currentIndex > Math.max(...indexArray)) {
-        this.currentIndex = -1;
+      this.currentArrayIndex += 1;
+      if (this.currentArrayIndex >= this.categorysIndexArray.length) {
+        this.currentArrayIndex = 0;
       }
     },
     getRemain(category) {
