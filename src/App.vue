@@ -281,12 +281,13 @@ export default {
     const newLottery = getData(newLotteryField);
     if (newLottery) {
       const config = this.config;
-      newLottery.forEach(item => {
+      for (let i = newLottery.length - 1; i >= 0; i--) {
+        const item = newLottery[i];
         this.$store.commit('setNewLottery', [item]);
         if (!config[item.key]) {
           this.$set(config, item.key, 0);
         }
-      });
+      }
       this.$store.commit('setConfig', config);
     }
 
@@ -454,11 +455,9 @@ export default {
         needFilter: true,
         desc: ''
       };
-      console.log(this.storeNewLottery);
       const currentIndex = this.storeNewLottery.length
         ? this.storeNewLottery.findIndex(item => item.key === this.currentKey)
         : 0;
-      console.log('>>>>>>currentIndex', currentIndex);
       if (this.num > 0) {
         newLottery.name = `赞助奖-${this.num}`;
       }

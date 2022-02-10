@@ -61,6 +61,7 @@ export default {
   computed: {
     ...mapState({
       storeNewLottery: state => state.newLottery,
+      currentKey: state => state.currentKey,
       result: state => state.result,
       photos: state => state.photos
     }),
@@ -84,7 +85,7 @@ export default {
             options.push({
               label: name,
               value: key,
-              index: index
+              index: index + 1
             });
           }
         }
@@ -117,15 +118,19 @@ export default {
     }
   },
   watch: {
-    // 'storeNewLottery.length'() {
-    //   const newItem = this.storeNewLottery[0];
-    //   if (newItem && newItem.key) {
-    //     const index = this.categorys.findIndex(c => c.value === newItem.key);
-    //     if (index > -1) {
-    //       this.currentIndex = index;
-    //     }
-    //   }
-    // },
+    'storeNewLottery.length'() {
+      const currentIndex = this.storeNewLottery.length
+        ? this.storeNewLottery.findIndex(item => item.key === this.currentKey)
+        : 0;
+      const newItemIndex = Math.max(currentIndex - 1, 0);
+      const newItem = this.storeNewLottery[newItemIndex];
+      if (newItem && newItem.key) {
+        const index = this.categorys.find(c => c.value === newItem.key).index;
+        if (index > -1) {
+          this.currentIndex = index;
+        }
+      }
+    },
     currentIndex() {
       this.$store.commit('setCurrentKey', this.currentItem.value);
     }
@@ -137,10 +142,8 @@ export default {
       }
 
       this.currentIndex -= 1;
-      if (this.currentIndex < -1) {
+      if (this.currentIndex < 0) {
         const indexArray = this.categorys.map(item => item.index);
-        console.log(Math.max(...indexArray));
-        Math.max(...indexArray);
         this.currentIndex = Math.max(...indexArray);
       }
     },
@@ -152,7 +155,7 @@ export default {
 
       this.currentIndex += 1;
       if (this.currentIndex > Math.max(...indexArray)) {
-        this.currentIndex = -1;
+        this.currentIndex = 0;
       }
     },
     getRemain(category) {
