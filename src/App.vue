@@ -283,7 +283,7 @@ export default {
       const config = this.config;
       for (let i = newLottery.length - 1; i >= 0; i--) {
         const item = newLottery[i];
-        this.$store.commit('setNewLottery', [item]);
+        this.$store.commit('setNewLottery', [item, -1]);
         if (!config[item.key]) {
           this.$set(config, item.key, 0);
         }
