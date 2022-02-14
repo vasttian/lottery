@@ -93,7 +93,11 @@ export default {
       return options;
     },
     categorysIndexArray() {
-      return this.categorys.map(item => item.index).sort();
+      return this.categorys
+        .map(item => item.index)
+        .sort((a, b) => {
+          return a - b;
+        });
     },
     currentIndex() {
       return this.categorysIndexArray[this.currentArrayIndex];
