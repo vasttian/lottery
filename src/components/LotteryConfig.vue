@@ -44,44 +44,51 @@
           ></el-input>
         </el-form-item>
         <el-divider></el-divider>
-        <el-form-item
-          v-for="newitem in storeNewLottery"
-          :key="newitem.key"
-          :label="`${newitem.name}（人数）`"
-        >
-          <el-input
-            type="number"
-            :min="0"
-            :step="1"
-            v-model="form[newitem.key]"
-            @change="
-              val => {
-                form[newitem.key] = Number(val);
-              }
-            "
-          ></el-input>
-          <el-switch
-            v-model="newitem.needFilter"
-            active-text="仅全职"
-            inactive-text="全部"
-            inactive-color="#dadfe4"
-          ></el-switch>
-          <div>
-            <el-button type="text" @click="deleteLottery(newitem.key)">
-              删除
-            </el-button>
-            <small v-if="!form[newitem.key] || form[newitem.key] <= 0">
-              &nbsp;未设置或抽奖人数为 0 的奖项将不会在抽奖页显示
-            </small>
-          </div>
-          <el-divider></el-divider>
-        </el-form-item>
+        <draggable v-model="storeNewLottery" draggable=".lottery-item">
+          <el-form-item
+            v-for="newitem in storeNewLottery"
+            :key="newitem.key"
+            :label="`${newitem.name}（人数）`"
+            class="lottery-item"
+          >
+            <el-input
+              type="number"
+              :min="0"
+              :step="1"
+              v-model="form[newitem.key]"
+              @change="
+                val => {
+                  form[newitem.key] = Number(val);
+                }
+              "
+            ></el-input>
+            <el-switch
+              v-model="newitem.needFilter"
+              active-text="仅全职"
+              inactive-text="全部"
+              inactive-color="#dadfe4"
+            ></el-switch>
+            <div>
+              <el-button type="text" @click="deleteLottery(newitem.key)">
+                删除
+              </el-button>
+              <el-button type="text" @click="editLottery(newitem)">
+                编辑
+              </el-button>
+              <small v-if="!form[newitem.key] || form[newitem.key] <= 0">
+                &nbsp;未设置或抽奖人数为 0 的奖项将不会在抽奖页显示
+              </small>
+            </div>
+            <el-divider></el-divider>
+          </el-form-item>
+        </draggable>
       </el-form>
     </div>
 
     <el-dialog
       :visible.sync="showAddLottery"
       :append-to-body="true"
+      custom-class="lottery_dialog"
       width="480px"
     >
       <div class="add-title" slot="title">增加奖项</div>
@@ -101,15 +108,21 @@
           ></el-switch>
         </el-form-item>
         <el-form-item label="奖品图片" style="margin-top: 15px">
-          <el-upload
-            ref="uploadNewLotteryRef"
-            action="#"
-            list-type="picture-card"
-            :auto-upload="false"
-            :limit="1"
-          >
-            <i class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <div class="image_upload_wrap">
+            <div v-if="newLottery.image" class="image_wrap">
+              <el-image :src="newLottery.image" />
+              <i class="el-icon-delete" @click="removeImage" />
+            </div>
+            <el-upload
+              ref="uploadNewLotteryRef"
+              action="#"
+              list-type="picture-card"
+              :auto-upload="false"
+              :limit="1"
+            >
+              <i class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </div>
           <small style="margin-top: 10px;">
             如需更换奖品图片，请先删除原图片
           </small>
@@ -117,20 +130,24 @@
       </el-form>
       <div style="margin-top: 30px; display: flex; justify-content: flex-end;">
         <el-button size="mini" @click="closeNewLotteryDialog">取消</el-button>
-        <el-button size="mini" type="primary" @click="addHandler"
-          >增加奖项
+        <el-button size="mini" type="primary" @click="addHandler">
+          {{ newLottery.key ? '确定' : '增加奖项' }}
         </el-button>
       </div>
     </el-dialog>
   </el-dialog>
 </template>
 <script>
+import draggable from 'vuedraggable';
 import { setData, configField } from '@/helper/index';
 import { randomNum } from '@/helper/algorithm';
 import { database, DB_STORE_NAME } from '@/helper/db';
 
 export default {
   name: 'LotteryConfig',
+  components: {
+    draggable
+  },
   props: {
     visible: Boolean
   },
@@ -144,8 +161,14 @@ export default {
         return val;
       }
     },
-    storeNewLottery() {
-      return this.$store.state.newLottery;
+    storeNewLottery: {
+      get() {
+        return this.$store.state.newLottery;
+      },
+      set(val) {
+        this.$store.commit('updateAllLottery', val);
+        return val;
+      }
     }
   },
   data() {
@@ -154,7 +177,9 @@ export default {
       newLottery: {
         name: '',
         desc: '',
-        needFilter: false
+        needFilter: false,
+        key: '',
+        image: ''
       }
     };
   },
@@ -175,6 +200,13 @@ export default {
     },
     addLottery() {
       this.showAddLottery = true;
+      this.newLottery = {
+        name: '',
+        desc: '',
+        needFilter: false,
+        key: '',
+        image: ''
+      };
     },
     deleteLottery(key) {
       this.$confirm('确认删除此奖项吗？删除后不可恢复', '警告', {
@@ -189,6 +221,28 @@ export default {
           console.log('deleteLottery>>>res>>>>>', res);
         });
     },
+    async editLottery(item) {
+      this.newLottery.name = item.name;
+      this.newLottery.desc = item.desc;
+      this.newLottery.needFilter = item.needFilter;
+      this.newLottery.key = item.key;
+      const data = await database.get(DB_STORE_NAME, item.key);
+      if (data) {
+        this.newLottery.image = data.value;
+      }
+      this.showAddLottery = true;
+    },
+    removeImage() {
+      this.newLottery.image = '';
+      const { key } = this.newLottery;
+      this.$store.commit('updatePhotos', {
+        id: key,
+        value: '',
+        createdTime: '',
+        updateTime: ''
+      });
+      database.edit(DB_STORE_NAME, key, { id: key, value: '' });
+    },
     randomField() {
       const str = 'abcdefghijklmnopqrstuvwxyz';
       let fieldStr = '';
@@ -202,7 +256,8 @@ export default {
         return;
       }
 
-      const field = this.randomField();
+      const { key } = this.newLottery;
+      const field = key ? key : this.randomField();
       const data = {
         key: field,
         name: this.newLottery.name,
@@ -210,7 +265,11 @@ export default {
         needFilter: this.newLottery.needFilter
       };
       this.uploadImages(field);
-      this.$store.commit('setNewLottery', [data, -1]);
+      if (key) {
+        this.$store.commit('updateLottery', data);
+      } else {
+        this.$store.commit('setNewLottery', [data, -1]);
+      }
       this.closeNewLotteryDialog();
     },
     closeNewLotteryDialog() {
@@ -274,6 +333,42 @@ export default {
       height: 100%;
       overflow-y: auto;
       padding: 0 10px;
+      .lottery-item {
+        cursor: move;
+      }
+    }
+  }
+}
+
+.lottery_dialog {
+  .image_upload_wrap {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    .image_wrap {
+      width: 148px;
+      height: 148px;
+      position: relative;
+      &:hover {
+        .el-icon-delete {
+          font-weight: bold;
+        }
+      }
+      .el-image {
+        width: 148px;
+        height: 148px;
+      }
+      .el-icon-delete {
+        z-index: 99;
+        position: absolute;
+        right: 4px;
+        top: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        &:hover {
+          color: #f00;
+        }
+      }
     }
   }
 }
