@@ -4,6 +4,7 @@
       <el-button
         :disabled="running"
         type="text"
+        class="el-button__white"
         icon="el-icon-s-tools"
         circle
       ></el-button>
