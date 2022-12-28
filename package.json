@@ -14,6 +14,7 @@
     "v-hotkey": "^0.9.0",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",
+    "vuedraggable": "^2.24.3",
     "vuex": "^3.1.2",
     "ym-svg-sprite": "^1.3.0"
   },

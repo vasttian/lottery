@@ -91,6 +91,15 @@ export default new Vuex.Store({
       delete state.result[key];
       setData(resultField, state.result);
     },
+    updateLottery(state, data) {
+      const index = state.newLottery.findIndex(i => i.key === data.key);
+      state.newLottery.splice(index, 1, data);
+      setData(newLotteryField, state.newLottery);
+    },
+    updateAllLottery(state, newLottery) {
+      state.newLottery = newLottery;
+      setData(newLotteryField, state.newLottery);
+    },
     setList(state, list) {
       const arr = state.list;
       list.forEach(item => {
@@ -106,6 +115,10 @@ export default new Vuex.Store({
     },
     setPhotos(state, photos) {
       state.photos = photos;
+    },
+    updatePhotos(state, photo) {
+      const index = state.photos.findIndex(item => item.id === photo.id);
+      state.photos.splice(index, 1, photo);
     },
     setCurrentKey(state, key) {
       state.currentKey = key;

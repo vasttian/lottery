@@ -192,7 +192,7 @@ body {
   &-center { justify-content: center;}
 }
 
-.el-button.el-button--text {
+.el-button.el-button__white.el-button--text {
   color: #FFFFFF;
   &:hover {
     color: rgba(255,255,255,0.8)
