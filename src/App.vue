@@ -80,7 +80,7 @@
       />
       <el-button
         :disabled="running"
-        class="res"
+        class="res el-button__white"
         @click="showResult = true"
         type="text"
         icon="el-icon-finished"
@@ -88,7 +88,7 @@
       />
       <!-- 播放背景音 -->
       <el-button
-        class="audio"
+        class="audio el-button__white"
         type="text"
         circle
         :icon="audioPlaying ? 'el-icon-bell' : 'el-icon-message-solid'"
@@ -100,6 +100,7 @@
       />
       <el-button
         style="left: 140px;"
+        class="el-button__white"
         @click="adding = true"
         type="text"
         icon="el-icon-plus"
