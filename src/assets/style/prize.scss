@@ -39,12 +39,12 @@
       font-size: 1.25rem;
       padding: 0.5rem;
       display: block;
-      background: #058FF9;
+      background: #0C6FE3;
       border-radius: 50%;
       cursor: pointer;
 
       &:hover {
-        background: #338FFF;
+        background: #227BE3;
       }
     }
   }
@@ -54,7 +54,7 @@
     width: 20rem;
     font-size: 1.25rem;
     color: white;
-    background: #058FF9;
+    background: #0C6FE3;
     border: 0;
     line-height: 1.75rem;
     margin-bottom: 2rem;
@@ -66,14 +66,15 @@
     &:focus, 
     &.focus {
       color: #fff;
-      background: #1C99F8;
+      background: #227BE3;
     }
 
     &.is-disabled,
     &.is-disabled:hover,
     &.is-disabled:visited {
-      background: #2A5BD7;
-      color: #6689E3;
+      background: #0C6FE366;
+      color: #FFFFFFB2;
+
     }
   }
   // .card-items {

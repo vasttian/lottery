@@ -136,14 +136,18 @@ body {
     padding: 0 4rem 2rem;
 
     .el-card {
-      border: 3px solid #6734F0;
-      background: rgba(93,47,217,0.85);
-      border-image: linear-gradient(#058FF9,#6734F0) 20 20;
+      border: none;
+      background:linear-gradient(147.57deg, rgba(1, 80, 187, 0.85) 0%, rgba(252, 165, 224, 0.85) 99.95%);
       min-height: 550px;
+      position: relative;
 
       &__body {
         padding: 1.25rem 3rem;
         overflow: auto;
+        .grid {
+          max-height: 560px;
+          overflow: auto;
+        }
       }
 
       h3 {
@@ -154,6 +158,27 @@ body {
         text-align: center;
         min-width: 20rem;
       }
+      &::before {
+        content: '';
+        width: 275px;
+        height: 275px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border: 3px solid;
+        border-image: linear-gradient(135deg, #02CDE4 0.29%, rgba(2, 205, 228, 0) 38.97%) 20 20;
+        }
+      &::after {
+        content: '';
+        width: 275px;
+        height: 275px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        border: 3px solid;
+        border-image: linear-gradient(135deg, #02CDE4 0.29%, rgba(2, 205, 228, 0) 38.97%) 20 20;
+        transform: rotateY(180deg);
+        }
     }
   }
  
