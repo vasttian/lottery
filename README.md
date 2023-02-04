@@ -1,3 +1,7 @@
+## node
+
+`nvm use v14.7.0`
+
 ## 年会抽奖
 
 [演示地址](https://vasttian.github.io/lottery)
