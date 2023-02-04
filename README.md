@@ -2,6 +2,10 @@
 
 `nvm use v14.7.0`
 
+- `yarn --registry=https://registry.npmjs.org/`
+- `yarn serve`
+- `yarn add sass --registry=https://registry.npmjs.org/`
+
 ## 年会抽奖
 
 [演示地址](https://vasttian.github.io/lottery)
