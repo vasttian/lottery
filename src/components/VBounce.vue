@@ -7,7 +7,7 @@
       v-hotkey="keyBounce"
     >
       <h3 @click="close">{{ categoryName }}获得者，恭喜 ！</h3>
-      <div class="grid gap-12 grid-cols-4 p-6">
+      <div class="grid gap-12 grid-cols-4 p-6 prize-result-content">
         <span
           v-for="item in resArr"
           :key="item"
