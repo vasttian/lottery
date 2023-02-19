@@ -1,0 +1,142 @@
+.content {
+  header {
+    .logo {
+      height: 1.75rem;
+    }
+    .slogan {
+      padding: 0px;
+      img {
+        height: 1.75rem;
+      }
+    }
+  }
+  .pop-layout {
+    padding: 0rem;
+    // v-prize-card
+    .el-card {
+      min-height: 282px;
+      .el-card__body {
+        padding: 1rem 2rem;
+        .card-content {
+          z-index: 25;
+          position: relative;
+          gap: 0.5rem;
+          h3 {
+            font-size: 1rem;
+            margin: 0rem;
+            padding-bottom: 0.5rem;
+            min-width: 15rem;
+          }
+          .prize-image {
+            width: 6rem;
+            height: 6rem;
+            margin: 0rem;
+          }
+          h5 {
+            font-size: 0.75rem;
+            line-height: 1.5rem;
+          }
+          .prize-name {
+            font-size: 1.25rem;
+            margin: 0 0 0.5rem 0;
+            min-height: 2rem;
+            min-width: 15rem;
+            i {
+              font-size: 0.75rem;
+            }
+          }
+          .prize-btn {
+            margin: 0rem;
+            font-size: 0.75rem;
+            line-height: 1.125rem;
+            padding: 0rem;
+            height: 1.75rem;
+            width: 15rem;
+            border-radius: 0.125rem;
+          }
+        }
+        &::before {
+          height: 160px;
+          }
+        &::after {
+          height: 160px;
+          }
+      }
+    }
+
+    // prize-result card
+    .prize-result {
+      height: 282px;
+      .el-card__body {
+        height: 100%;
+      }
+      &::before {
+        height: 160px;
+      }
+      &::after {
+        height: 160px;
+      }
+      h3 {
+        font-size: 1rem;
+        margin: 0 0 1rem 0;
+      }
+      .prize-result-content {
+        padding: 1rem;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        row-gap: 1.25rem;
+        column-gap: 1.75rem;
+        .itemres {
+          .cont, img {
+            width: 3.75rem;
+            height: 3.75rem;
+            span {
+              font-size: 0.875rem;
+            }
+          }
+          .name {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding-top: 0.25rem;
+          }
+        }
+      }
+    }
+  }
+}
+.footer {
+  padding-bottom: 1rem !important;
+  z-index: 50;
+  .el-button--text {
+    padding: 7px !important;
+    i {
+      font-size: 1rem !important;
+    }
+  }
+}
+
+// result config
+// .c-Result {
+//   .el-dialog {
+//     width: 800px !important;
+//     .el-dialog__body {
+//       max-height: 180px;
+//     }
+//     .listrow .itemres {
+//       width: 3.75rem;
+//       height: 3.75rem;
+//       img {
+//         width: 60px;
+//         height: 60px;
+//       }
+//     }
+//   }
+// }
+// .c-LotteryConfig {
+//   .el-dialog__body {
+//     height: 180px;
+//   }
+// }
+
+
+
+
