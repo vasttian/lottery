@@ -117,15 +117,13 @@ export default {
       const formData = new FormData();
       formData.append('uploadImg', file);
       const reader = new FileReader();
-      const AllowImgFileSize = 1024 * 150;
+      const AllowImgFileSize = 150; // KB
+      const fileSize = file.size / 1024;
       if (file) {
         this.filename = file.name;
         reader.readAsDataURL(file.raw);
         reader.onload = () => {
-          if (
-            AllowImgFileSize != 0 &&
-            AllowImgFileSize < reader.result.length
-          ) {
+          if (AllowImgFileSize && AllowImgFileSize < fileSize) {
             this.errorImages.push(this.filename);
             return this.$message.error('不允许上传大于 150KB 的图片');
           } else {
