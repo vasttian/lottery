@@ -69,6 +69,7 @@
     .prize-result {
       height: 282px;
       margin-left: 24px;
+      overflow: hidden;
       .el-card__body {
         height: 100%;
       }
@@ -83,6 +84,8 @@
         margin: 0 0 1rem 0;
       }
       .prize-result-content {
+        height: 196px;
+        overflow: auto;
         padding: 1rem;
         grid-template-columns: repeat(5, minmax(0, 1fr));
         row-gap: 1.25rem;
