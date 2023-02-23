@@ -1,5 +1,6 @@
 .content {
   header {
+    padding-top: 16px;
     .logo {
       height: 1.75rem;
     }
@@ -14,59 +15,60 @@
     padding: 0rem;
     // v-prize-card
     .el-card {
-      min-height: 282px;
-      .el-card__body {
-        padding: 1rem 2rem;
-        .card-content {
-          z-index: 25;
-          position: relative;
-          gap: 0.5rem;
-          h3 {
-            font-size: 1rem;
-            margin: 0rem;
-            padding-bottom: 0.5rem;
-            min-width: 15rem;
-          }
-          .prize-image {
-            width: 6rem;
-            height: 6rem;
-            margin: 0rem;
-          }
-          h5 {
-            font-size: 0.75rem;
-            line-height: 1.5rem;
-          }
-          .prize-name {
-            font-size: 1.25rem;
-            margin: 0 0 0.5rem 0;
-            min-height: 2rem;
-            min-width: 15rem;
-            i {
+        min-height: 282px;
+        .el-card__body {
+          padding: 1rem 2rem;
+          .card-content {
+            z-index: 25;
+            position: relative;
+            gap: 0.5rem;
+            h3 {
+              font-size: 1rem;
+              margin: 0rem;
+              padding-bottom: 0.5rem;
+              min-width: 14rem;
+            }
+            .prize-image {
+              width: 6rem;
+              height: 6rem;
+              margin: 0rem;
+            }
+            h5 {
               font-size: 0.75rem;
+              line-height: 1.5rem;
+            }
+            .prize-name {
+              font-size: 1.25rem;
+              margin: 0 0 0.5rem 0;
+              min-height: 2rem;
+              min-width: 14rem;
+              i {
+                font-size: 0.75rem;
+              }
+            }
+            .prize-btn {
+              margin: 0rem;
+              font-size: 0.75rem;
+              line-height: 1.125rem;
+              padding: 0rem;
+              height: 1.75rem;
+              width: 100%;
+              border-radius: 0.125rem;
             }
           }
-          .prize-btn {
-            margin: 0rem;
-            font-size: 0.75rem;
-            line-height: 1.125rem;
-            padding: 0rem;
-            height: 1.75rem;
-            width: 15rem;
-            border-radius: 0.125rem;
-          }
-        }
-        &::before {
-          height: 160px;
-          }
-        &::after {
-          height: 160px;
-          }
+          &::before {
+            height: 160px;
+            }
+          &::after {
+            height: 160px;
+            }
       }
     }
 
     // prize-result card
     .prize-result {
       height: 282px;
+      margin-left: 24px;
       .el-card__body {
         height: 100%;
       }
