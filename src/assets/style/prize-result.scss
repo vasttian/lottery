@@ -1,13 +1,15 @@
 .prize-result {
+  // transform: scale(1.25);
+  // margin-left: 160px;
   margin-left: 2rem;
   overflow: auto;
   text-align: center;
-  
+
   .itemres {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     img {
       width: 7rem;
       height: 7rem;
@@ -49,6 +51,6 @@
       // border-radius: 50%;
       z-index: 1;
     }
- 
+
   }
 }

@@ -2,12 +2,12 @@
   <div id="root" class="content">
     <header>
       <div class="flex justify-between">
-        <span class="logo">
+        <!-- <span class="logo">
           <img src="./assets/logo-white.svg" alt="" />
         </span>
         <span class="slogan">
           <img src="./assets/slogan.svg" alt="" />
-        </span>
+        </span> -->
       </div>
     </header>
     <div id="main" class="main" :class="{ mask: showRes }">
@@ -354,8 +354,13 @@ export default {
     },
     createCanvas() {
       const canvas = document.createElement('canvas');
+      // canvas.width = document.body.offsetWidth - 200;
       canvas.width = document.body.offsetWidth;
       canvas.height = document.body.offsetHeight;
+      // canvas.width = 2000;
+      // canvas.height = 450;
+      // console.log('>>>canvas body', document.body.offsetWidth, document.body.offsetHeight);
+      // console.log('>>>canvas', canvas.width, canvas.height);
       canvas.id = 'rootcanvas';
       this.$el.querySelector('#main').appendChild(canvas);
     },

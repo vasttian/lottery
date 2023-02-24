@@ -5,6 +5,8 @@
   justify-content: center;
 }
 .v-prize {
+  // transform: scale(1.25);
+
   h5 {
     font-size: 1.25rem;
     line-height: 2rem;
@@ -61,9 +63,9 @@
     font-weight: 600;
 
     &:hover,
-    &:active, 
-    &:visited, 
-    &:focus, 
+    &:active,
+    &:visited,
+    &:focus,
     &.focus {
       color: #fff;
       background: #227BE3;
@@ -93,7 +95,7 @@
   //     font-size: 18px;
   //   }
   // }
-  
+
 }
 
 .el-image-viewer__btn.el-image-viewer__close {

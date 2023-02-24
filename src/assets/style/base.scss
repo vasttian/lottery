@@ -61,7 +61,8 @@ body {
   height: 100%;
   overflow: hidden;
   position: relative;
-  background-image: url('../bg.png');
+  // background-image: url('../bg.png');
+  background-image: url('../bg-1.jpg');
   background-size: 100% 100%;
   background-position: center center;
   background-repeat: no-repeat;
@@ -85,7 +86,7 @@ body {
     .slogan {
       height: 1.25rem;
       padding: 0.24px;
-      background: 
+      background:
 
       img {
         display: inline-block;
@@ -185,7 +186,7 @@ body {
         }
     }
   }
- 
+
   .bounce-enter-active {
     animation: bounce-in 1.5s;
   }
