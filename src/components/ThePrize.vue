@@ -11,7 +11,7 @@
           />
           <img v-else class="prize-preview" src="@/assets/default.png" />
         </span>
-        <h5>奖品：{{ desc }}</h5>
+        <div class="prize-desc">奖品：{{ desc }}</div>
         <div class="flex items-center prize-name">
           <i class="el-icon-caret-left" @click="toPrev" />
           {{ currentItem.label }}
