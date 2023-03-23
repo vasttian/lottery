@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {
   setData,
+  systemConfigField,
   resultField,
   newLotteryField,
   listField,
@@ -12,6 +13,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    systemConfig: {
+      allowRepeatJoin: false
+    },
     config: {
       subject: '一面数据年会',
       number: 50,
@@ -65,6 +69,10 @@ export default new Vuex.Store({
       state.newLottery = [];
       state.list = [];
       state.photos = [];
+    },
+    setSysConfig(state, config) {
+      state.systemConfig = Object.assign({}, config);
+      setData(systemConfigField, state.systemConfig);
     },
     setConfig(state, config) {
       state.config = Object.assign({}, config);

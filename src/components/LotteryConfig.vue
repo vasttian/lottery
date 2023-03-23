@@ -35,7 +35,7 @@
           ></el-input>
         </el-form-item>
         <el-divider></el-divider>
-        <el-form-item :label="`${form.name}人数`">
+        <el-form-item :label="`${form.name}(人数)`">
           <el-input
             type="number"
             v-model="form.firstPrize"

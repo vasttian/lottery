@@ -9,6 +9,9 @@
         circle
       ></el-button>
       <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="system">
+          系统配置
+        </el-dropdown-item>
         <el-dropdown-item command="config">
           奖项配置
         </el-dropdown-item>
@@ -246,7 +249,9 @@ export default {
   },
   methods: {
     handleCommand(command) {
-      if (command === 'config') {
+      if (command === 'system') {
+        this.$emit('show-sys-config');
+      } else if (command === 'config') {
         this.$emit('show-config');
       } else if (command === 'reset') {
         this.showRemoveoptions = true;

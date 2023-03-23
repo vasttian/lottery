@@ -35,6 +35,8 @@ export function getDomData(element, dataName) {
   return element.getAttribute('data-' + dataName);
 }
 
+export const systemConfigField = 'systemConfig';
+
 // 配置数据
 export const configField = 'config';
 
@@ -48,11 +50,11 @@ export const firstPrizeKey = 'firstprizekey20230323125900';
 
 // 名单
 export const listField = 'list';
-export function conversionCategoryName(key) {
+export function conversionCategoryName(key, config) {
   let name = '';
   switch (key) {
     case 'firstPrize':
-      name = '一等奖';
+      name = config && config.name;
       break;
     default:
       break;
