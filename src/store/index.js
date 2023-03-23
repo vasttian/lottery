@@ -57,7 +57,15 @@ export default new Vuex.Store({
         firstPrize: []
       };
     },
+    setClearSysConfig(state) {
+      state.systemConfig = {
+        allowRepeatJoin: false
+      };
+    },
     setClearStore(state) {
+      state.systemConfig = {
+        allowRepeatJoin: false
+      };
       state.config = {
         name: '年会抽奖',
         number: 50,
