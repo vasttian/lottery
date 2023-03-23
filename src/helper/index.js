@@ -44,6 +44,8 @@ export const resultField = 'result';
 // 新增奖项
 export const newLotteryField = 'newLottery';
 
+export const firstPrizeKey = 'firstprizekey20230323125900';
+
 // 名单
 export const listField = 'list';
 export function conversionCategoryName(key) {

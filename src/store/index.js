@@ -4,7 +4,8 @@ import {
   setData,
   resultField,
   newLotteryField,
-  listField
+  listField,
+  firstPrizeKey
 } from '@/helper/index';
 
 Vue.use(Vuex);
@@ -12,9 +13,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     config: {
-      name: '一面数据年会',
+      subject: '一面数据年会',
       number: 50,
-      firstPrize: 1
+      firstPrize: 1,
+      name: '一等奖',
+      desc: '',
+      needFilter: false,
+      key: firstPrizeKey
     },
     result: {
       firstPrize: []

@@ -32,7 +32,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getLottery, conversionCategoryName } from '@/helper/index';
+import {
+  getLottery,
+  conversionCategoryName,
+  firstPrizeKey
+} from '@/helper/index';
 
 export default {
   name: 'ThePrize',
@@ -114,13 +118,20 @@ export default {
       if (!this.currentItem) {
         return '';
       }
+      const id =
+        this.currentItem.value === 'firstPrize'
+          ? firstPrizeKey
+          : this.currentItem.value;
 
-      const item = this.photos.find(i => i.id === this.currentItem.value);
+      const item = this.photos.find(i => i.id === id);
       return item ? item.value : '';
     },
     desc() {
       const lottery = getLottery(this.currentItem.value);
-      return lottery.desc || '';
+
+      return this.currentItem.value === 'firstPrize'
+        ? this.config.desc
+        : lottery.desc || '';
     },
     remain() {
       return this.getRemain(this.currentItem.value);
