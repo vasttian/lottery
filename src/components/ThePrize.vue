@@ -104,7 +104,7 @@ export default {
         });
     },
     currentIndex() {
-      return this.categorysIndexArray[this.currentArrayIndex];
+      return this.categorysIndexArray[this.currentArrayIndex] || 0;
     },
     currentItem() {
       return (
