@@ -37,9 +37,12 @@ export default new Vuex.Store({
   mutations: {
     setClearConfig(state) {
       state.config = {
-        name: '年会抽奖',
+        name: '一等奖',
         number: 50,
-        firstPrize: 1
+        firstPrize: 1,
+        desc: '',
+        needFilter: false,
+        key: firstPrizeKey
       };
       state.newLottery = [];
     },
@@ -67,9 +70,12 @@ export default new Vuex.Store({
         allowRepeatJoin: false
       };
       state.config = {
-        name: '年会抽奖',
+        name: '一等奖',
         number: 50,
-        firstPrize: 1
+        firstPrize: 1,
+        desc: '',
+        needFilter: false,
+        key: firstPrizeKey
       };
       state.result = {
         firstPrize: []
