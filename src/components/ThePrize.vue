@@ -194,7 +194,13 @@ export default {
         return this.$message.error('该奖项剩余人数不足');
       }
 
-      const lottery = getLottery(this.currentItem.value);
+      const { value } = this.currentItem;
+      const { desc, key, name, needFilter } = this.config;
+      const lottery =
+        value === 'firstPrize'
+          ? { desc, key, name, needFilter }
+          : getLottery(value);
+
       this.form.needFilter = lottery.needFilter || false;
       console.log('>>>prize>>>this.form', this.form);
       setTimeout(
