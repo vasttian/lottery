@@ -11,7 +11,7 @@
           />
           <img v-else class="prize-preview" src="@/assets/default.png" />
         </span>
-        <h5>{{ desc }}</h5>
+        <div class="prize-desc">{{ desc }}</div>
         <div class="flex items-center prize-name">
           <i class="el-icon-caret-left" @click="toPrev" />
           {{ currentItem.label }}
@@ -32,7 +32,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getLottery, conversionCategoryName } from '@/helper/index';
+import {
+  getLottery,
+  conversionCategoryName,
+  firstPrizeKey
+} from '@/helper/index';
 
 export default {
   name: 'ThePrize',
@@ -80,7 +84,7 @@ export default {
         const index = this.storeNewLottery.findIndex(item => item.key === key);
         const item = this.config[key];
         if (Number(item) > 0) {
-          let name = conversionCategoryName(key);
+          let name = conversionCategoryName(key, this.config);
           if (name) {
             options.push({
               label: name,
@@ -114,13 +118,20 @@ export default {
       if (!this.currentItem) {
         return '';
       }
+      const id =
+        this.currentItem.value === 'firstPrize'
+          ? firstPrizeKey
+          : this.currentItem.value;
 
-      const item = this.photos.find(i => i.id === this.currentItem.value);
+      const item = this.photos.find(i => i.id === id);
       return item ? item.value : '';
     },
     desc() {
       const lottery = getLottery(this.currentItem.value);
-      return lottery.desc || '';
+
+      return this.currentItem.value === 'firstPrize'
+        ? this.config.desc
+        : lottery.desc || '';
     },
     remain() {
       return this.getRemain(this.currentItem.value);
@@ -183,7 +194,13 @@ export default {
         return this.$message.error('该奖项剩余人数不足');
       }
 
-      const lottery = getLottery(this.currentItem.value);
+      const { value } = this.currentItem;
+      const { desc, key, name, needFilter } = this.config;
+      const lottery =
+        value === 'firstPrize'
+          ? { desc, key, name, needFilter }
+          : getLottery(value);
+
       this.form.needFilter = lottery.needFilter || false;
       console.log('>>>prize>>>this.form', this.form);
       setTimeout(

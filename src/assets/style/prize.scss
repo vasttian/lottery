@@ -7,16 +7,28 @@
 .v-prize {
   transform: scale(1.25);
 
-  h5 {
+  h3 {
+    margin: 0.5rem 0 0.5rem !important;
+  }
+
+  .prize-desc {
     font-size: 1.25rem;
     line-height: 2rem;
     color: #FFFFFF;
     margin: 0;
+    max-width: 20rem;
+    height: 4rem;
     font-weight: 500;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;			
   }
 
   .prize-image {
-    margin-top: 1rem;
+    margin-bottom: 1rem;
     width: 10rem;
     height: 10rem;
     border-radius: 50%;

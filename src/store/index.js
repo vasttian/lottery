@@ -2,19 +2,28 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {
   setData,
+  systemConfigField,
   resultField,
   newLotteryField,
-  listField
+  listField,
+  firstPrizeKey
 } from '@/helper/index';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    systemConfig: {
+      allowRepeatJoin: false
+    },
     config: {
-      name: '一面数据年会',
+      subject: '一面数据年会',
       number: 50,
-      firstPrize: 1
+      firstPrize: 1,
+      name: '一等奖',
+      desc: '',
+      needFilter: false,
+      key: firstPrizeKey
     },
     result: {
       firstPrize: []
@@ -48,7 +57,15 @@ export default new Vuex.Store({
         firstPrize: []
       };
     },
+    setClearSysConfig(state) {
+      state.systemConfig = {
+        allowRepeatJoin: false
+      };
+    },
     setClearStore(state) {
+      state.systemConfig = {
+        allowRepeatJoin: false
+      };
       state.config = {
         name: '年会抽奖',
         number: 50,
@@ -60,6 +77,10 @@ export default new Vuex.Store({
       state.newLottery = [];
       state.list = [];
       state.photos = [];
+    },
+    setSysConfig(state, config) {
+      state.systemConfig = Object.assign({}, config);
+      setData(systemConfigField, state.systemConfig);
     },
     setConfig(state, config) {
       state.config = Object.assign({}, config);

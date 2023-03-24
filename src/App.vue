@@ -55,6 +55,8 @@
           </ul>
         </div>
 
+        <SystemConfig :visible.sync="showSysConfig" />
+
         <LotteryConfig
           @getPhoto="getPhoto"
           @resetconfig="reloadTagCanvas"
@@ -76,6 +78,7 @@
         @resetConfig="reloadTagCanvas"
         @getPhoto="getPhoto"
         @show-config="showConfig = true"
+        @show-sys-config="showSysConfig = true"
         @reset-category="resetCategory"
       />
       <el-button
@@ -142,6 +145,7 @@
 </template>
 
 <script>
+import SystemConfig from './components/SystemConfig';
 import LotteryConfig from '@/components/LotteryConfig';
 // import Publicity from '@/components/Publicity';
 import Tool from '@/components/Tool';
@@ -153,6 +157,7 @@ import beginaudio from '@/assets/百石元 - 猪突猛進.mp3';
 import {
   setData,
   getData,
+  systemConfigField,
   configField,
   resultField,
   newLotteryField,
@@ -166,6 +171,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'App',
   components: {
+    SystemConfig,
     LotteryConfig,
     Tool,
     VBounce,
@@ -177,6 +183,7 @@ export default {
       running: false,
       showRes: false,
       showConfig: false,
+      showSysConfig: false,
       showResult: false,
       resArr: [],
       category: '',
@@ -200,7 +207,8 @@ export default {
   computed: {
     ...mapState({
       storeNewLottery: state => state.newLottery,
-      currentKey: state => state.currentKey
+      currentKey: state => state.currentKey,
+      allowRepeatJoin: state => state.systemConfig.allowRepeatJoin
     }),
     config: {
       get() {
@@ -295,6 +303,11 @@ export default {
     const list = getData(listField);
     if (list) {
       this.$store.commit('setList', list);
+    }
+
+    const systemConfig = getData(systemConfigField);
+    if (systemConfig) {
+      this.$store.commit('setSysConfig', systemConfig);
     }
   },
   mounted() {
@@ -416,7 +429,7 @@ export default {
           num = qty;
         }
 
-        let wins = allin ? [] : this.allresult;
+        let wins = this.allowRepeatJoin || allin ? [] : this.allresult;
         if (needFilter) {
           // 如果需要过滤，这里将所有 i.type !== 'Permanent' 的名单放入 wins，避免抽中
           this.photos.forEach(i => {
