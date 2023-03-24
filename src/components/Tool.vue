@@ -230,7 +230,7 @@ export default {
       Object.keys(this.config).forEach(key => {
         const item = this.config[key];
         if (Number(item) > 0) {
-          let name = conversionCategoryName(key);
+          let name = conversionCategoryName(key, this.config);
           if (name) {
             options.push({
               label: name,

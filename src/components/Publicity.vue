@@ -36,7 +36,7 @@ export default {
 
       let message = [{ key: 0, title: config.name }];
       fields.forEach((item, index) => {
-        let label = conversionCategoryName(item);
+        let label = conversionCategoryName(item, this.config);
         if (result[item] && config[item] > 0) {
           message.push({
             key: index + 1,

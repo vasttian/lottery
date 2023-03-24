@@ -78,7 +78,7 @@ export default {
       return this.$store.state.list;
     },
     categoryName() {
-      return conversionCategoryName(this.category);
+      return conversionCategoryName(this.category, this.config);
     }
   },
   methods: {

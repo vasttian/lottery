@@ -82,6 +82,7 @@
   </el-dialog>
 </template>
 <script>
+import { mapState } from 'vuex';
 import { conversionCategoryName, getDomData } from '@/helper/index';
 export default {
   name: 'c-Result',
@@ -89,6 +90,9 @@ export default {
     visible: Boolean
   },
   computed: {
+    ...mapState({
+      config: state => state.config
+    }),
     result: {
       get() {
         return this.$store.state.result;
@@ -101,7 +105,7 @@ export default {
       const list = [];
       Object.keys(this.result).forEach(key => {
         const element = this.result[key];
-        let name = conversionCategoryName(key);
+        let name = conversionCategoryName(key, this.config);
         if (key) {
           list.push({
             label: key,
