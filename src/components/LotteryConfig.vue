@@ -24,7 +24,7 @@
     <div class="container">
       <el-form ref="form" :model="form" size="mini">
         <el-form-item label="抽奖标题">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.subject"></el-input>
         </el-form-item>
         <el-form-item label="抽奖总人数">
           <el-input
@@ -35,13 +35,16 @@
           ></el-input>
         </el-form-item>
         <el-divider></el-divider>
-        <el-form-item label="一等奖（人数）">
+        <el-form-item :label="`${form.name}(人数)`">
           <el-input
             type="number"
             v-model="form.firstPrize"
             :min="0"
             :step="1"
           ></el-input>
+          <el-button type="text" @click="editLottery(form, true)">
+            编辑
+          </el-button>
         </el-form-item>
         <el-divider></el-divider>
         <draggable v-model="storeNewLottery" draggable=".lottery-item">
@@ -72,7 +75,7 @@
               <el-button type="text" @click="deleteLottery(newitem.key)">
                 删除
               </el-button>
-              <el-button type="text" @click="editLottery(newitem)">
+              <el-button type="text" @click="editLottery(newitem, false)">
                 编辑
               </el-button>
               <small v-if="!form[newitem.key] || form[newitem.key] <= 0">
@@ -91,7 +94,9 @@
       custom-class="lottery_dialog"
       width="480px"
     >
-      <div class="add-title" slot="title">增加奖项</div>
+      <div class="add-title" slot="title">
+        {{ newLottery.key ? '编辑奖项' : '增加奖项' }}
+      </div>
       <el-form ref="newLottery" :model="newLottery" size="mini">
         <el-form-item label="奖项名称">
           <el-input v-model="newLottery.name"></el-input>
@@ -174,6 +179,7 @@ export default {
   data() {
     return {
       showAddLottery: false,
+      isEditFirstPrize: false,
       newLottery: {
         name: '',
         desc: '',
@@ -221,7 +227,7 @@ export default {
           console.log('deleteLottery>>>res>>>>>', res);
         });
     },
-    async editLottery(item) {
+    async editLottery(item, isFirstPrize) {
       this.newLottery.name = item.name;
       this.newLottery.desc = item.desc;
       this.newLottery.needFilter = item.needFilter;
@@ -230,6 +236,7 @@ export default {
       if (data) {
         this.newLottery.image = data.value;
       }
+      this.isEditFirstPrize = isFirstPrize;
       this.showAddLottery = true;
     },
     removeImage() {
@@ -266,7 +273,11 @@ export default {
       };
       this.uploadImages(field);
       if (key) {
-        this.$store.commit('updateLottery', data);
+        if (this.isEditFirstPrize) {
+          this.$store.commit('setConfig', { ...this.form, ...data });
+        } else {
+          this.$store.commit('updateLottery', data);
+        }
       } else {
         this.$store.commit('setNewLottery', [data, -1]);
       }

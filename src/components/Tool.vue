@@ -9,6 +9,9 @@
         circle
       ></el-button>
       <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item command="system">
+          系统配置
+        </el-dropdown-item>
         <el-dropdown-item command="config">
           奖项配置
         </el-dropdown-item>
@@ -142,6 +145,7 @@
             <el-radio border :label="3">重置照片</el-radio>
             <el-radio border :label="4">重置抽奖结果</el-radio>
             <el-radio border :label="1">重置抽奖配置</el-radio>
+            <el-radio border :label="5">重置系统配置</el-radio>
             <el-radio border :label="0">重置全部数据</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -158,6 +162,7 @@
 import {
   clearData,
   removeData,
+  systemConfigField,
   configField,
   listField,
   resultField,
@@ -246,7 +251,9 @@ export default {
   },
   methods: {
     handleCommand(command) {
-      if (command === 'config') {
+      if (command === 'system') {
+        this.$emit('show-sys-config');
+      } else if (command === 'config') {
         this.$emit('show-config');
       } else if (command === 'reset') {
         this.showRemoveoptions = true;
@@ -295,6 +302,10 @@ export default {
             case 4:
               removeData(resultField);
               this.$store.commit('setClearResult');
+              break;
+            case 5:
+              removeData(systemConfigField);
+              this.$store.commit('setClearSysConfig');
               break;
             default:
               break;
@@ -421,7 +432,7 @@ export default {
 }
 .c-removeoptions {
   .el-dialog {
-    height: 290px;
+    height: 320px;
   }
   .el-radio.is-bordered + .el-radio.is-bordered {
     margin-left: 0px;
