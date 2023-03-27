@@ -12,23 +12,23 @@
   }
 
   .prize-desc {
-    font-size: 1.25rem;
+    font-size: 1rem;
     line-height: 2rem;
     color: #FFFFFF;
     margin: 0;
     max-width: 20rem;
-    height: 4rem;
+    max-height: 8rem;
     font-weight: 500;
     word-break: break-all;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;			
+    -webkit-line-clamp: 4;
+    overflow: hidden;
   }
 
   .prize-image {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
@@ -45,7 +45,7 @@
     color: white;
     min-width: 20rem;
     justify-content: space-between;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     min-height: 3rem;
     font-weight: 600;
 
@@ -65,7 +65,7 @@
 
   .prize-btn {
     margin-top: 1rem;
-    width: 20rem;
+    width: 21rem;
     font-size: 1.25rem;
     color: white;
     background: #0C6FE3;
